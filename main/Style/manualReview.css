@@ -32,3 +32,21 @@
 .inline-final-editor small{grid-column:1/-1;color:#b84e48;font-size:10px}
 .comparison-row--body{min-height:88px}
 @media(max-width:1250px){.comparison-row{grid-template-columns:minmax(130px,20%) minmax(180px,32%) minmax(180px,32%) minmax(120px,16%)}}
+
+@media (max-width: 900px) {
+    .review-page { min-width: 0; overflow-x: hidden; }
+    .review-topbar { overflow-x: auto; }
+    .review-brand { flex-basis: 132px; min-width: 132px; padding-inline: 12px; }
+    .review-brand strong { max-width: 72px; }
+    .review-nav a { padding-inline: 12px; font-size: 12px; }
+    .review-account { flex: 0 0 auto; padding-inline: 8px; }
+    .review-identity { display: none !important; }
+    .review-sessionbar { position: relative !important; top: auto !important; left: auto !important; margin: 58px 0 0 !important; min-height: 55px; height: auto; flex-wrap: wrap; gap: 8px 14px; padding: 9px 12px; }
+    .review-files { position: relative; top: auto; left: auto; bottom: auto; width: 100%; max-height: 132px; overflow: auto; border-right: 0; border-bottom: 1px solid #d4dce3; }
+    .files-heading { padding: 10px 12px 6px; }
+    .file-button { display: inline-flex; width: auto; min-width: 180px; padding: 9px 12px; }
+    .review-workspace { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(380px, 52vh) auto; margin: 0; min-height: 0; }
+    .pdf-panel, .comparison-panel { min-height: 380px; }
+    .comparison-table-wrap { overflow: auto; }
+    .comparison-table { min-width: 720px; }
+}

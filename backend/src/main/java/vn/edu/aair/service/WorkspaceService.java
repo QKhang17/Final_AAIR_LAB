@@ -487,7 +487,7 @@ public class WorkspaceService {
             for (Long userId : r.manualLabelerIds()) {
                 db.update("UPDATE users SET role='MANUAL_LABELER' WHERE id=? AND role='USER'", userId);
             }
-            db.update("UPDATE users SET role='RESULT_ANALYST' WHERE id=? AND role='USER'", r.reviewerId());
+            db.update("UPDATE users SET role='REVIEWER' WHERE id=? AND role='USER'", r.reviewerId());
         } else {
             db.update("UPDATE users SET role='AI_LABELER' WHERE id=? AND role='USER'", r.aiLabelerId());
             db.update("UPDATE users SET role='RESULT_ANALYST' WHERE id=? AND role='USER'", r.reviewerId());
@@ -514,7 +514,7 @@ public class WorkspaceService {
             for (Long manualId : r.manualLabelerIds()) {
                 validateAssignmentUser(manualId, "MANUAL_LABELER");
             }
-            validateAssignmentUser(r.reviewerId(), "RESULT_ANALYST");
+            validateAssignmentUser(r.reviewerId(), "REVIEWER");
 
             // 6. Validate previous-session availability
             for (Long manualId : r.manualLabelerIds()) {

@@ -16,3 +16,14 @@
 .manual-navbar__identity small { margin-top:2px; color:#e6f7fb; font-size:11px; font-weight:700; letter-spacing:.04em; }
 .manual-navbar__logout { display:inline-flex; align-items:center; gap:6px; height:34px; margin-left:12px; padding:0 11px; border:1px solid rgba(255,255,255,.72); border-radius:7px; color:#fff; background:rgba(0,94,132,.15); font:600 12px Inter,Arial,sans-serif; cursor:pointer; }
 .manual-navbar__logout:hover,.manual-navbar__logout:focus-visible { background:rgba(255,255,255,.2); outline:2px solid rgba(255,255,255,.65); outline-offset:1px; }
+
+@media (max-width: 900px) {
+    .manual-navbar { overflow-x: auto; }
+    .manual-navbar__brand { flex: 0 0 132px; min-width: 132px; padding-inline: 12px; gap: 7px; }
+    .manual-navbar__brand strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .manual-navbar__nav a { padding-inline: 12px; font-size: 12px; }
+    .manual-navbar__nav a > .material-symbols-outlined { display: none; }
+    .manual-navbar__account { flex: 0 0 auto; padding-right: 8px; }
+    .manual-navbar__identity { display: none; }
+    .manual-navbar__logout { margin-left: 4px; padding-inline: 9px; }
+}

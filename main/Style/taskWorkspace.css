@@ -348,6 +348,48 @@ body.task-workspace-resizing iframe#pdfViewer {
 .task-toolbar-button.is-running{pointer-events:none;}
 .task-toolbar-button.is-running .material-symbols-outlined{animation:task-toolbar-spin 1s linear infinite;}
 @keyframes task-toolbar-spin{to{transform:rotate(360deg)}}
+
+/* Keep the task workspace usable on tablets and narrow browser panels. */
+@media (max-width: 900px) {
+    .ai-task-page,
+    .manual-task-page { --document-sidebar-width: 0px; }
+    .ai-task-page > aside,
+    .manual-task-page > aside {
+        width: 0 !important;
+        border-right: 0 !important;
+        pointer-events: none;
+    }
+    .ai-task-page > header:nth-of-type(2),
+    .manual-task-page > header:nth-of-type(2),
+    .ai-task-page > main,
+    .manual-task-page > main {
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+    .ai-task-page > .manual-session-toolbar,
+    .manual-task-page > .manual-session-toolbar {
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding-inline: 14px !important;
+        gap: 10px;
+        overflow-x: auto;
+    }
+    .ai-task-page main,
+    .manual-task-page main {
+        grid-template-columns: minmax(0, 1fr) !important;
+        grid-template-rows: minmax(360px, 48vh) minmax(360px, auto) !important;
+    }
+    .ai-task-page .task-workspace-splitter,
+    .manual-task-page .task-workspace-splitter,
+    .ai-task-page .document-sidebar-handle,
+    .manual-task-page .document-sidebar-handle { display: none !important; }
+    .ai-task-page .workspace-pdf-viewport,
+    .manual-task-page .workspace-pdf-viewport,
+    .ai-task-page .workspace-data-pane,
+    .manual-task-page .workspace-data-pane { min-width: 0 !important; width: 100% !important; }
+    .ai-task-page .workspace-data-pane,
+    .manual-task-page .workspace-data-pane { overflow: auto !important; }
+}
 .manual-task-page .document-item { position:relative; align-items:center!important; min-height:40px; padding:7px 10px!important; border-radius:5px!important; font-size:13px!important; }
 .manual-task-page .document-status-dot,.ai-task-page .document-status-dot { flex:0 0 10px; width:10px; height:10px; margin-left:8px; border:1px solid #aeb8c2; border-radius:50%; background:transparent; }
 .manual-task-page .document-status-dot[data-save-state="ai-pending"],.ai-task-page .document-status-dot[data-save-state="ai-pending"] { border-color:#d28b00; background:#f5a900; }

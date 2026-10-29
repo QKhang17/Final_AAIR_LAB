@@ -166,3 +166,16 @@
     .result-analysis-page .ra-sessionbar { padding-left: 16px; gap: 14px; }
     .result-analysis-page .ra-panel-header label select { min-width: 155px; }
 }
+
+@media (max-width: 900px) {
+    .result-analysis-page { min-width: 0; overflow-x: hidden; overflow-y: auto; }
+    .result-analysis-page .ra-sessionbar { height: auto; min-height: 48px; flex-wrap: wrap; gap: 8px 12px; padding: 8px 12px; }
+    .result-analysis-page .ra-sessionbar label { flex: 1 1 180px; margin-left: 0; }
+    .result-analysis-page .ra-sessionbar .ra-button { flex: 1 1 150px; }
+    .result-analysis-page .ra-layout { height: auto; min-height: 0; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 420px auto auto; }
+    .result-analysis-page .ra-documents { max-height: 150px; border-right: 0; border-bottom: 1px solid #c8d4df; }
+    .result-analysis-page .ra-pdf-panel,
+    .result-analysis-page .ra-ai-column { min-height: 380px; border-right: 0; border-bottom: 1px solid #c8d4df; }
+    .result-analysis-page .ra-footer { height: auto; min-height: 32px; padding: 7px 12px; }
+    .result-analysis-page .ra-note { top: 0; width: min(400px, 100vw); }
+}

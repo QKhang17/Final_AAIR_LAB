@@ -58,7 +58,13 @@
     const userDate = value => { const parsed = new Date(value); if (Number.isNaN(parsed.getTime())) return '—'; const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return `${parsed.getDate()} ${months[parsed.getMonth()]} ${parsed.getFullYear()}, ${String(parsed.getHours()).padStart(2,'0')}:${String(parsed.getMinutes()).padStart(2,'0')}`; };
     function userBadge(label, tone) { const badge = document.createElement('span'); badge.className = `users-badge users-badge--${tone}`; badge.textContent = label; return badge; }
     const userRoleBadge = value => userBadge(userRoleLabel(value), String(value || '').toLowerCase());
-    const userStatusBadge = value => { const active = String(value).toUpperCase() === 'ACTIVE'; return userBadge(active ? 'Active' : 'Inactive', active ? 'active' : 'inactive'); };
+    const userStatusBadge = row => {
+        if (row?.is_active === false) return userBadge('INACTIVE', 'inactive');
+        const workload = String(row?.status || '').toUpperCase();
+        if (workload === 'BUSY') return userBadge('BUSY', 'busy');
+        if (workload === 'AVAILABLE') return userBadge('AVAILABLE', 'available');
+        return userBadge('Active', 'active');
+    };
     function formattedLabelValue(labelName, value) {
         const input = String(value ?? '');
         if (/year|năm/i.test(labelName || '')) return input;
@@ -560,7 +566,7 @@
         if (search) { search.classList.add('users-search'); search.placeholder = 'Search users…'; }
         const filters = $$('header select'); filters.forEach(select => select.classList.add('filter-select'));
         const paginationContainer = usersTable?.nextElementSibling;
-        const list = listTable(await request(endpoint), [['#',r=>r.__rowNumber],['Username',userIdentity],['Email','email'],['Role',r=>userRoleBadge(r.role)],['Status',r=>canManageUsers ? userStatusBadge(status(r)) : status(r)],['Created',r=>userDate(r.created_at)],['Actions','$actions']], row => canManageUsers ? [
+        const list = listTable(await request(endpoint), [['#',r=>r.__rowNumber],['Username',userIdentity],['Email','email'],['Role',r=>userRoleBadge(r.role)],['Status',r=>canManageUsers ? userStatusBadge(r) : status(r)],['Created',r=>userDate(r.created_at)],['Actions','$actions']], row => canManageUsers ? [
             (() => { const button = action('edit',()=>edit(row)); button.classList.add('users-action'); button.title = 'Edit user'; button.setAttribute('aria-label','Edit user'); return button; })(),
             (() => { const label = row.is_active ? 'Deactivate user' : 'Activate user'; const button = action(row.is_active?'block':'check_circle',async()=>{
                 if (!confirm(`${row.is_active?'Deactivate':'Activate'} user ${row.username}?`)) return;
@@ -621,7 +627,7 @@
         // Use the assignment endpoint so availability is calculated from active sessions,
         // even when the users.status column has not been refreshed yet.
         const [documents, userRows] = await Promise.all([request('/documents'),request('/assignees')]);
-        const assignees=(userRows||[]).filter(row=>row.is_active!==false && String(row.status||'AVAILABLE').toUpperCase()!=='BUSY' && ['USER','AI_LABELER','MANUAL_LABELER','RESULT_ANALYST'].includes(String(row.role||'').toUpperCase()));
+        const assignees=(userRows||[]).filter(row=>['USER','AI_LABELER','MANUAL_LABELER','REVIEWER','RESULT_ANALYST'].includes(String(row.role||'').toUpperCase()));
         const modal=$('#modalContent'), name=$('input[placeholder^="e.g."]',modal), description=$('textarea',modal);
         const lists=$$('div.max-h-48',modal);
         const [documentList,typeList,memberList]=lists;
@@ -642,7 +648,7 @@
         $('p',modelSection).textContent='Session Type';
         $$('p',modelSection)[1].textContent='Chọn gán nhãn AI, thủ công hoặc cả hai.';
         const modelSearch=$('input[placeholder="Search AI models..."]',modal);modelSearch.parentElement.hidden=true;
-        const assignmentRoleLabel=u=>u.role==='RESULT_ANALYST'?'ANALYST':u.role;
+        const assignmentRoleLabel=u=>u.role==='RESULT_ANALYST'?'RESULT ANALYST':u.role==='REVIEWER'?'REVIEWER':u.role;
         checkList(memberList,assignees.map(u=>({id:u.id,name:`${u.username} — ${assignmentRoleLabel(u)}`})),'members');
         const userSection=memberList.parentElement;
         const userSearchRow=memberList.previousElementSibling;
@@ -663,15 +669,15 @@
             </div>
             <div class="space-y-1.5">
                 <label class="text-label-md text-on-surface-variant uppercase tracking-wider font-bold">
-                    Manual Labeler 2 <span class="font-normal normal-case text-on-surface-variant">(Required)</span>
+                    Manual Labeler 2 <span class="text-error font-normal">*</span>
                 </label>
                 <select id="manualLabeler2" class="w-full px-4 py-2.5 rounded-lg border border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-body-md cursor-pointer">
-                    <option value="">Select user (optional)...</option>
+                    <option value="">Select user...</option>
                 </select>
             </div>
             <div class="space-y-1.5">
                 <label class="text-label-md text-on-surface-variant uppercase tracking-wider font-bold">
-                    Analyst <span class="text-error font-normal">*</span>
+                    Reviewer <span class="text-error font-normal">*</span>
                 </label>
                 <select id="manualReviewer" class="w-full px-4 py-2.5 rounded-lg border border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-body-md cursor-pointer">
                     <option value="">Select user...</option>
@@ -694,7 +700,7 @@
             </div>
             <div class="space-y-1.5">
                 <label class="text-label-md text-on-surface-variant uppercase tracking-wider font-bold">
-                    Analyst <span class="text-error font-normal">*</span>
+                    Result Analyst <span class="text-error font-normal">*</span>
                 </label>
                 <select id="aiReviewer" class="w-full px-4 py-2.5 rounded-lg border border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-body-md cursor-pointer">
                     <option value="">Select user...</option>
@@ -712,18 +718,20 @@
 
         let currentAssignees=assignees;
         const roleOf=user=>String(user?.role||'').toUpperCase();
-        const isUnavailable=user=>user?.is_active===false||String(user?.status||'AVAILABLE').toUpperCase()!=='AVAILABLE';
-        const selectableUser=user=>['USER','MANUAL_LABELER','AI_LABELER','RESULT_ANALYST'].includes(roleOf(user));
+        const isUnavailable=user=>user?.is_active===false||String(user?.status||'UNKNOWN').toUpperCase()!=='AVAILABLE';
+        const selectableUser=user=>['USER','AI_LABELER','MANUAL_LABELER','REVIEWER','RESULT_ANALYST'].includes(roleOf(user));
         const canManual=user=>selectableUser(user)&&['USER','MANUAL_LABELER'].includes(roleOf(user));
         const canAi=user=>selectableUser(user)&&['USER','AI_LABELER'].includes(roleOf(user));
-        const canReview=user=>selectableUser(user)&&['USER','RESULT_ANALYST'].includes(roleOf(user));
+        const canManualReview=user=>selectableUser(user)&&['USER','REVIEWER'].includes(roleOf(user));
+        const canAiReview=user=>selectableUser(user)&&['USER','RESULT_ANALYST'].includes(roleOf(user));
         let manualLabelers=currentAssignees.filter(canManual);
         let aiLabelers=currentAssignees.filter(canAi);
-        let reviewers=currentAssignees.filter(canReview);
+        let manualReviewers=currentAssignees.filter(canManualReview);
+        let aiReviewers=currentAssignees.filter(canAiReview);
 
         function formatUserOptionLabel(user){
             if(!user)return '';
-            const status=user.is_active===false?'INACTIVE':(user.status||'AVAILABLE');
+            const status=user.is_active===false?'INACTIVE':String(user.status||'UNKNOWN').toUpperCase();
             return `${user.username} — ${status}`;
         }
 
@@ -747,13 +755,13 @@
         function populateManualOptions(){
             populateSelect(m1Select,manualLabelers,'Select user...');
             populateSelect(m2Select,manualLabelers,'Select user...');
-            populateSelect(reviewerSelect,reviewers,'Select user...');
+            populateSelect(reviewerSelect,manualReviewers,'Select user...');
             syncAssignmentOptions();
         }
 
         function populateAiOptions(){
             populateSelect(aiLabelerSelect,aiLabelers,'Select user...');
-            populateSelect(aiReviewerSelect,reviewers,'Select user...');
+            populateSelect(aiReviewerSelect,aiReviewers,'Select user...');
             syncAiAssignmentOptions();
         }
 
@@ -761,7 +769,8 @@
             currentAssignees=assigneeList||[];
             manualLabelers=currentAssignees.filter(canManual);
             aiLabelers=currentAssignees.filter(canAi);
-            reviewers=currentAssignees.filter(canReview);
+            manualReviewers=currentAssignees.filter(canManualReview);
+            aiReviewers=currentAssignees.filter(canAiReview);
             populateManualOptions();
             populateAiOptions();
         }
@@ -797,7 +806,7 @@
             $$('option',reviewerSelect).forEach(opt=>{
                 if(!opt.value)return;
                 const taken=(opt.value===val1 && val1!=='')||(opt.value===val2 && val2!=='');
-                const user=reviewers.find(u=>String(u.id)===opt.value);
+                const user=manualReviewers.find(u=>String(u.id)===opt.value);
                 opt.disabled=isUnavailable(user)||taken;
                 if(user){
                     const label=formatUserOptionLabel(user);
@@ -827,7 +836,7 @@
             $$('option',aiReviewerSelect).forEach(opt=>{
                 if(!opt.value)return;
                 const taken=(opt.value===valAi && valAi!=='');
-                const user=reviewers.find(u=>String(u.id)===opt.value);
+                const user=aiReviewers.find(u=>String(u.id)===opt.value);
                 opt.disabled=isUnavailable(user)||taken;
                 if(user){
                     const label=formatUserOptionLabel(user);
@@ -940,7 +949,7 @@
         const reloadAssignees=async()=>{
             try{
                 const fetchedRows=await request('/assignees');
-                const fetched=(fetchedRows||[]).filter(row=>row.is_active!==false && String(row.status||'AVAILABLE').toUpperCase()!=='BUSY' && ['USER','AI_LABELER','MANUAL_LABELER','RESULT_ANALYST'].includes(String(row.role||'').toUpperCase()));
+                const fetched=(fetchedRows||[]).filter(row=>['USER','AI_LABELER','MANUAL_LABELER','REVIEWER','RESULT_ANALYST'].includes(String(row.role||'').toUpperCase()));
                 renderAssignmentDropdowns(fetched);
                 checkList(memberList,currentAssignees.map(u=>({id:u.id,name:`${u.username} — ${assignmentRoleLabel(u)}`})),'members');
             }catch{}
@@ -974,7 +983,7 @@
 
                 if(!m1Select.value)throw new Error('Vui lòng chọn Manual Labeler 1.');
                 if(!m2Select.value)throw new Error('Vui lòng chọn Manual Labeler 2.');
-                if(!reviewerSelect.value)throw new Error('Vui lòng chọn Analyst.');
+                if(!reviewerSelect.value)throw new Error('Vui lòng chọn Reviewer.');
 
                 const m1Id=Number(m1Select.value);
                 const m2Id=Number(m2Select.value);
@@ -990,7 +999,7 @@
                 const hasRole=(candidate,...roles)=>candidate&&roles.includes(String(candidate.role||'').toUpperCase());
                 if(!hasRole(m1User,'USER','MANUAL_LABELER'))throw new Error('Manual Labeler 1 phải là tài khoản USER hoặc MANUAL_LABELER.');
                 if(!hasRole(m2User,'USER','MANUAL_LABELER'))throw new Error('Manual Labeler 2 phải là tài khoản USER hoặc MANUAL_LABELER.');
-                if(!hasRole(revUser,'USER','RESULT_ANALYST'))throw new Error('Analyst phải là tài khoản USER hoặc RESULT_ANALYST.');
+                if(!hasRole(revUser,'USER','REVIEWER'))throw new Error('Reviewer phải là tài khoản USER hoặc REVIEWER.');
 
                 const manualLabelerIds=[m1Id,m2Id];
 
@@ -1020,7 +1029,7 @@
                 if(!docIds.length)throw new Error('Vui lòng chọn ít nhất một tài liệu PDF.');
 
                 if(!aiLabelerSelect.value)throw new Error('Vui lòng chọn AI Labeler.');
-                if(!aiReviewerSelect.value)throw new Error('Vui lòng chọn Analyst.');
+                if(!aiReviewerSelect.value)throw new Error('Vui lòng chọn Result Analyst.');
 
                 const aiId=Number(aiLabelerSelect.value);
                 const revId=Number(aiReviewerSelect.value);
@@ -1032,7 +1041,7 @@
 
                 const hasRole=(candidate,...roles)=>candidate&&roles.includes(String(candidate.role||'').toUpperCase());
                 if(!hasRole(aiUser,'USER','AI_LABELER'))throw new Error('AI Labeler phải là tài khoản USER hoặc AI_LABELER.');
-                if(!hasRole(revUser,'USER','RESULT_ANALYST'))throw new Error('Analyst phải là tài khoản USER hoặc RESULT_ANALYST.');
+                if(!hasRole(revUser,'USER','RESULT_ANALYST'))throw new Error('Result Analyst phải là tài khoản USER hoặc RESULT_ANALYST.');
 
                 const payload={
                     name:name.value.trim(),
@@ -1380,6 +1389,11 @@
         syncModelOptions();selectTask(initial.id);
     }
     async function taskPage() {
+        if (user?.role === 'ADMIN') {
+            await request('/tasks').catch(() => []);
+            go('Dashboard.html');
+            return;
+        }
         if(document.body.matches('.ai-task-page,.manual-task-page')){
             setupDocumentSidebar();
             setupTaskWorkspace();
@@ -1451,7 +1465,7 @@
         }
         updateSelection();
         const heading=$$('main h2,main h3').find(h=>['Extracted Information','Thông tin trích xuất'].includes(text(h)));
-        let panel=$('[data-annotation-panel]')||heading?.parentElement;
+        let panel=$('[data-annotation-panel]')||heading?.closest('[data-annotation-panel]')||heading?.parentElement;
         const reviewBodies=$$('main .overflow-y-auto').filter(el=>$('input[type="checkbox"]',el));
         if(!panel)panel=reviewBodies[0];
         if(!panel)throw new Error('Không tìm thấy vùng nhãn của tác vụ.');
@@ -1480,13 +1494,13 @@
             const editButton=document.createElement('button');editButton.type='button';editButton.className='annotation-icon-button';editButton.title=readonly?'Bấm Mở khóa để chỉnh sửa':'Sửa field';editButton.disabled=readonly;editButton.innerHTML='<span class="material-symbols-outlined">edit</span>';
             const confirmButton=document.createElement('button');confirmButton.type='button';confirmButton.className='annotation-icon-button annotation-icon-button--confirm';confirmButton.title='Xác nhận (Enter)';confirmButton.innerHTML='<span class="material-symbols-outlined">check</span>';
             top.append(labelBlock,termInput,stateBadge,editButton,confirmButton);
-            const valueInput=document.createElement('textarea');valueInput.value=parts.editableValue;valueInput.placeholder='Enter value...';valueInput.maxLength=20000;valueInput.rows=1;valueInput.setAttribute('aria-label','Definition');valueInput.className='annotation-definition-input';valueInput.disabled=readonly;
+            const valueInput=document.createElement('textarea');valueInput.value=parts.editableValue;valueInput.placeholder='Enter value...';valueInput.maxLength=20000;valueInput.rows=1;valueInput.setAttribute('aria-label','Field value');valueInput.className='annotation-definition-input';valueInput.disabled=readonly;
             const valueTools=document.createElement('div');valueTools.className='annotation-definition-tools';
             const expandButton=document.createElement('button');expandButton.type='button';expandButton.className='annotation-definition-expand';expandButton.innerHTML='<span class="material-symbols-outlined">open_in_full</span><span>Xem toàn bộ</span>';expandButton.title='Mở rộng vùng Definition';
             valueTools.append(expandButton);
             const chips=document.createElement('div');chips.className='annotation-definition-chips';chips.hidden=key!=='industry';
             const meta=document.createElement('div');meta.className='annotation-field-card__meta';
-            const pageInput=document.createElement('input');pageInput.type='number';pageInput.min='1';pageInput.max=String(pdfPageCount||9999);pageInput.step='1';pageInput.required=true;pageInput.value=row.sourcePage==null?'':String(row.sourcePage);pageInput.setAttribute('aria-label','Source page');pageInput.setAttribute('aria-readonly','true');pageInput.readOnly=true;pageInput.title='Click to jump to this PDF page';pageInput.className='annotation-page-input';pageInput.disabled=false;pageInput.hidden=true;
+            const pageInput=document.createElement('input');pageInput.type='number';pageInput.min='1';pageInput.max=String(pdfPageCount||9999);pageInput.step='1';pageInput.required=true;pageInput.value=row.sourcePage==null?'':String(row.sourcePage);pageInput.setAttribute('aria-label','Source Page');pageInput.setAttribute('aria-readonly','true');pageInput.readOnly=true;pageInput.title='Click to jump to this PDF page';pageInput.className='annotation-page-input';pageInput.disabled=false;pageInput.hidden=true;
             const pageButton=document.createElement('button');pageButton.type='button';pageButton.className='annotation-page-chip';pageButton.title='Đến trang nguồn trong PDF';
             const confidence=document.createElement('span');confidence.className='annotation-confidence';const confidencePct=row.confidence==null?null:Math.round(row.confidence*100);confidence.textContent=`AI ${confidencePct==null?'—':`${confidencePct}%`}`;confidence.dataset.level=confidencePct==null?'unknown':confidencePct>=90?'high':confidencePct>=70?'medium':'low';
             const currentValue=parts.editableValue.trim();const suspicious=(key==='report_period'&&currentValue&&/^fy$/i.test(currentValue))||(key==='report_year'&&currentValue&&!/^\d{4}$/.test(currentValue))||(key==='revenue'&&currentValue&&!/[\d]/.test(currentValue));
@@ -1512,7 +1526,7 @@
             card.append(top,definitionLabel,valueInput,meta,sourceLabel);paintState();cards.push(cardState);panel.append(card);autoGrow();return valueInput;
         }
         const editor={
-            get value(){return JSON.stringify(cards.map(c=>({labelName:c.termInput.value.trim(),labelValue:c.valueInput.value,sourcePage:c.pageInput.value?Number(c.pageInput.value):null,sourceLabel:c.sourceLabel||'',confidence:c.confidence})).filter(c=>c.labelName||c.labelValue));},
+            get value(){return JSON.stringify(cards.map(c=>{const label={labelName:c.termInput.value.trim(),labelValue:c.valueInput.value,sourcePage:c.pageInput.value?Number(c.pageInput.value):null,confidence:c.confidence};if(c.sourceLabel)label.sourceLabel=c.sourceLabel;return label;}).filter(c=>c.labelName||c.labelValue));},
             set value(value){clearCards();const rows=JSON.parse(value);rows.forEach(addLabel);if(!rows.length&&labeler)addLabel();const saveDock=panel.querySelector('.annotation-panel-save');if(saveDock)panel.append(saveDock);},
             get readOnly(){return readonly;},
             set readOnly(value){readonly=value;cards.forEach(c=>{c.termInput.disabled=readonly;c.valueInput.readOnly=readonly;c.pageInput.disabled=false;c.pageInput.readOnly=true;c.saveState.textContent=readonly?'Read-only':c.dirty?'Unsaved':c.saved?'Saved':'Empty';});},
@@ -1596,7 +1610,7 @@
             pdfPageCount=null;
             const persistedDotState=readDocumentSaveState(task.id);
             setDocumentSaveState(task.id,persistedDotState!=='none'?persistedDotState:(task.labels?.length?'saved':'none'));
-            history.replaceState(null,'',`?id=${row.id}`);
+            try { history.replaceState(null,'',`?id=${row.id}`); } catch { /* Embedded preview or fixture URL. */ }
             if(title)title.textContent=row.session_name||task.document_title;
             if(type)type.textContent=task.task_type;
             if(docInfo)docInfo.textContent=task.document_title;
@@ -1622,8 +1636,8 @@
                             const documentInFrame=iframe.contentDocument;
                             const toolbar=documentInFrame?.querySelector('#toolbarViewerRight');
                             if(!toolbar||documentInFrame.querySelector('[data-aair-pdf-control]'))return;
-                            [['fit-width','↔','Vừa chiều rộng'],['fit-page','□','Vừa toàn trang'],['rotate','↻','Xoay trang']].forEach(([action,icon,title])=>{
-                                const button=documentInFrame.createElement('button');button.type='button';button.dataset.aairPdfControl=action;button.title=title;button.className='toolbarButton';button.textContent=icon;
+                            [['fit-width','fit_width','Vừa chiều rộng'],['fit-page','fit_screen','Vừa toàn trang'],['rotate','rotate_right','Xoay trang']].forEach(([action,icon,title])=>{
+                                const button=documentInFrame.createElement('button');button.type='button';button.dataset.aairPdfControl=action;button.title=title;button.className='toolbarButton';const iconNode=documentInFrame.createElement('span');iconNode.className='material-symbols-outlined';iconNode.textContent=icon;button.append(iconNode);
                                 button.onclick=()=>{const viewer=iframe.contentWindow?.PDFViewerApplication?.pdfViewer;if(!viewer)return;if(action==='fit-width')viewer.currentScaleValue='page-width';if(action==='fit-page')viewer.currentScaleValue='page-fit';if(action==='rotate')viewer.pagesRotation=(viewer.pagesRotation+90)%360;};toolbar.append(button);
                             });
                         };
@@ -1657,8 +1671,9 @@
                 findItem:documentStatus=>documentButtons.get(Number(documentStatus.id)),
                 blockedTitle:status=>{const documents=Array.isArray(status.documents)?status.documents:[],total=documents.length||tasks.filter(item=>String(item.session_id)===String(task?.session_id)).length,done=documents.filter(item=>item.status==='done'||['SUBMITTED','APPROVED','COMPLETED'].includes(String(item.status||'').toUpperCase())).length;return total?`Cần lưu cả ${total} tài liệu (đã lưu ${done}/${total})`:`Còn ${(status.missingItems||[]).length} tài liệu chưa hoàn tất`;},
                 onStatus:status=>{
-                    const reported=status.documents||[];
-                    const sessionTasks=reported.length?reported:tasks.filter(item=>String(item.session_id)===String(task?.session_id));
+                    const reported=Array.isArray(status.documents)?status.documents:[];
+                    const fallbackTasks=tasks.filter(item=>String(item.session_id)===String(task?.session_id));
+                    const sessionTasks=reported.length?reported:fallbackTasks;
                     const total=sessionTasks.length,done=sessionTasks.filter(item=>item.status==='done'||['SUBMITTED','APPROVED','COMPLETED'].includes(item.status)).length;
                     const percent=total?Math.round(done/total*100):0;
                     const progress=$('#sessionProgressTrack'),bar=$('#sessionProgressBar'),label=$('#sessionProgressText');

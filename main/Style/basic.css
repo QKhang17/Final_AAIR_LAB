@@ -553,6 +553,8 @@ main .admin-kpi-value {
 }
 .users-badge--active { color: #166534; background: #dcfce7; }
 .users-badge--inactive { color: #475569; background: #e2e8f0; }
+.users-badge--available { color: #166534; background: #dcfce7; }
+.users-badge--busy { color: #9a3412; background: #ffedd5; }
 .users-badge--admin,
 .users-badge--manager,
 .users-badge--ai_labeler,
