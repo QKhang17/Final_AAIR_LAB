@@ -41,16 +41,19 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> handleConflict() {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiError.of("DATA_CONFLICT", "Dữ liệu trùng hoặc đang được sử dụng bởi bản ghi khác"));
     }
+
     @ExceptionHandler({org.springframework.http.converter.HttpMessageNotReadableException.class,
             org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class,
             org.springframework.web.multipart.support.MissingServletRequestPartException.class})
     public ResponseEntity<ApiError> handleBadRequest() {
         return ResponseEntity.badRequest().body(ApiError.of("BAD_REQUEST", "Nội dung yêu cầu không hợp lệ hoặc thiếu trường bắt buộc"));
     }
+
     @ExceptionHandler(org.springframework.web.multipart.MaxUploadSizeExceededException.class)
     public ResponseEntity<ApiError> handleUploadSize() {
         return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body(ApiError.of("FILE_TOO_LARGE", "Tệp không được vượt quá 50 MB"));
     }
+
     @ExceptionHandler(java.io.IOException.class)
     public ResponseEntity<ApiError> handleStorage() {
         return ResponseEntity.internalServerError().body(ApiError.of("STORAGE_ERROR", "Không thể đọc hoặc lưu tệp trên máy chủ"));
@@ -61,6 +64,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleGeneric(Exception exception) {
         log.error("Unhandled exception: ", exception);
-        return ResponseEntity.internalServerError().body(ApiError.of("INTERNAL_ERROR", "Đã xảy ra lỗi trên hệ thống: " + exception.getMessage()));
+        return ResponseEntity.internalServerError().body(ApiError.of("INTERNAL_ERROR", "Đã xảy ra lỗi trên hệ thống. Vui lòng liên hệ quản trị viên."));
     }
 }

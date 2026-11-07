@@ -8,7 +8,9 @@
     "typecheck": "tsc --noEmit",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dev:react-prototype": "vite --config vite.react.config.js",
+    "build:react-prototype": "vite build --config vite.react.config.js"
   },
   "dependencies": {
     "pdfjs-dist": "^6.3.289",

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="ug1Bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="50%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#7dd3fc"/>
+    </linearGradient>
+    <linearGradient id="ug1Face" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fdf4ee"/>
+      <stop offset="100%" stop-color="#fcd8c1"/>
+    </linearGradient>
+  </defs>
+  <circle cx="80" cy="80" r="78" fill="url(#ug1Bg)"/>
+  <circle cx="80" cy="80" r="74" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <!-- Body / College Hoodie -->
+  <path d="M30 152 C30 120 54 112 80 112 C106 112 130 120 130 152 Z" fill="#1d4ed8"/>
+  <path d="M68 112 Q80 128 92 112 Z" fill="#ffffff"/>
+  <rect x="73" y="93" width="14" height="20" rx="3" fill="#fcd8c1"/>
+  <!-- Head -->
+  <ellipse cx="80" cy="69" rx="25" ry="30" fill="url(#ug1Face)"/>
+  <!-- Hair (Youthful wavy fringe) -->
+  <path d="M52 56 C52 35 66 28 82 28 C98 28 108 35 108 55 C108 55 96 38 80 38 C62 38 52 56 52 56 Z" fill="#18181b"/>
+  <!-- Glasses -->
+  <circle cx="70" cy="65" r="7.5" fill="none" stroke="#1d4ed8" stroke-width="1.8"/>
+  <circle cx="90" cy="65" r="7.5" fill="none" stroke="#1d4ed8" stroke-width="1.8"/>
+  <line x1="77.5" y1="65" x2="82.5" y2="65" stroke="#1d4ed8" stroke-width="1.8"/>
+  <circle cx="70" cy="65" r="2.2" fill="#18181b"/>
+  <circle cx="90" cy="65" r="2.2" fill="#18181b"/>
+  <!-- Energetic Smile -->
+  <path d="M74 84 Q80 90 86 84" fill="none" stroke="#1d4ed8" stroke-width="2.2" stroke-linecap="round"/>
+</svg>

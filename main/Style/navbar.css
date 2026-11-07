@@ -5,9 +5,9 @@
   --aair-nav-font-size: 13px;
   --aair-nav-role-font-size: 12px;
   --aair-nav-avatar-size: 30px;
-  --aair-nav-primary: #079bc5;
-  --aair-nav-active: #087da7;
-  --aair-nav-border: #63c3dd;
+  --aair-nav-primary: linear-gradient(90deg, #0A3D91 0%, #0066CC 60%, #008AB8 100%);
+  --aair-nav-active: rgba(255, 255, 255, 0.18);
+  --aair-nav-border: rgba(255, 255, 255, 0.18);
 }
 
 .aair-navbar { display:flex; align-items:center; min-height:var(--aair-nav-height); height:var(--aair-nav-height); background:var(--aair-nav-primary); color:#fff; font-family:Inter,Arial,sans-serif; position:relative; z-index:50; }
@@ -22,7 +22,8 @@
 .aair-navbar .aair-navbar__account,
 .aair-navbar__account { display:flex !important; align-items:center !important; gap:var(--aair-nav-gap) !important; margin-left:auto !important; padding:0 12px !important; min-width:0 !important; }
 .aair-navbar .aair-navbar__avatar,
-.aair-navbar__avatar { display:grid !important; place-items:center !important; flex:0 0 var(--aair-nav-avatar-size) !important; width:var(--aair-nav-avatar-size) !important; height:var(--aair-nav-avatar-size) !important; border-radius:50% !important; color:#fff !important; background:#167ea5 !important; font-size:12px !important; font-weight:800 !important; line-height:1 !important; }
+.aair-navbar__avatar { display:grid !important; place-items:center !important; flex:0 0 var(--aair-nav-avatar-size) !important; width:var(--aair-nav-avatar-size) !important; height:var(--aair-nav-avatar-size) !important; border-radius:50% !important; color:#fff !important; background:rgba(255, 255, 255, 0.2) !important;
+  border:1px solid rgba(255, 255, 255, 0.3) !important; font-size:12px !important; font-weight:800 !important; line-height:1 !important; }
 .aair-navbar .aair-navbar__identity,
 .aair-navbar__identity { display:flex !important; min-width:0 !important; width:auto !important; height:auto !important; flex-direction:column !important; line-height:1.15 !important; background:transparent !important; border-radius:0 !important; box-shadow:none !important; }
 .aair-navbar .aair-navbar__identity b,

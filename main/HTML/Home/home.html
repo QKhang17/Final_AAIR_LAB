@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../../Style/home.css">
     <link rel="stylesheet" href="../../Style/homeEditorial.css">
     <script src="../../JavaScript/home.js" defer></script>
+    <link href="../../Style/jellykeyDesignSystem.css" rel="stylesheet">
 </head>
 <body class="home-page">
     <a class="home-skip" href="#main-content">Skip to content</a>
@@ -23,7 +24,7 @@
                 <span>AAIR<span class="home-brand__light"> Lab</span></span>
             </a>
             <nav class="home-nav" id="home-navigation" aria-label="Main navigation">
-                <a href="#features">Platform</a><a href="#workflow">How it works</a><a href="#about">About the lab</a>
+                <a href="#team">Team & Leadership</a><a href="#features">Platform</a><a href="#workflow">How it works</a><a href="#about">About the lab</a>
             </nav>
             <div class="home-header__actions">
                 <a class="home-button home-button--small" href="signIn.html">Sign in <span aria-hidden="true">↗</span></a>
@@ -101,38 +102,464 @@
             <div class="home-container home-paths" aria-label="Explore the platform">
                 <article><span class="home-eyebrow">THE WORKSPACE</span><h2>Keep the source in sight.</h2><p>Read financial reports and their annotations in one shared environment.</p><a class="home-text-link" href="#features">Explore the platform <span aria-hidden="true">→</span></a></article>
                 <article><span class="home-eyebrow">THE PROCESS</span><h2>Make every step clear.</h2><p>Move from a report to reviewed results, with a role for every contributor.</p><a class="home-text-link" href="#workflow">See how it works <span aria-hidden="true">→</span></a></article>
-                <article><span class="home-eyebrow">THE PEOPLE</span><h2>Keep expertise in the loop.</h2><p>Bring domain knowledge and applied AI research closer together.</p><a class="home-text-link" href="#about">Meet the lab <span aria-hidden="true">→</span></a></article>
+                <article><span class="home-eyebrow">THE PEOPLE</span><h2>Keep expertise in the loop.</h2><p>Bring domain knowledge and applied AI research closer together.</p><a class="home-text-link" href="#team">Meet the team <span aria-hidden="true">→</span></a></article>
+            </div>
+        </section>
+                <section class="home-section home-team" id="team" aria-labelledby="team-title">
+            <div class="home-container">
+                <div class="home-section-heading">
+                    <div>
+                        <p class="home-eyebrow">ACADEMIC LEADERSHIP & RESEARCH TEAM</p>
+                        <h2 id="team-title">Team & Leadership</h2>
+                    </div>
+                </div>
+
+                <!-- Part 1: Lab Director (Refined Executive Spotlight) -->
+                <div class="team-director-card">
+                    <div class="team-director-body">
+                        <div class="team-director-avatar-col">
+                            <div class="team-director-avatar-wrap">
+                                <img class="team-director-avatar" src="/resource/icon/team/huynh-nghia.png" alt="Dr. Huynh Nghia, Ph.D." width="112" height="112" loading="lazy">
+                                <span class="team-status-indicator is-active" title="Currently Active at AAIR Lab"></span>
+                            </div>
+                            <span class="team-director-lead-pill">Principal Investigator</span>
+                        </div>
+                        <div class="team-director-info">
+                            <div class="team-director-header">
+                                <div class="team-director-title-group">
+                                    <h3 class="team-director-name">Dr. Huynh Nghia</h3>
+                                    <span class="team-degree-pill">Ph.D. Computer Science</span>
+                                </div>
+                                <div class="team-tenure-badge">
+                                    <span>Tenure: <strong>Jan 2020 – Present</strong></span>
+                                </div>
+                            </div>
+                            <p class="team-director-role">Head of Applied AI Research Laboratory (AAIR Lab) • Tenured Faculty Member, HCMCOU</p>
+                            <p class="team-director-bio">Directs academic research in Vision-Language Models (VLMs), Document Intelligence, and Domain Knowledge Graphs. Oversees empirical gold-standard benchmark curation and automated audit verification architectures for high-stakes corporate disclosures.</p>
+                            <div class="team-projects-block">
+                                <span class="team-projects-title">Key Research Initiatives:</span>
+                                <div class="team-project-tags">
+                                    <span class="team-project-tag" title="Principal Investigator">FinIE-LLM</span>
+                                    <span class="team-project-tag" title="Project Director">MM-DocAlign</span>
+                                    <span class="team-project-tag" title="Scientific Lead">FinTerm-KG</span>
+                                    <span class="team-project-tag" title="Director">AutoAudit-QA</span>
+                                    <span class="team-project-tag" title="Director">VN-CorpBench</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 2: Current Lab Members (Unified Clean Grid) -->
+                <div class="team-subsection">
+                    <div class="team-subsection-header">
+                        <p class="home-eyebrow">RESEARCH SCHOLARS & ENGINEERS</p>
+                        <h3 class="team-subsection-title">Lab Members</h3>
+                        <p class="team-subsection-desc">Student researchers and engineers specializing in Software Engineering and Artificial Intelligence.</p>
+                    </div>
+
+                    <div class="team-grid" id="teamMembersGrid">
+                        <!-- Member 1: Quoc Khang -->
+                        <article class="team-card">
+                            <div class="team-card__header">
+                                <div class="team-avatar-wrap">
+                                    <img class="team-avatar" src="/resource/icon/team/quoc-khang.png" alt="Quoc Khang" width="60" height="60" loading="lazy">
+                                    <span class="team-status-indicator is-active" title="Active Member"></span>
+                                </div>
+                                <div class="team-card__meta">
+                                    <h4 class="team-card__name">Quoc Khang</h4>
+                                    <span class="team-role-pill team-role-pill--lead">Software Engineering Lead</span>
+                                    <p class="team-card__academic">4th-Year Student • Software Engineering</p>
+                                </div>
+                            </div>
+                            <div class="team-card__tenure-row">
+                                <span class="team-tenure-text">Tenure: <strong>Dec 2023 – Present</strong></span>
+                                <span class="team-status-badge">Active</span>
+                            </div>
+                            <div class="team-card__projects">
+                                <span class="team-projects-label">Initiatives</span>
+                                <div class="team-project-tags">
+                                    <span class="team-project-tag">AAIR Workspace Platform</span>
+                                    <span class="team-project-tag">VN-CorpBench</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Member 2: Bao Thai -->
+                        <article class="team-card">
+                            <div class="team-card__header">
+                                <div class="team-avatar-wrap">
+                                    <img class="team-avatar" src="/resource/icon/team/bao-thai.png" alt="Bao Thai" width="60" height="60" loading="lazy">
+                                    <span class="team-status-indicator is-active" title="Active Member"></span>
+                                </div>
+                                <div class="team-card__meta">
+                                    <h4 class="team-card__name">Bao Thai</h4>
+                                    <span class="team-role-pill">AI Student Researcher</span>
+                                    <p class="team-card__academic">3rd-Year Student • Artificial Intelligence</p>
+                                </div>
+                            </div>
+                            <div class="team-card__tenure-row">
+                                <span class="team-tenure-text">Tenure: <strong>Sep 2024 – Present</strong></span>
+                                <span class="team-status-badge">Active</span>
+                            </div>
+                            <div class="team-card__projects">
+                                <span class="team-projects-label">Initiatives</span>
+                                <div class="team-project-tags">
+                                    <span class="team-project-tag">FinIE-LLM</span>
+                                    <span class="team-project-tag">MM-DocAlign</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Member 3: Cu Khac Trung Tin -->
+                        <article class="team-card">
+                            <div class="team-card__header">
+                                <div class="team-avatar-wrap">
+                                    <img class="team-avatar" src="/resource/icon/team/cu-khac-trung-tin.png" alt="Cu Khac Trung Tin" width="60" height="60" loading="lazy">
+                                    <span class="team-status-indicator is-active" title="Active Member"></span>
+                                </div>
+                                <div class="team-card__meta">
+                                    <h4 class="team-card__name">Cu Khac Trung Tin</h4>
+                                    <span class="team-role-pill">AI Student Researcher</span>
+                                    <p class="team-card__academic">3rd-Year Student • Artificial Intelligence</p>
+                                </div>
+                            </div>
+                            <div class="team-card__tenure-row">
+                                <span class="team-tenure-text">Tenure: <strong>Sep 2024 – Present</strong></span>
+                                <span class="team-status-badge">Active</span>
+                            </div>
+                            <div class="team-card__projects">
+                                <span class="team-projects-label">Initiatives</span>
+                                <div class="team-project-tags">
+                                    <span class="team-project-tag">MM-DocAlign</span>
+                                    <span class="team-project-tag">FinTerm-KG</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Member 4 (Extra): Minh Chau -->
+                        <article class="team-card team-card-extra">
+                            <div class="team-card__header">
+                                <div class="team-avatar-wrap">
+                                    <img class="team-avatar" src="/resource/icon/team/minh-chau.png" alt="Minh Chau" width="60" height="60" loading="lazy">
+                                    <span class="team-status-indicator is-active" title="Active Member"></span>
+                                </div>
+                                <div class="team-card__meta">
+                                    <h4 class="team-card__name">Minh Chau</h4>
+                                    <span class="team-role-pill">AI Student Researcher</span>
+                                    <p class="team-card__academic">3rd-Year Student • Artificial Intelligence</p>
+                                </div>
+                            </div>
+                            <div class="team-card__tenure-row">
+                                <span class="team-tenure-text">Tenure: <strong>Sep 2024 – Present</strong></span>
+                                <span class="team-status-badge">Active</span>
+                            </div>
+                            <div class="team-card__projects">
+                                <span class="team-projects-label">Initiatives</span>
+                                <div class="team-project-tags">
+                                    <span class="team-project-tag">FinTerm-KG</span>
+                                    <span class="team-project-tag">AutoAudit-QA</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Member 5 (Extra): Sang Luong -->
+                        <article class="team-card team-card-extra">
+                            <div class="team-card__header">
+                                <div class="team-avatar-wrap">
+                                    <img class="team-avatar" src="/resource/icon/team/sang-luong.png" alt="Sang Luong" width="60" height="60" loading="lazy">
+                                    <span class="team-status-indicator is-active" title="Active Member"></span>
+                                </div>
+                                <div class="team-card__meta">
+                                    <h4 class="team-card__name">Sang Luong</h4>
+                                    <span class="team-role-pill">AI Student Researcher</span>
+                                    <p class="team-card__academic">3rd-Year Student • Artificial Intelligence</p>
+                                </div>
+                            </div>
+                            <div class="team-card__tenure-row">
+                                <span class="team-tenure-text">Tenure: <strong>Sep 2024 – Present</strong></span>
+                                <span class="team-status-badge">Active</span>
+                            </div>
+                            <div class="team-card__projects">
+                                <span class="team-projects-label">Initiatives</span>
+                                <div class="team-project-tags">
+                                    <span class="team-project-tag">AutoAudit-QA</span>
+                                    <span class="team-project-tag">FinIE-LLM</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Member 6 (Extra): Vo Tuan Kiet -->
+                        <article class="team-card team-card-extra">
+                            <div class="team-card__header">
+                                <div class="team-avatar-wrap">
+                                    <img class="team-avatar" src="/resource/icon/team/vo-tuan-kiet.png" alt="Vo Tuan Kiet" width="60" height="60" loading="lazy">
+                                    <span class="team-status-indicator is-active" title="Active Member"></span>
+                                </div>
+                                <div class="team-card__meta">
+                                    <h4 class="team-card__name">Vo Tuan Kiet</h4>
+                                    <span class="team-role-pill">AI Student Researcher</span>
+                                    <p class="team-card__academic">3rd-Year Student • Artificial Intelligence</p>
+                                </div>
+                            </div>
+                            <div class="team-card__tenure-row">
+                                <span class="team-tenure-text">Tenure: <strong>Sep 2024 – Present</strong></span>
+                                <span class="team-status-badge">Active</span>
+                            </div>
+                            <div class="team-card__projects">
+                                <span class="team-projects-label">Initiatives</span>
+                                <div class="team-project-tags">
+                                    <span class="team-project-tag">MM-DocAlign</span>
+                                    <span class="team-project-tag">VN-CorpBench</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Member 7 (Extra): Kim Nhu -->
+                        <article class="team-card team-card-extra">
+                            <div class="team-card__header">
+                                <div class="team-avatar-wrap">
+                                    <img class="team-avatar" src="/resource/icon/team/kim-nhu.png" alt="Kim Nhu" width="60" height="60" loading="lazy">
+                                    <span class="team-status-indicator is-active" title="Active Member"></span>
+                                </div>
+                                <div class="team-card__meta">
+                                    <h4 class="team-card__name">Kim Nhu</h4>
+                                    <span class="team-role-pill">AI Student Researcher</span>
+                                    <p class="team-card__academic">3rd-Year Student • Artificial Intelligence</p>
+                                </div>
+                            </div>
+                            <div class="team-card__tenure-row">
+                                <span class="team-tenure-text">Tenure: <strong>Sep 2024 – Present</strong></span>
+                                <span class="team-status-badge">Active</span>
+                            </div>
+                            <div class="team-card__projects">
+                                <span class="team-projects-label">Initiatives</span>
+                                <div class="team-project-tags">
+                                    <span class="team-project-tag">FinTerm-KG</span>
+                                    <span class="team-project-tag">VN-CorpBench</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Member 8 (Extra): Meng Lay -->
+                        <article class="team-card team-card-extra">
+                            <div class="team-card__header">
+                                <div class="team-avatar-wrap">
+                                    <img class="team-avatar" src="/resource/icon/team/meng-lay.png" alt="Meng Lay" width="60" height="60" loading="lazy">
+                                    <span class="team-status-indicator is-active" title="Active Member"></span>
+                                </div>
+                                <div class="team-card__meta">
+                                    <h4 class="team-card__name">Meng Lay</h4>
+                                    <span class="team-role-pill">AI Student Researcher</span>
+                                    <p class="team-card__academic">3rd-Year Student • Artificial Intelligence</p>
+                                </div>
+                            </div>
+                            <div class="team-card__tenure-row">
+                                <span class="team-tenure-text">Tenure: <strong>Sep 2024 – Present</strong></span>
+                                <span class="team-status-badge">Active</span>
+                            </div>
+                            <div class="team-card__projects">
+                                <span class="team-projects-label">Initiatives</span>
+                                <div class="team-project-tags">
+                                    <span class="team-project-tag">FinIE-LLM</span>
+                                    <span class="team-project-tag">AutoAudit-QA</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Member 9 (Extra): Research Member -->
+                        <article class="team-card team-card-extra">
+                            <div class="team-card__header">
+                                <div class="team-avatar-wrap">
+                                    <img class="team-avatar" src="/resource/icon/team/research-member.png" alt="Research Member" width="60" height="60" loading="lazy">
+                                    <span class="team-status-indicator is-active" title="Active Member"></span>
+                                </div>
+                                <div class="team-card__meta">
+                                    <h4 class="team-card__name">Research Member</h4>
+                                    <span class="team-role-pill">AI Student Researcher</span>
+                                    <p class="team-card__academic">3rd-Year Student • Artificial Intelligence</p>
+                                </div>
+                            </div>
+                            <div class="team-card__tenure-row">
+                                <span class="team-tenure-text">Tenure: <strong>Sep 2024 – Present</strong></span>
+                                <span class="team-status-badge">Active</span>
+                            </div>
+                            <div class="team-card__projects">
+                                <span class="team-projects-label">Initiatives</span>
+                                <div class="team-project-tags">
+                                    <span class="team-project-tag">FinIE-LLM</span>
+                                    <span class="team-project-tag">FinTerm-KG</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- View More Button -->
+                    <div class="team-toggle-wrap">
+                        <button type="button" class="team-toggle-more-btn" id="teamToggleMoreBtn" aria-expanded="false">
+                            <span class="team-toggle-text">View all members (9)</span>
+                            <span class="team-toggle-arrow">↓</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
         <section class="home-section home-features" id="features" aria-labelledby="features-title">
             <div class="home-container">
-                <div class="home-section-heading"><div><p class="home-eyebrow">ONE CONNECTED PLATFORM</p><h2 id="features-title">Less switching.<br> More understanding.</h2></div><p>Keep documents, annotations, and expert decisions together, from the first extraction to the final review.</p></div>
+                <div class="home-section-heading">
+                    <div>
+                        <p class="home-eyebrow">EMPIRICAL RESEARCH INFRASTRUCTURE</p>
+                        <h2 id="features-title">Document Intelligence.<br> Ground-Truth Provenance.</h2>
+                    </div>
+                </div>
                 <div class="home-feature-grid">
-                    <article class="home-feature"><div class="home-feature__top"><span class="home-feature__icon"><img src="/resource/icon/brand/knowledge-engineering.svg" alt="" width="64" height="64" loading="lazy"></span><span>01</span></div><h3>Annotate with context</h3><p>Read the PDF and label its values side by side. Keep page references close to every annotation.</p><span class="home-feature__tag">Manual annotation</span></article>
-                    <article class="home-feature"><div class="home-feature__top"><span class="home-feature__icon home-feature__icon--teal"><img src="/resource/icon/brand/ai-agents.svg" alt="" width="64" height="64" loading="lazy"></span><span>02</span></div><h3>Start with AI</h3><p>Run an extraction with your chosen model and prompt, then check the output against the original report.</p><span class="home-feature__tag">AI-assisted extraction</span></article>
-                    <article class="home-feature"><div class="home-feature__top"><span class="home-feature__icon home-feature__icon--violet"><img src="/resource/icon/brand/quality-trust.svg" alt="" width="64" height="64" loading="lazy"></span><span>03</span></div><h3>Review the differences</h3><p>Compare results, identify disagreements, and record the final decision with a dedicated review workflow.</p><span class="home-feature__tag">Comparison and review</span></article>
-                    <article class="home-feature"><div class="home-feature__top"><span class="home-feature__icon home-feature__icon--amber"><img src="/resource/icon/brand/data-integration.svg" alt="" width="64" height="64" loading="lazy"></span><span>04</span></div><h3>Share a common language</h3><p>Maintain terms and definitions in one library to support consistent labeling across your research team.</p><span class="home-feature__tag">Terminology management</span></article>
+                    <article class="home-feature">
+                        <div class="home-feature__top">
+                            <span class="home-feature__icon"><img src="/resource/icon/brand/knowledge-engineering.svg" alt="Spatial Grounding Icon" width="64" height="64" loading="lazy"></span>
+                        </div>
+                        <h3>Spatial Ground-Truth Annotation</h3>
+                        <p>Capture tabular structures, footnotes, and scalar figures with normalized bounding-box coordinates directly on vectorized multi-page PDFs, ensuring immutable spatial provenance for vision-language evaluation.</p>
+                        <span class="home-feature__tag">Spatial Coordinate Provenance</span>
+                    </article>
+                    <article class="home-feature">
+                        <div class="home-feature__top">
+                            <span class="home-feature__icon home-feature__icon--teal"><img src="/resource/icon/brand/ai-reasoning.svg" alt="Model Inference Icon" width="64" height="64" loading="lazy"></span>
+                        </div>
+                        <h3>Multi-Model Zero-Shot Inference</h3>
+                        <p>Orchestrate frontier Vision-Language Models (VLMs) and LLM extraction agents via structured JSON schema prompts, parsing dense accounting statements with automated confidence calibration.</p>
+                        <span class="home-feature__tag">Multi-Modal VLM Extraction</span>
+                    </article>
+                    <article class="home-feature">
+                        <div class="home-feature__top">
+                            <span class="home-feature__icon home-feature__icon--violet"><img src="/resource/icon/brand/quality-trust.svg" alt="Consensus Review Icon" width="64" height="64" loading="lazy"></span>
+                        </div>
+                        <h3>Dual-Track Consensus Adjudication</h3>
+                        <p>Conduct comparative disagreement analysis across model predictions and independent human annotations, computing Fleiss' Kappa reliability metrics to resolve variance and eradicate hallucinations.</p>
+                        <span class="home-feature__tag">Inter-Annotator Agreement (IAA)</span>
+                    </article>
+                    <article class="home-feature">
+                        <div class="home-feature__top">
+                            <span class="home-feature__icon home-feature__icon--amber"><img src="/resource/icon/brand/knowledge-graph.svg" alt="Knowledge Graph Icon" width="64" height="64" loading="lazy"></span>
+                        </div>
+                        <h3>Domain Ontologies & Knowledge Graphs</h3>
+                        <p>Ground heterogeneous disclosures into formal taxonomic hierarchies and financial knowledge graphs, standardizing accounting concepts across longitudinal corpora without semantic drift.</p>
+                        <span class="home-feature__tag">Taxonomic Ontology Mapping</span>
+                    </article>
                 </div>
             </div>
         </section>
         <section class="home-section home-workflow" id="workflow" aria-labelledby="workflow-title">
-            <div class="home-container"><div class="home-workflow__panel">
-                <div class="home-workflow__intro"><p class="home-eyebrow">FROM SOURCE TO DECISION</p><h2 id="workflow-title">A clear path<br> through every report.</h2><p>One shared process. Clear responsibilities at every step.</p><a class="home-text-link" href="signIn.html">Enter your workspace <span aria-hidden="true">↗</span></a><div class="home-workflow__motif" aria-hidden="true"><span>PDF</span><i></i><span>AI + YOU</span><i></i><span>✓</span></div></div>
-                <ol class="home-steps">
-                    <li><span class="home-step-number">01</span><div><span class="home-step-role">PREPARE</span><h3>Set up the session</h3><p>Upload PDF reports, assign team members, and define the session deadline.</p><small>Manager</small></div></li>
-                    <li><span class="home-step-number">02</span><div><span class="home-step-role">ANNOTATE</span><h3>Extract. Read. Verify.</h3><p>Label manually or use AI assistance. Check values and their source pages as you work.</p><small>AI and manual labelers</small></div></li>
-                    <li><span class="home-step-number">03</span><div><span class="home-step-role">REVIEW</span><h3>Resolve and complete</h3><p>Compare outputs, finalize differences, and bring the reviewed results together.</p><small>Reviewers and result analysts</small></div></li>
-                </ol>
-            </div></div>
+            <div class="home-container">
+                <div class="home-workflow__panel">
+                    <div class="home-workflow__intro">
+                        <p class="home-eyebrow">EMPIRICAL ANNOTATION PIPELINE</p>
+                        <h2 id="workflow-title">From Raw Disclosures<br> to Auditable Benchmarks.</h2>
+                        <p>A rigorous three-tier methodology designed for scientific reproducibility, guaranteed provenance tracking, and high-fidelity dataset curation in financial NLP.</p>
+                        <a class="home-text-link" href="signIn.html">Access Research Workspace <span aria-hidden="true">↗</span></a>
+                        <div class="home-workflow__motif" aria-hidden="true">
+                            <span>UNSTRUCTURED PDF</span>
+                            <i></i>
+                            <span>VLM + EXPERT LAB</span>
+                            <i></i>
+                            <span>GOLD BENCHMARK</span>
+                        </div>
+                    </div>
+                    <ol class="home-steps">
+                        <li>
+                            <span class="home-step-number">01</span>
+                            <div>
+                                <span class="home-step-role">PHASE 01 • CURATION & PROTOCOL</span>
+                                <h3>Corpus Ingestion & Session Configuration</h3>
+                                <p>Ingest multi-year audited financial statements, define typed target entity schemas, and assign balanced annotator cohorts with double-blind isolation.</p>
+                                <small>Principal Investigator & Session Director</small>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="home-step-number">02</span>
+                            <div>
+                                <span class="home-step-role">PHASE 02 • MULTI-MODAL EXTRACTION</span>
+                                <h3>Parallel Spatial & Semantic Grounding</h3>
+                                <p>Extract financial figures through simultaneous manual tagging and zero-shot VLM prompting, recording exact page bounding boxes and scalar unit conversions.</p>
+                                <small>Domain Specialists & Autonomous AI Agents</small>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="home-step-number">03</span>
+                            <div>
+                                <span class="home-step-role">PHASE 03 • ADJUDICATION & BENCHMARKING</span>
+                                <h3>Statistical Consensus & Dataset Publication</h3>
+                                <p>Detect inter-annotator discrepancies, arbitrate borderline conflicts through expert adjudication, and compile peer-reviewed benchmark datasets for international evaluation.</p>
+                                <small>Scientific Reviewers & Research Analysts</small>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
         </section>
         <section class="home-section home-about" id="about" aria-labelledby="about-title">
             <div class="home-container home-about__grid">
-                <div class="home-about__identity"><p class="home-eyebrow">THE LAB BEHIND THE PLATFORM</p><div class="home-about__mark"><img src="/resource/icon/brand/aair-logo.svg" alt="" width="104" height="104" loading="lazy"><div><strong>AAIR Lab</strong><span>Applied AI<br> Research Laboratory</span></div></div><p>Connecting domain knowledge<br> with applied AI research.</p></div>
-                <div class="home-about__copy"><h2 id="about-title">Human expertise belongs<br> in the loop.</h2><p>Specialized data needs specialized understanding. AAIR brings researchers, annotators, and reviewers into a shared environment where AI outputs can be checked against the source.</p><div class="home-about__values"><div><h3>Our mission</h3><p>Bridge domain expertise and artificial intelligence through a practical annotation and review workflow.</p></div><div><h3>Our direction</h3><p>Support the creation of carefully reviewed datasets for domain-specific AI research.</p></div></div><div class="home-research-focus"><h3>Research focus</h3><p>Financial document understanding, human–AI collaboration, and annotation quality.</p></div><a class="home-text-link" href="researchpaper.html">Explore research papers <span aria-hidden="true">↗</span></a></div>
+                <div class="home-about__identity">
+                    <div class="home-about__badge">
+                        <span class="home-signal" aria-hidden="true"></span>
+                        <span>APPLIED AI RESEARCH LABORATORY • HCMCOU</span>
+                    </div>
+                    <div class="home-about__mark">
+                        <img src="/resource/icon/brand/aair-logo.svg" alt="AAIR Lab Official Emblem" width="104" height="104" loading="lazy">
+                        <div>
+                            <strong>AAIR Lab</strong>
+                            <span>Applied AI Research Laboratory<br>Ho Chi Minh City Open University</span>
+                        </div>
+                    </div>
+                    <p class="home-about__tagline">Bridging domain-specific financial expertise with empirical foundation model research.</p>
+                    <div class="home-about__pillars">
+                        <div class="home-about__pillar">
+                            <span class="home-about__pillar-badge">INSTITUTIONAL ANCHOR</span>
+                            <p>Ho Chi Minh City Open University (HCMCOU)</p>
+                        </div>
+                        <div class="home-about__pillar">
+                            <span class="home-about__pillar-badge">CORE BENCHMARKS</span>
+                            <p>FinIE-LLM & VN-CorpBench Empirical Corpora</p>
+                        </div>
+                    </div>
+                    <div class="home-about__metrics">
+                        <div class="home-about__metric-pill">
+                            <strong>10+</strong>
+                            <span>Faculty & Scholars</span>
+                        </div>
+                        <div class="home-about__metric-pill">
+                            <strong>4</strong>
+                            <span>Core Initiatives</span>
+                        </div>
+                        <div class="home-about__metric-pill">
+                            <strong>100%</strong>
+                            <span>Source Provenance</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="home-about__copy">
+                    <p class="home-eyebrow">FOUNDATIONAL MISSION & SCIENTIFIC PRINCIPLES</p>
+                    <h2 id="about-title">Human Expertise Belongs in the Machine Learning Loop.</h2>
+                    <p>High-stakes financial document intelligence demands absolute factual fidelity. At AAIR Lab, we develop hybrid human-in-the-loop architectures where advanced multi-modal models are continuously calibrated, verified, and audited against ground-truth corporate evidence.</p>
+                    <div class="home-about__values">
+                        <div>
+                            <h3>Scientific Mission</h3>
+                            <p>To pioneer transparent, explainable document AI architectures that seamlessly integrate domain knowledge with foundation models, eliminating hallucinations in critical workflows.</p>
+                        </div>
+                        <div>
+                            <h3>Research Vision</h3>
+                            <p>To engineer open, high-fidelity benchmark datasets (e.g., VN-CorpBench, FinIE-LLM) that empower academic and industry researchers worldwide to evaluate model robustness.</p>
+                        </div>
+                    </div>
+                    <div class="home-research-focus">
+                        <h3>Active Research Thrusts</h3>
+                        <p>Multi-Modal Document Understanding (VLM) • Financial Knowledge Graphs & Ontological Grounding • Inter-Annotator Agreement Dynamics • Automated Audit Verification & Fraud Detection.</p>
+                    </div>
+                    <a class="home-text-link" href="researchpaper.html">Explore research papers & publications <span aria-hidden="true">↗</span></a>
+                </div>
             </div>
         </section>
         <section class="home-container home-cta" aria-labelledby="cta-title"><div><p class="home-eyebrow">YOUR NEXT REPORT STARTS HERE</p><h2 id="cta-title">Put knowledge into practice.</h2><p>Open your workspace and pick up where your team left off.</p></div><a class="home-button" href="signIn.html">Sign in to AAIR <span aria-hidden="true">↗</span></a></section>
     </main>
-    <footer class="home-footer"><div class="home-container"><div class="home-footer__main"><div><a class="home-brand" href="home.html" aria-label="AAIR Lab home"><img src="/resource/icon/brand/aair-logo.svg" alt="" width="32" height="32" loading="lazy"><span>AAIR<span class="home-brand__light"> Lab</span></span></a><p>Human expertise. Intelligent systems.<br> A shared space for applied AI research.</p></div><nav aria-label="Platform navigation"><h2>Platform</h2><a href="#features">Features</a><a href="#workflow">How it works</a><a href="signIn.html">Workspace</a></nav><nav aria-label="Laboratory navigation"><h2>Laboratory</h2><a href="#about">About AAIR</a><a href="researchpaper.html">Research papers</a><a href="contactus.html">Contact us</a></nav></div><div class="home-footer__bottom"><p>© <span id="homeYear">2026</span> AAIR Lab. All rights reserved.</p><div><a href="privacy.html">Privacy policy</a><a href="service.html">Terms of service</a></div></div></div></footer>
+    <footer class="home-footer"><div class="home-container"><div class="home-footer__main"><div><a class="home-brand" href="home.html" aria-label="AAIR Lab home"><img src="/resource/icon/brand/aair-logo.svg" alt="" width="32" height="32" loading="lazy"><span>AAIR<span class="home-brand__light"> Lab</span></span></a><p>Human expertise. Intelligent systems.<br> A shared space for applied AI research.</p></div><nav aria-label="Platform navigation"><h2>Platform</h2><a href="#features">Features</a><a href="#workflow">How it works</a><a href="signIn.html">Workspace</a></nav><nav aria-label="Laboratory navigation"><h2>Laboratory</h2><a href="#about">About AAIR</a><a href="#team">Team & Leadership</a><a href="researchpaper.html">Research papers</a><a href="contactus.html">Contact us</a></nav></div><div class="home-footer__bottom"><p>© <span id="homeYear">2026</span> AAIR Lab. All rights reserved.</p><div><a href="privacy.html">Privacy policy</a><a href="service.html">Terms of service</a></div></div></div></footer>
 </body>
 </html>

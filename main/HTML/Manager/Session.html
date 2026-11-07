@@ -85,17 +85,18 @@
         @media (max-width:900px) { .session-table { min-width:980px; } .session-page-heading { padding:0 2px; } }
     </style>
 
+    <link href="../../Style/jellykeyDesignSystem.css" rel="stylesheet">
 </head>
 
 <body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
 
     <!-- Fixed Header -->
     <header
-        class="fixed top-0 left-0 right-0 h-[50px] bg-normal border-b border-outline-variant flex items-center px-2 z-50">
+        class="fixed top-0 left-0 right-0 h-[58px] bg-normal border-b border-outline-variant flex items-center px-2 z-50">
 
         <!-- AAIR Logo -->
         <div class="flex items-center gap-2 mr-6">
-            <img src="/resource/icon/logo_remove_BG.png" alt="AAIR Lab Logo" class="h-8 w-auto">
+            <img src="/resource/icon/logo_remove_BG.png" alt="AAIR Lab Logo" class="h-8 w-auto" width="32" height="32" style="height:32px;width:auto;max-height:32px;object-fit:contain;">
 
             <h1 class="font-headline-sm text-[14px] font-bold text-primary">
                 AAIR Lab
@@ -217,9 +218,9 @@
 
     <!-- TopNavBar -->
     <header class="w-full h-12
-           flex items-center gap-3 px-lg
+           flex items-center gap-3 px-6
            bg-text-active border-b border-outline-variant
-           shadow-sm sticky top-[50px] z-30 mb-6">
+           shadow-sm sticky top-[58px] z-30 mb-6">
 
         <div class="relative flex-1 min-w-[240px] ">
             <span
@@ -284,31 +285,31 @@
                         <thead>
                             <tr class="bg-text-active">
                                 <th
-                                    class="px-lg py-md font-label-md text-outline border-b border-outline-variant/30 w-12 text-center">
+                                    class="px-6 py-md font-label-md text-outline border-b border-outline-variant/30 w-12 text-center">
                                     No.</th>
-                                <th class="px-lg py-md font-label-md text-outline border-b border-outline-variant/30">AI
+                                <th class="px-6 py-md font-label-md text-outline border-b border-outline-variant/30">AI
                                     Session</th>
-                                <th class="px-lg py-md font-label-md text-outline border-b border-outline-variant/30">AI
+                                <th class="px-6 py-md font-label-md text-outline border-b border-outline-variant/30">AI
                                     Model</th>
-                                <th class="px-lg py-md font-label-md text-outline border-b border-outline-variant/30">
+                                <th class="px-6 py-md font-label-md text-outline border-b border-outline-variant/30">
                                     Assigned Users</th>
                                 <th
-                                    class="px-lg py-md font-label-md text-outline border-b border-outline-variant/30 w-1/5">
+                                    class="px-6 py-md font-label-md text-outline border-b border-outline-variant/30 w-1/5">
                                     Progress</th>
-                                <th class="px-lg py-md font-label-md text-outline border-b border-outline-variant/30">
+                                <th class="px-6 py-md font-label-md text-outline border-b border-outline-variant/30">
                                     Status</th>
-                                <th class="px-lg py-md font-label-md text-outline border-b border-outline-variant/30">
+                                <th class="px-6 py-md font-label-md text-outline border-b border-outline-variant/30">
                                     Last Updated</th>
                                 <th
-                                    class="px-lg py-md font-label-md text-outline border-b border-outline-variant/30 text-right">
+                                    class="px-6 py-md font-label-md text-outline border-b border-outline-variant/30 text-right">
                                     Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-outline-variant/20">
                             <!-- Data populated from the sessions API -->
                             <tr class="hover:bg-surface-variant/10 transition-colors group">
-                                <td class="px-lg py-lg text-body-sm text-outline text-center">01</td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg text-body-sm text-outline text-center">01</td>
+                                <td class="px-6 py-lg">
                                     <div class="flex items-center gap-sm">
                                         <div
                                             class="w-8 h-8 rounded bg-primary-container/10 flex items-center justify-center text-primary">
@@ -317,12 +318,12 @@
                                         <span class="font-label-md text-on-surface">—</span>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <span
                                         class="font-code-sm text-code-sm px-sm py-1 bg-surface-container rounded-md">Gemma
                                         3</span>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <div class="flex items-center gap-xs">
                                         <span class="font-body-sm text-on-surface-variant">—</span>
                                         <div class="flex -space-x-2 ml-1">
@@ -335,7 +336,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <div class="space-y-xs">
                                         <div class="flex justify-between text-[11px] text-on-surface-variant">
                                             <span class="">Processing</span>
@@ -347,15 +348,15 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-medium bg-tertiary-container text-tertiary-fixed">
                                         <span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed mr-1.5"></span>
                                         Running
                                     </span>
                                 </td>
-                                <td class="px-lg py-lg text-body-sm text-on-surface-variant">10 min ago</td>
-                                <td class="px-lg py-lg text-right">
+                                <td class="px-6 py-lg text-body-sm text-on-surface-variant">10 min ago</td>
+                                <td class="px-6 py-lg text-right">
                                     <div class="flex items-center justify-end gap-xs">
                                         <button class="p-2 hover:bg-surface-variant rounded-lg text-primary"
                                             title="View"><span
@@ -372,8 +373,8 @@
 
                             <!-- Data populated from the sessions API -->
                             <tr class="hover:bg-surface-variant/10 transition-colors group">
-                                <td class="px-lg py-lg text-body-sm text-outline text-center">01</td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg text-body-sm text-outline text-center">01</td>
+                                <td class="px-6 py-lg">
                                     <div class="flex items-center gap-sm">
                                         <div
                                             class="w-8 h-8 rounded bg-primary-container/10 flex items-center justify-center text-primary">
@@ -382,12 +383,12 @@
                                         <span class="font-label-md text-on-surface">—</span>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <span
                                         class="font-code-sm text-code-sm px-sm py-1 bg-surface-container rounded-md">Gemma
                                         3</span>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <div class="flex items-center gap-xs">
                                         <span class="font-body-sm text-on-surface-variant">—</span>
                                         <div class="flex -space-x-2 ml-1">
@@ -400,7 +401,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <div class="space-y-xs">
                                         <div class="flex justify-between text-[11px] text-on-surface-variant">
                                             <span class="">Processing</span>
@@ -412,15 +413,15 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-medium bg-tertiary-container text-tertiary-fixed">
                                         <span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed mr-1.5"></span>
                                         Running
                                     </span>
                                 </td>
-                                <td class="px-lg py-lg text-body-sm text-on-surface-variant">10 min ago</td>
-                                <td class="px-lg py-lg text-right">
+                                <td class="px-6 py-lg text-body-sm text-on-surface-variant">10 min ago</td>
+                                <td class="px-6 py-lg text-right">
                                     <div class="flex items-center justify-end gap-xs">
                                         <button class="p-2 hover:bg-surface-variant rounded-lg text-primary"
                                             title="View"><span
@@ -437,8 +438,8 @@
 
                             <!-- Data populated from the sessions API -->
                             <tr class="hover:bg-surface-variant/10 transition-colors group">
-                                <td class="px-lg py-lg text-body-sm text-outline text-center">01</td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg text-body-sm text-outline text-center">01</td>
+                                <td class="px-6 py-lg">
                                     <div class="flex items-center gap-sm">
                                         <div
                                             class="w-8 h-8 rounded bg-primary-container/10 flex items-center justify-center text-primary">
@@ -447,12 +448,12 @@
                                         <span class="font-label-md text-on-surface">—</span>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <span
                                         class="font-code-sm text-code-sm px-sm py-1 bg-surface-container rounded-md">Gemma
                                         3</span>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <div class="flex items-center gap-xs">
                                         <span class="font-body-sm text-on-surface-variant">—</span>
                                         <div class="flex -space-x-2 ml-1">
@@ -465,7 +466,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <div class="space-y-xs">
                                         <div class="flex justify-between text-[11px] text-on-surface-variant">
                                             <span class="">Processing</span>
@@ -477,15 +478,15 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-medium bg-tertiary-container text-tertiary-fixed">
                                         <span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed mr-1.5"></span>
                                         Running
                                     </span>
                                 </td>
-                                <td class="px-lg py-lg text-body-sm text-on-surface-variant">10 min ago</td>
-                                <td class="px-lg py-lg text-right">
+                                <td class="px-6 py-lg text-body-sm text-on-surface-variant">10 min ago</td>
+                                <td class="px-6 py-lg text-right">
                                     <div class="flex items-center justify-end gap-xs">
                                         <button class="p-2 hover:bg-surface-variant rounded-lg text-primary"
                                             title="View"><span
@@ -502,8 +503,8 @@
 
                             <!-- Data populated from the sessions API -->
                             <tr class="hover:bg-surface-variant/10 transition-colors group">
-                                <td class="px-lg py-lg text-body-sm text-outline text-center">01</td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg text-body-sm text-outline text-center">01</td>
+                                <td class="px-6 py-lg">
                                     <div class="flex items-center gap-sm">
                                         <div
                                             class="w-8 h-8 rounded bg-primary-container/10 flex items-center justify-center text-primary">
@@ -512,12 +513,12 @@
                                         <span class="font-label-md text-on-surface">—</span>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <span
                                         class="font-code-sm text-code-sm px-sm py-1 bg-surface-container rounded-md">Gemma
                                         3</span>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <div class="flex items-center gap-xs">
                                         <span class="font-body-sm text-on-surface-variant">—</span>
                                         <div class="flex -space-x-2 ml-1">
@@ -530,7 +531,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <div class="space-y-xs">
                                         <div class="flex justify-between text-[11px] text-on-surface-variant">
                                             <span class="">Processing</span>
@@ -542,15 +543,15 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-medium bg-tertiary-container text-tertiary-fixed">
                                         <span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed mr-1.5"></span>
                                         Running
                                     </span>
                                 </td>
-                                <td class="px-lg py-lg text-body-sm text-on-surface-variant">10 min ago</td>
-                                <td class="px-lg py-lg text-right">
+                                <td class="px-6 py-lg text-body-sm text-on-surface-variant">10 min ago</td>
+                                <td class="px-6 py-lg text-right">
                                     <div class="flex items-center justify-end gap-xs">
                                         <button class="p-2 hover:bg-surface-variant rounded-lg text-primary"
                                             title="View"><span
@@ -567,8 +568,8 @@
 
                             <!-- Data populated from the sessions API -->
                             <tr class="hover:bg-surface-variant/10 transition-colors group">
-                                <td class="px-lg py-lg text-body-sm text-outline text-center">01</td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg text-body-sm text-outline text-center">01</td>
+                                <td class="px-6 py-lg">
                                     <div class="flex items-center gap-sm">
                                         <div
                                             class="w-8 h-8 rounded bg-primary-container/10 flex items-center justify-center text-primary">
@@ -577,12 +578,12 @@
                                         <span class="font-label-md text-on-surface">—</span>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <span
                                         class="font-code-sm text-code-sm px-sm py-1 bg-surface-container rounded-md">Gemma
                                         3</span>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <div class="flex items-center gap-xs">
                                         <span class="font-body-sm text-on-surface-variant">—</span>
                                         <div class="flex -space-x-2 ml-1">
@@ -595,7 +596,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <div class="space-y-xs">
                                         <div class="flex justify-between text-[11px] text-on-surface-variant">
                                             <span class="">Processing</span>
@@ -607,15 +608,15 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-medium bg-tertiary-container text-tertiary-fixed">
                                         <span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed mr-1.5"></span>
                                         Running
                                     </span>
                                 </td>
-                                <td class="px-lg py-lg text-body-sm text-on-surface-variant">10 min ago</td>
-                                <td class="px-lg py-lg text-right">
+                                <td class="px-6 py-lg text-body-sm text-on-surface-variant">10 min ago</td>
+                                <td class="px-6 py-lg text-right">
                                     <div class="flex items-center justify-end gap-xs">
                                         <button class="p-2 hover:bg-surface-variant rounded-lg text-primary"
                                             title="View"><span
@@ -632,8 +633,8 @@
 
                             <!-- Data populated from the sessions API -->
                             <tr class="hover:bg-surface-variant/10 transition-colors group">
-                                <td class="px-lg py-lg text-body-sm text-outline text-center">01</td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg text-body-sm text-outline text-center">01</td>
+                                <td class="px-6 py-lg">
                                     <div class="flex items-center gap-sm">
                                         <div
                                             class="w-8 h-8 rounded bg-primary-container/10 flex items-center justify-center text-primary">
@@ -642,12 +643,12 @@
                                         <span class="font-label-md text-on-surface">—</span>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <span
                                         class="font-code-sm text-code-sm px-sm py-1 bg-surface-container rounded-md">Gemma
                                         3</span>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <div class="flex items-center gap-xs">
                                         <span class="font-body-sm text-on-surface-variant">—</span>
                                         <div class="flex -space-x-2 ml-1">
@@ -660,7 +661,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <div class="space-y-xs">
                                         <div class="flex justify-between text-[11px] text-on-surface-variant">
                                             <span class="">Processing</span>
@@ -672,15 +673,15 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-medium bg-tertiary-container text-tertiary-fixed">
                                         <span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed mr-1.5"></span>
                                         Running
                                     </span>
                                 </td>
-                                <td class="px-lg py-lg text-body-sm text-on-surface-variant">10 min ago</td>
-                                <td class="px-lg py-lg text-right">
+                                <td class="px-6 py-lg text-body-sm text-on-surface-variant">10 min ago</td>
+                                <td class="px-6 py-lg text-right">
                                     <div class="flex items-center justify-end gap-xs">
                                         <button class="p-2 hover:bg-surface-variant rounded-lg text-primary"
                                             title="View"><span
@@ -697,8 +698,8 @@
 
                             <!-- Data populated from the sessions API -->
                             <tr class="hover:bg-surface-variant/10 transition-colors group">
-                                <td class="px-lg py-lg text-body-sm text-outline text-center">02</td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg text-body-sm text-outline text-center">02</td>
+                                <td class="px-6 py-lg">
                                     <div class="flex items-center gap-sm">
                                         <div
                                             class="w-8 h-8 rounded bg-secondary-container/10 flex items-center justify-center text-secondary">
@@ -707,16 +708,16 @@
                                         <span class="font-label-md text-on-surface">—</span>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <span
                                         class="font-code-sm text-code-sm px-sm py-1 bg-surface-container rounded-md">GPT-4</span>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <div class="flex items-center gap-xs">
                                         <span class="font-body-sm text-on-surface-variant">6 Users</span>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <div class="space-y-xs">
                                         <div class="flex justify-between text-[11px] text-on-surface-variant">
                                             <span class="">Done</span>
@@ -727,15 +728,15 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-lg py-lg">
+                                <td class="px-6 py-lg">
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-medium bg-tertiary-fixed/30 text-tertiary">
                                         <span class="material-symbols-outlined text-[14px] mr-1">check_circle</span>
                                         Completed
                                     </span>
                                 </td>
-                                <td class="px-lg py-lg text-body-sm text-on-surface-variant">2 hours ago</td>
-                                <td class="px-lg py-lg text-right">
+                                <td class="px-6 py-lg text-body-sm text-on-surface-variant">2 hours ago</td>
+                                <td class="px-6 py-lg text-right">
                                     <div class="flex items-center justify-end gap-xs">
                                         <button class="p-2 hover:bg-surface-variant rounded-lg text-primary"
                                             title="View"><span
@@ -754,7 +755,7 @@
                 </div>
 
                 <!-- Empty State Logic (Hidden by default but present for logic) -->
-                <div class="hidden flex flex-col items-center justify-center py-3xl px-lg text-center space-y-md">
+                <div class="hidden flex flex-col items-center justify-center py-3xl px-6 text-center space-y-md">
                     <div
                         class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center text-outline-variant">
                         <span class="material-symbols-outlined text-[48px]">folder_off</span>
@@ -765,7 +766,7 @@
                             begin annotating company economic reports.</p>
                     </div>
                     <button
-                        class="flex items-center gap-sm px-lg py-sm rounded-xl primary-gradient text-white font-label-md">
+                        class="flex items-center gap-sm px-6 py-sm rounded-xl primary-gradient text-white font-label-md">
                         <span class="material-symbols-outlined">add</span>
                         Create First Session
                     </button>

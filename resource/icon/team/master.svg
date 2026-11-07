@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="msBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="50%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="msFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff1eb"/>
+      <stop offset="100%" stop-color="#fdd5be"/>
+    </linearGradient>
+  </defs>
+  <circle cx="80" cy="80" r="78" fill="url(#msBg)"/>
+  <circle cx="80" cy="80" r="74" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <!-- Hair back -->
+  <path d="M48 60 C48 95 53 118 53 118 C53 118 107 118 107 118 C107 118 112 95 112 60 C112 30 102 24 80 24 C58 24 48 30 48 60 Z" fill="#292524"/>
+  <!-- Body / Emerald Cardigan -->
+  <path d="M30 152 C30 120 54 112 80 112 C106 112 130 120 130 152 Z" fill="#047857"/>
+  <!-- Top -->
+  <path d="M70 112 Q80 126 90 112 Z" fill="#ecfdf5"/>
+  <rect x="73" y="93" width="14" height="20" rx="3" fill="#fdd5be"/>
+  <!-- Head -->
+  <ellipse cx="80" cy="70" rx="24" ry="29" fill="url(#msFace)"/>
+  <!-- Hair Front -->
+  <path d="M52 54 C54 36 66 28 80 28 C94 28 106 36 108 54 C104 42 90 38 80 38 C70 38 56 42 52 54 Z" fill="#292524"/>
+  <!-- Delicate Glasses -->
+  <rect x="63" y="61" width="14" height="10" rx="3" fill="none" stroke="#047857" stroke-width="1.8"/>
+  <rect x="83" y="61" width="14" height="10" rx="3" fill="none" stroke="#047857" stroke-width="1.8"/>
+  <line x1="77" y1="66" x2="83" y2="66" stroke="#047857" stroke-width="1.8"/>
+  <circle cx="70" cy="66" r="2.1" fill="#292524"/>
+  <circle cx="90" cy="66" r="2.1" fill="#292524"/>
+  <!-- Smile -->
+  <path d="M75 84 Q80 88 85 84" fill="none" stroke="#e11d48" stroke-width="2" stroke-linecap="round"/>
+</svg>

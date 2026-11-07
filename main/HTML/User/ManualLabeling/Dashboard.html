@@ -90,6 +90,7 @@
     </style>
     <link href="../../../Style/dashboardKpi.css" rel="stylesheet" />
 
+    <link href="../../../Style/jellykeyDesignSystem.css" rel="stylesheet">
 </head>
 
 <body class="manual-labeling-dashboard bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
@@ -98,7 +99,7 @@
 
     <!-- TopNavBar -->
     <header class="w-full h-12
-           flex items-center px-lg
+           flex items-center px-6
            bg-text-active border-b border-outline-variant
            shadow-sm sticky top-[58px] z-30 mb-6">
 
@@ -147,7 +148,7 @@
             </section>
             <section class="my-tasks" aria-labelledby="myTasksTitle">
                 <div class="my-tasks__head"><div><h2 id="myTasksTitle">My Tasks</h2><p>Priority files are shown first. “Submitted” means your work is waiting for reviewer approval.</p></div><a href="ViewAll.html" class="text-primary text-[13px] font-semibold hover:underline">View all tasks →</a></div>
-                <div class="overflow-x-auto"><table><thead><tr><th>Document</th><th>Session</th><th>Status</th><th>Due</th><th>Updated</th><th>Action</th></tr></thead><tbody id="myTasksBody"><tr><td colspan="6">Loading tasks…</td></tr></tbody></table></div>
+                <div class="overflow-x-auto"><table><thead><tr><th>Document</th><th>Session</th><th>Status</th><th>Due</th><th>Updated</th><th>Action</th></tr></thead><tbody id="myTasksBody"><tr class="aair-skeleton-row"><td class="px-4 py-3.5"><div class="aair-skeleton-shimmer-bar" style="width:75%;"></div></td><td class="px-4 py-3.5"><div class="aair-skeleton-shimmer-bar" style="width:50%;"></div></td><td class="px-4 py-3.5"><div class="aair-skeleton-shimmer-bar" style="width:40%;"></div></td><td class="px-4 py-3.5"><div class="aair-skeleton-shimmer-bar" style="width:60%;"></div></td><td class="px-4 py-3.5"><div class="aair-skeleton-shimmer-bar" style="width:55%;"></div></td><td class="px-4 py-3.5"><div class="aair-skeleton-shimmer-bar" style="width:45%;"></div></td></tr><tr class="aair-skeleton-row"><td class="px-4 py-3.5"><div class="aair-skeleton-shimmer-bar" style="width:60%;"></div></td><td class="px-4 py-3.5"><div class="aair-skeleton-shimmer-bar" style="width:65%;"></div></td><td class="px-4 py-3.5"><div class="aair-skeleton-shimmer-bar" style="width:45%;"></div></td><td class="px-4 py-3.5"><div class="aair-skeleton-shimmer-bar" style="width:70%;"></div></td><td class="px-4 py-3.5"><div class="aair-skeleton-shimmer-bar" style="width:50%;"></div></td><td class="px-4 py-3.5"><div class="aair-skeleton-shimmer-bar" style="width:40%;"></div></td></tr></tbody></table></div>
             </section>
         </main>
     </div>

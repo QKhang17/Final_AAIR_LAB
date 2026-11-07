@@ -1527,3 +1527,34 @@ a {
 .aair-table-secondary, .aair-table-time, .aair-table-details { font-size: 13px !important; line-height: 1.35 !important; font-weight: 400 !important; color: #718096 !important; }
 .aair-badge { font-size: 12px !important; line-height: 1.25 !important; font-weight: 600 !important; }
 .aair-resource, .aair-id { font-family: "JetBrains Mono", "Cascadia Mono", Consolas, monospace !important; font-size: 13px !important; color: #1263c9 !important; }
+
+
+.custom-gradient-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(105deg, #1d4ed8 0%, #0066CC 55%, #0e9f9a 100%);
+  color: #ffffff !important;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.custom-gradient-btn:hover:not(:disabled) {
+  background: linear-gradient(105deg, #1d4ed8 0%, #0066CC 50%, #00A3B5 100%);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.32), 0 0 18px rgba(0, 163, 181, 0.35);
+  transform: translateY(-1.5px);
+}
+
+.custom-gradient-btn:active:not(:disabled) {
+  transform: translateY(1px) scale(0.985);
+  box-shadow: 0 3px 8px rgba(29, 78, 216, 0.3);
+}

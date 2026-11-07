@@ -490,7 +490,7 @@ public class WorkspaceService {
             db.update("UPDATE users SET role='REVIEWER' WHERE id=? AND role='USER'", r.reviewerId());
         } else {
             db.update("UPDATE users SET role='AI_LABELER' WHERE id=? AND role='USER'", r.aiLabelerId());
-            db.update("UPDATE users SET role='RESULT_ANALYST' WHERE id=? AND role='USER'", r.reviewerId());
+            db.update("UPDATE users SET role='REVIEWER' WHERE id=? AND role='USER'", r.reviewerId());
         }
     }
 
@@ -537,7 +537,7 @@ public class WorkspaceService {
 
             // 4. Validate user roles & 5. Validate active users
             validateAssignmentUser(r.aiLabelerId(), "AI_LABELER");
-            validateAssignmentUser(r.reviewerId(), "RESULT_ANALYST");
+            validateAssignmentUser(r.reviewerId(), "REVIEWER", "RESULT_ANALYST");
 
             // 6. Validate previous-session availability
             validateUserAvailability(r.aiLabelerId());
@@ -550,14 +550,16 @@ public class WorkspaceService {
                 "A user cannot have multiple functions in the same session.");
     }
 
-    private void validateAssignmentUser(Long userId, String expectedRole) {
+    private void validateAssignmentUser(Long userId, String... expectedRoles) {
         valid(userId != null, "User ID không được để trống");
         var rows = db.queryForList("SELECT id, username, role, is_active FROM users WHERE id=?", userId);
         valid(!rows.isEmpty(), "User " + userId + " không tồn tại");
         var u = rows.getFirst();
         String identifier = u.get("username") != null ? String.valueOf(u.get("username")) : String.valueOf(userId);
-        valid(Objects.equals(u.get("role"), expectedRole) || Objects.equals(u.get("role"), "USER"),
-                "User " + identifier + " must have role USER or " + expectedRole + ".");
+        java.util.Set<String> allowed = new java.util.HashSet<>(java.util.Arrays.asList(expectedRoles));
+        allowed.add("USER");
+        valid(allowed.contains(String.valueOf(u.get("role"))),
+                "User " + identifier + " must have role USER or " + String.join(" or ", expectedRoles) + ".");
         valid(Boolean.TRUE.equals(u.get("is_active")), "User " + identifier + " is inactive.");
     }
 

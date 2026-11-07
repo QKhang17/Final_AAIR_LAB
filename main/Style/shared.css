@@ -1,6 +1,7 @@
+@import url('./jellykeyDesignSystem.css');
 :root {
-  --aa-primary: #079bc5;
-  --aa-primary-dark: #087da7;
+  --aa-primary: #0A3D91;
+  --aa-primary-dark: #0066CC;
   --aa-text: #172031;
   --aa-muted: #5f7082;
   --aa-border: #c8d4df;

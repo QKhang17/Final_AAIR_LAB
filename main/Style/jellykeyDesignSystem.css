@@ -1,0 +1,1346 @@
+/* ==========================================================================
+   AAIR LAB x JELLY KEY DESIGN SYSTEM: ANIMATIONS & TACTILE BUTTONS
+   Inspired by Artisan Resin Keycap Craftsmanship & Precision Engineering
+   Brand Guidelines: AAIR Lab (Applied AI Research Laboratory)
+   ========================================================================== */
+
+:root {
+  /* --- AAIR Brand Core Palette --- */
+  --aair-navy: #0A3D91;           /* Knowledge Graph - Foundation */
+  --aair-blue: #0066CC;           /* Artificial Intelligence - Cobalt */
+  --aair-cyan: #00A3B5;           /* Intelligent Solutions - Teal/Cyan */
+  --aair-green: #22B573;          /* Quality & Trust - Emerald */
+  
+  /* --- AAIR Neutral Palette --- */
+  --aair-charcoal: #1F2937;       /* Dark Obsidian */
+  --aair-slate: #4B5563;          /* Secondary Text */
+  --aair-gray: #9CA3AF;           /* Muted / Caption */
+  --aair-border: #E5E7EB;         /* Subtle Border */
+  --aair-bg: #F5F7FA;             /* Surface / Canvas */
+  --aair-white: #FFFFFF;
+
+  /* --- Jelly Key Artisan Gradients (Resin Depth) --- */
+  --jelly-gradient-primary: linear-gradient(135deg, #0A3D91 0%, #0066CC 55%, #00A3B5 100%);
+  --jelly-gradient-hover: linear-gradient(135deg, #0d4ab0 0%, #0077ee 55%, #00bcd4 100%);
+  --jelly-gradient-cyan: linear-gradient(135deg, #0066CC 0%, #00A3B5 100%);
+  --jelly-gradient-emerald: linear-gradient(135deg, #00A3B5 0%, #22B573 100%);
+  --jelly-gradient-dark: linear-gradient(145deg, #1F2937 0%, #111827 100%);
+  --jelly-gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(245, 247, 250, 0.78) 100%);
+
+  /* --- Tactile Mechanical Physics & Springs --- */
+  --jelly-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --jelly-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --jelly-transition: all 0.22s var(--jelly-spring);
+
+  /* --- Tactile Elevation & Luminous Glows --- */
+  --jelly-depth-sm: 0 2px 0 rgba(10, 61, 145, 0.2), 0 3px 6px rgba(10, 61, 145, 0.08);
+  --jelly-depth-md: 0 3px 0 rgba(10, 61, 145, 0.28), 0 6px 16px -2px rgba(10, 61, 145, 0.18);
+  --jelly-depth-hover: 0 4px 0 rgba(10, 61, 145, 0.32), 0 12px 24px -4px rgba(0, 163, 181, 0.38);
+  --jelly-depth-active: 0 1px 0 rgba(10, 61, 145, 0.4), 0 2px 4px rgba(10, 61, 145, 0.15);
+  
+  --jelly-glow-cyan: 0 0 22px rgba(0, 163, 181, 0.45);
+  --jelly-glow-blue: 0 0 24px rgba(0, 102, 204, 0.45);
+  --jelly-glow-green: 0 0 20px rgba(34, 181, 115, 0.4);
+}
+
+/* ==========================================================================
+   KEYFRAME ANIMATIONS (SHIMMER, PULSE, KEYPRESS, FLOAT)
+   ========================================================================== */
+
+/* Shimmer sweep mimicking light reflecting across polished artisan resin */
+@keyframes jelly-shimmer {
+  0% { transform: translateX(-150%) skewX(-20deg); }
+  35%, 100% { transform: translateX(250%) skewX(-20deg); }
+}
+
+/* Rhythmic breathing glow for status dots, active elements, live AI status */
+@keyframes jelly-glow-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 163, 181, 0.55), 0 0 8px rgba(0, 163, 181, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(0, 163, 181, 0), 0 0 14px rgba(0, 163, 181, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 163, 181, 0), 0 0 8px rgba(0, 163, 181, 0.4);
+  }
+}
+
+/* Green breathing pulse for verified / approved tasks */
+@keyframes jelly-green-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(34, 181, 115, 0.6), 0 0 8px rgba(34, 181, 115, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(34, 181, 115, 0), 0 0 14px rgba(34, 181, 115, 0.15);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 181, 115, 0), 0 0 8px rgba(34, 181, 115, 0.4);
+  }
+}
+
+/* Float animation for showcases, badges, keycap cards */
+@keyframes jelly-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Silky spinner for AI running & loading states */
+@keyframes jelly-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   JELLY KEY SIGNATURE TACTILE BUTTONS (CORE SYSTEM)
+   ========================================================================== */
+
+/* Base Tactile Button Standard */
+.btn-jelly-base,
+.login-submit,
+.task-toolbar-button,
+.approve-button,
+.primary-button,
+.aa-button,
+.term-button,
+.aair-header-logout-btn,
+button.manual-navbar__logout,
+.aair-navbar__logout,
+#raLogout,
+#logoutButton,
+.review-case-form button,
+#managerRefresh,
+#refreshDashboard,
+#analystRefresh,
+#dashboardRefresh,
+#adminRefreshLog {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 650;
+  text-decoration: none !important;
+  cursor: pointer;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  
+  /* Tactile switch spring physics */
+  transition: transform 0.18s var(--jelly-spring),
+              box-shadow 0.22s var(--jelly-spring),
+              background 0.22s ease,
+              border-color 0.22s ease,
+              filter 0.18s ease;
+  will-change: transform, box-shadow;
+}
+
+/* Top-edge polished resin light reflection */
+.btn-jelly-base::before,
+.login-submit::before,
+.task-toolbar-button--submit::before,
+.approve-button::before,
+.primary-button::before,
+.aa-button::before,
+.aair-header-logout-btn::before,
+button.manual-navbar__logout::before,
+.aair-navbar__logout::before,
+#raLogout::before,
+#logoutButton::before,
+.review-case-form button::before,
+#managerRefresh::before,
+#refreshDashboard::before,
+#analystRefresh::before,
+#dashboardRefresh::before,
+#adminRefreshLog::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 0.45) 30%, 
+    rgba(255, 255, 255, 0.8) 50%, 
+    rgba(255, 255, 255, 0.45) 70%, 
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  border-radius: 8px 8px 0 0;
+}
+
+/* Ambient Shimmer Sweep across the button surface */
+.btn-jelly-base::after,
+.login-submit::after,
+.task-toolbar-button--submit::after,
+.approve-button::after,
+.aair-header-logout-btn::after,
+button.manual-navbar__logout::after,
+.aair-navbar__logout::after,
+#raLogout::after,
+#logoutButton::after,
+.review-case-form button::after,
+#managerRefresh::after,
+#refreshDashboard::after,
+#analystRefresh::after,
+#dashboardRefresh::after,
+#adminRefreshLog::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.22) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-180%) skewX(-20deg);
+  pointer-events: none;
+}
+
+/* Trigger shimmer on hover */
+.btn-jelly-base:hover:not(:disabled)::after,
+.login-submit:hover:not(:disabled)::after,
+.task-toolbar-button--submit:hover:not(:disabled)::after,
+.approve-button:hover:not(:disabled)::after,
+.aair-header-logout-btn:hover::after,
+button.manual-navbar__logout:hover::after,
+.aair-navbar__logout:hover::after,
+#raLogout:hover::after,
+#logoutButton:hover::after,
+.review-case-form button:hover:not(:disabled)::after,
+#managerRefresh:hover:not(:disabled)::after,
+#refreshDashboard:hover:not(:disabled)::after,
+#analystRefresh:hover:not(:disabled)::after,
+#dashboardRefresh:hover:not(:disabled)::after,
+#adminRefreshLog:hover:not(:disabled)::after {
+  animation: jelly-shimmer 1.8s infinite ease-in-out;
+}
+
+/* Tactile Keycap Hover Lift */
+.btn-jelly-base:hover:not(:disabled),
+.login-submit:hover:not(:disabled),
+.task-toolbar-button--submit:hover:not(:disabled),
+.approve-button:hover:not(:disabled),
+.primary-button:hover:not(:disabled),
+.review-case-form button:hover:not(:disabled),
+#managerRefresh:hover:not(:disabled),
+#refreshDashboard:hover:not(:disabled),
+#analystRefresh:hover:not(:disabled),
+#dashboardRefresh:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.008);
+  box-shadow: var(--jelly-depth-hover);
+}
+
+/* Tactile Mechanical Switch Press (Physical Depression) */
+.btn-jelly-base:active:not(:disabled),
+.login-submit:active:not(:disabled),
+.task-toolbar-button:active:not(:disabled),
+.approve-button:active:not(:disabled),
+.primary-button:active:not(:disabled),
+.aa-button:active:not(:disabled),
+.term-button:active:not(:disabled),
+.aair-header-logout-btn:active,
+button.manual-navbar__logout:active,
+.aair-navbar__logout:active,
+#raLogout:active,
+#logoutButton:active,
+.review-case-form button:active:not(:disabled),
+#managerRefresh:active:not(:disabled),
+#refreshDashboard:active:not(:disabled),
+#analystRefresh:active:not(:disabled),
+#dashboardRefresh:active:not(:disabled),
+#adminRefreshLog:active:not(:disabled) {
+  transform: translateY(1.8px) scale(0.985) !important;
+  box-shadow: var(--jelly-depth-active) !important;
+  transition-duration: 0.08s !important;
+}
+
+/* ==========================================================================
+   ROLE-SPECIFIC BUTTONS & UI REFINEMENTS
+   ========================================================================== */
+
+/* 1. HEADER PROFILE CARD & REFINED SINGLE LOGOUT BUTTON */
+header.fixed.top-0 .ml-auto.flex.items-center,
+header.manual-navbar .manual-navbar__account,
+.aair-navbar .aair-navbar__account,
+.aair-navbar__account {
+  display: flex !important;
+  align-items: center !important;
+  padding: 3px 6px 3px 10px !important;
+  border-radius: 12px !important;
+  background: rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  backdrop-filter: blur(8px) !important;
+}
+header.w-full .ml-auto.flex.items-center,
+.function-toolbar .ml-auto.flex.items-center {
+  background: transparent !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  padding: 0 !important;
+}
+
+
+/* The Single, Sleek Acrylic Logout Keycap Button across all templates */
+.aair-header-logout-btn,
+button.manual-navbar__logout,
+.aair-navbar__logout,
+#raLogout,
+#logoutButton {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 32px !important;
+  padding: 0 14px !important;
+  margin-left: 8px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.16) !important;
+  backdrop-filter: blur(10px) !important;
+  color: #ffffff !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  transition: all 0.2s var(--jelly-spring) !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+}
+
+.aair-header-logout-btn:hover,
+button.manual-navbar__logout:hover,
+.aair-navbar__logout:hover,
+#raLogout:hover,
+#logoutButton:hover {
+  background: rgba(255, 255, 255, 0.28) !important;
+  border-color: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 4px 16px rgba(0, 163, 181, 0.4), inset 0 1px 0 #ffffff !important;
+  transform: translateY(-1.5px) scale(1.02) !important;
+  color: #ffffff !important;
+}
+
+.aair-header-logout-btn:active,
+button.manual-navbar__logout:active,
+.aair-navbar__logout:active,
+#raLogout:active,
+#logoutButton:active {
+  transform: translateY(1px) scale(0.97) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* 2. REFRESH BUTTONS ACROSS ALL ROLES */
+#managerRefresh,
+#refreshDashboard,
+#analystRefresh,
+#dashboardRefresh,
+button[id*="Refresh"],
+button[id*="refresh"] {
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0 16px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(0, 163, 181, 0.4) !important;
+  background: var(--jelly-gradient-primary) !important;
+  color: #ffffff !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  box-shadow: var(--jelly-depth-sm) !important;
+}
+
+#managerRefresh:hover,
+#refreshDashboard:hover,
+#analystRefresh:hover,
+#dashboardRefresh:hover,
+button[id*="Refresh"]:hover,
+button[id*="refresh"]:hover {
+  background: var(--jelly-gradient-hover) !important;
+  box-shadow: var(--jelly-depth-hover) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+}
+
+/* Spin animation on hover for refresh icon */
+#managerRefresh:hover .material-symbols-outlined,
+#refreshDashboard:hover .material-symbols-outlined,
+#analystRefresh:hover .material-symbols-outlined,
+#dashboardRefresh:hover .material-symbols-outlined,
+button[id*="Refresh"]:hover .material-symbols-outlined,
+button[id*="refresh"]:hover .material-symbols-outlined {
+  transform: rotate(180deg);
+  transition: transform 0.45s var(--jelly-bounce);
+}
+
+/* 3. TIME AND FILTER DROPDOWNS (FIX OVERLAPPING TEXT BUG) */
+.manager-time-select,
+#managerTimeFilter,
+#analystRangeSelect,
+#statsSession,
+#statsMode,
+.filter-select,
+.admin-filter-select,
+select.filter-select,
+select[aria-label*="range"],
+select[aria-label*="Filter"],
+select[aria-label*="filter"],
+select[aria-label*="Time"] {
+  height: 38px !important;
+  min-height: 38px !important;
+  min-width: 145px !important;
+  padding-left: 14px !important;
+  padding-right: 38px !important; /* Plenty of room so text NEVER overlaps the arrow */
+  border-radius: 8px !important;
+  border: 1px solid #cbd5e1 !important;
+  background-color: #ffffff !important;
+  color: #1f2937 !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), inset 0 1px 0 #ffffff !important;
+  transition: all 0.2s var(--jelly-spring) !important;
+  
+  /* Modern clean chevron arrow positioned strictly at right: 12px */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%230066CC' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3E%3C/svg%3E") !important;
+  background-position: right 12px center !important;
+  background-repeat: no-repeat !important;
+  background-size: 15px 15px !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+.manager-time-select:hover,
+#managerTimeFilter:hover,
+#analystRangeSelect:hover,
+#statsSession:hover,
+#statsMode:hover,
+.filter-select:hover,
+.admin-filter-select:hover {
+  border-color: var(--aair-cyan) !important;
+  box-shadow: 0 0 0 1px var(--aair-cyan), 0 3px 8px rgba(0, 163, 181, 0.15) !important;
+}
+
+.manager-time-select:focus,
+#managerTimeFilter:focus,
+#analystRangeSelect:focus,
+#statsSession:focus,
+#statsMode:focus,
+.filter-select:focus,
+.admin-filter-select:focus {
+  outline: none !important;
+  border-color: var(--aair-blue) !important;
+  box-shadow: 0 0 0 3px rgba(0, 163, 181, 0.25) !important;
+}
+
+/* 4. ADMIN ROLE BUTTONS */
+.admin-audit-expand,
+.permission-action-toggle,
+button[data-sort] {
+  transition: var(--jelly-transition);
+}
+
+.admin-audit-expand:hover {
+  background: #e0f2fe !important;
+  color: var(--aair-blue) !important;
+  transform: translateY(-1px);
+}
+
+/* 5. MANAGER ROLE WORKFLOW BUTTONS */
+.review-case-form button {
+  height: 40px !important;
+  background: var(--jelly-gradient-primary) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+  box-shadow: var(--jelly-depth-sm) !important;
+}
+
+.review-case-form button:hover:not(:disabled) {
+  background: var(--jelly-gradient-hover) !important;
+  box-shadow: var(--jelly-depth-hover) !important;
+}
+
+.manager-icon-button {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 8px !important;
+  border: 1px solid #cbd5e1 !important;
+  background: #ffffff !important;
+  color: var(--aair-blue) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
+  transition: var(--jelly-transition) !important;
+}
+
+.manager-icon-button:hover {
+  border-color: var(--aair-cyan) !important;
+  color: var(--aair-navy) !important;
+  background: #f0f9fc !important;
+  box-shadow: 0 4px 10px rgba(0, 163, 181, 0.2) !important;
+  transform: translateY(-1.5px) scale(1.05) !important;
+}
+
+/* 6. AI & MANUAL LABELER BUTTONS */
+.task-toolbar-button--run {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9fc 100%) !important;
+  color: var(--aair-navy) !important;
+  border: 1.5px solid var(--aair-cyan) !important;
+  box-shadow: 0 2px 0 rgba(0, 163, 181, 0.2), 0 3px 8px rgba(0, 163, 181, 0.12) !important;
+  font-weight: 700 !important;
+}
+
+.task-toolbar-button--run:hover:not(:disabled) {
+  background: linear-gradient(135deg, #e6f7fa 0%, #d0f0f7 100%) !important;
+  color: var(--aair-blue) !important;
+  border-color: var(--aair-blue) !important;
+  box-shadow: 0 4px 14px rgba(0, 163, 181, 0.35) !important;
+  transform: translateY(-1.5px);
+}
+
+.task-toolbar-button--run.is-running {
+  animation: jelly-glow-pulse 1.4s infinite !important;
+  border-color: var(--aair-cyan) !important;
+}
+
+.task-toolbar-button--run.is-running .material-symbols-outlined {
+  animation: jelly-spin 1s linear infinite;
+}
+
+.task-toolbar-button--save {
+  background: #ffffff !important;
+  color: var(--aair-slate) !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 2px 0 #e2e8f0, 0 2px 4px rgba(0,0,0,0.04) !important;
+  font-weight: 650 !important;
+}
+
+.task-toolbar-button--save.is-dirty:not(:disabled) {
+  border-color: var(--aair-cyan) !important;
+  color: var(--aair-navy) !important;
+  background: #edf8fb !important;
+  box-shadow: 0 2px 0 rgba(0, 163, 181, 0.25), 0 4px 10px rgba(0, 163, 181, 0.15) !important;
+  animation: jelly-glow-pulse 2.2s infinite;
+}
+
+.task-toolbar-button--submit,
+.manual-submit-button {
+  background: var(--jelly-gradient-primary) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(0, 163, 181, 0.4) !important;
+  box-shadow: var(--jelly-depth-sm) !important;
+  font-weight: 700 !important;
+}
+
+.task-toolbar-button--submit:hover:not(:disabled):not(.session-submit-blocked),
+.manual-submit-button:hover:not(:disabled) {
+  background: var(--jelly-gradient-hover) !important;
+  box-shadow: var(--jelly-depth-hover) !important;
+  transform: translateY(-2px);
+}
+
+/* 7. REVIEWER ROLE (PAIR REVIEW WORKSPACE) */
+.approve-button {
+  background: linear-gradient(135deg, #0A3D91 0%, #0066CC 50%, #22B573 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 3px 0 rgba(10, 61, 145, 0.3), 0 6px 16px rgba(34, 181, 115, 0.25) !important;
+  border: 1px solid rgba(34, 181, 115, 0.4) !important;
+  font-weight: 700 !important;
+}
+
+.approve-button:hover:not(:disabled) {
+  box-shadow: 0 4px 0 rgba(10, 61, 145, 0.35), 0 10px 24px rgba(34, 181, 115, 0.45) !important;
+  transform: translateY(-2px);
+}
+
+/* Review Source Choice Buttons (Mechanical Switch A/B Radio) */
+.value-cell {
+  position: relative;
+  transition: background 0.18s var(--jelly-spring), border-color 0.18s var(--jelly-spring), transform 0.18s var(--jelly-spring);
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
+.value-cell:hover {
+  background: rgba(0, 163, 181, 0.08);
+}
+
+.value-cell input[type="radio"] {
+  accent-color: var(--aair-cyan);
+  transition: transform 0.15s var(--jelly-bounce);
+  cursor: pointer;
+}
+
+.value-cell:hover input[type="radio"] {
+  transform: scale(1.15);
+}
+
+/* 8. RESULT ANALYST ROLE BUTTONS */
+#raCompleteAnalysis,
+#raSaveNote,
+#raConfirmRedo {
+  transition: var(--jelly-transition);
+}
+
+#raCompleteAnalysis {
+  background: var(--jelly-gradient-primary) !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  box-shadow: var(--jelly-depth-sm) !important;
+}
+
+#raCompleteAnalysis:hover:not(:disabled) {
+  background: var(--jelly-gradient-hover) !important;
+  box-shadow: var(--jelly-depth-hover) !important;
+  transform: translateY(-2px);
+}
+
+/* 9. TERMINOLOGY ROLE BUTTONS */
+.term-button {
+  background: var(--jelly-gradient-primary) !important;
+  border-color: rgba(0, 163, 181, 0.35) !important;
+  box-shadow: var(--jelly-depth-sm) !important;
+}
+
+.term-button:hover:not(:disabled) {
+  background: var(--jelly-gradient-hover) !important;
+  box-shadow: var(--jelly-depth-hover) !important;
+}
+
+.term-button--outline {
+  background: #ffffff !important;
+  color: var(--aair-slate) !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
+}
+
+.term-button--outline:hover {
+  background: #f8fafc !important;
+  border-color: var(--aair-cyan) !important;
+  color: var(--aair-navy) !important;
+  transform: translateY(-1.5px);
+}
+
+/* 10. UNIVERSAL PAGINATION TACTILE KEYCAPS */
+.users-pagination button,
+.aa-pagination button,
+.session-pagination button,
+.pagination-button {
+  min-width: 34px !important;
+  height: 34px !important;
+  padding: 0 8px !important;
+  border-radius: 7px !important;
+  border: 1px solid #cbd5e1 !important;
+  background: #ffffff !important;
+  color: var(--aair-slate) !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 0 #e2e8f0, 0 1px 3px rgba(0,0,0,0.05) !important;
+  cursor: pointer !important;
+  transition: var(--jelly-transition) !important;
+}
+
+.users-pagination button:hover:not(:disabled),
+.aa-pagination button:hover:not(:disabled),
+.session-pagination button:hover:not(:disabled),
+.pagination-button:hover:not(:disabled) {
+  border-color: var(--aair-cyan) !important;
+  color: var(--aair-navy) !important;
+  background: #f0f9fc !important;
+  box-shadow: 0 3px 0 rgba(0, 163, 181, 0.25), 0 4px 10px rgba(0, 163, 181, 0.15) !important;
+  transform: translateY(-1.5px) !important;
+}
+
+.users-pagination button:active:not(:disabled),
+.aa-pagination button:active:not(:disabled),
+.session-pagination button:active:not(:disabled),
+.pagination-button:active:not(:disabled) {
+  transform: translateY(1.5px) scale(0.97) !important;
+  box-shadow: 0 1px 0 #cbd5e1 !important;
+}
+
+.users-pagination button[aria-current="page"],
+.aa-pagination button.is-active,
+.session-pagination button[aria-current="page"] {
+  border-color: var(--aair-blue) !important;
+  background: var(--jelly-gradient-primary) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 0 rgba(10, 61, 145, 0.35), 0 4px 12px rgba(0, 163, 181, 0.25) !important;
+}
+
+/* 11. TACTILE KEYCAP CHIPS & MINI BUTTONS */
+.annotation-page-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid rgba(0, 163, 181, 0.3);
+  background: #f0f9fc;
+  color: var(--aair-navy);
+  box-shadow: 0 1px 0 rgba(0, 163, 181, 0.15);
+  cursor: pointer;
+  transition: var(--jelly-transition);
+}
+
+.annotation-page-chip:hover:not(:disabled) {
+  background: var(--aair-cyan);
+  color: #ffffff;
+  border-color: var(--aair-cyan);
+  box-shadow: 0 3px 10px rgba(0, 163, 181, 0.35);
+  transform: translateY(-1px) scale(1.03);
+}
+
+.annotation-page-chip:active:not(:disabled) {
+  transform: translateY(1px) scale(0.97);
+}
+
+/* 12. STATUS BADGES & LIVE INDICATORS WITH BREATHING PULSE */
+.home-signal {
+  animation: jelly-glow-pulse 2s infinite !important;
+}
+
+.users-badge--active,
+.file-status.is-done,
+.aa-status--approved {
+  position: relative;
+  box-shadow: 0 0 0 1px rgba(34, 181, 115, 0.25);
+}
+
+.users-badge--active::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--aair-green);
+  animation: jelly-green-pulse 2s infinite;
+}
+
+/* 13. FILE SIDEBAR BUTTONS (REVIEW WORKSPACE) */
+.file-button {
+  transition: all 0.2s var(--jelly-spring) !important;
+  position: relative;
+}
+
+.file-button:hover {
+  transform: translateX(3px);
+  background: #f3f9fb !important;
+}
+
+.file-button.is-active {
+  border-left-color: var(--aair-cyan) !important;
+  background: linear-gradient(90deg, #edf8fb 0%, #ffffff 100%) !important;
+  color: var(--aair-navy) !important;
+  font-weight: 700 !important;
+  box-shadow: inset 3px 0 0 var(--aair-cyan), 0 2px 8px rgba(0, 163, 181, 0.1);
+}
+
+/* 14. INPUT FIELDS FOCUS (POLISHED RESIN HIGHLIGHT) */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none !important;
+  border-color: var(--aair-cyan) !important;
+  box-shadow: 0 0 0 3px rgba(0, 163, 181, 0.18), 0 1px 3px rgba(0, 163, 181, 0.1) !important;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+/* 15. CARD HOVER ELEVATION (SUBTLE GALLERY LIFT) */
+.card-shadow,
+.admin-mini-chart,
+.admin-kpi-card,
+.home-feature,
+.terminology-panel,
+.manager-kpi-card {
+  transition: transform 0.25s var(--jelly-spring), box-shadow 0.25s var(--jelly-spring), border-color 0.25s ease;
+}
+
+.card-shadow:hover,
+.admin-mini-chart:hover,
+.admin-kpi-card:hover,
+.home-feature:hover,
+.manager-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(10, 61, 145, 0.08), 0 4px 10px -2px rgba(0, 163, 181, 0.06);
+}
+
+/* ==========================================================================
+   SECONDARY FUNCTION TOOLBAR & ACTION CONTROLS (THANH CHUC NANG)
+   ========================================================================== */
+header.w-full.h-12,
+.function-toolbar {
+  background: rgba(248, 250, 252, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.9) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Tactile Search Input */
+header.w-full.h-12 input[type="text"],
+.function-toolbar input[type="text"] {
+  height: 34px !important;
+  border-radius: 8px !important;
+  border: 1px solid #cbd5e1 !important;
+  background: #ffffff !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e293b !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  transition: all 0.2s var(--jelly-spring) !important;
+}
+
+header.w-full.h-12 input[type="text"]:focus,
+.function-toolbar input[type="text"]:focus {
+  border-color: var(--aair-secondary) !important;
+  box-shadow: 0 0 0 3px rgba(0, 163, 181, 0.25), inset 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  outline: none !important;
+}
+
+/* Tactile Selects in Toolbars */
+header.w-full.h-12 select,
+.function-toolbar select {
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 34px 0 12px !important;
+  border-radius: 8px !important;
+  border: 1px solid #cbd5e1 !important;
+  background-color: #ffffff !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #334155 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  cursor: pointer !important;
+  transition: all 0.2s var(--jelly-spring) !important;
+}
+
+header.w-full.h-12 select:hover,
+.function-toolbar select:hover {
+  border-color: var(--aair-secondary) !important;
+}
+
+header.w-full.h-12 select:focus,
+.function-toolbar select:focus {
+  border-color: var(--aair-secondary) !important;
+  box-shadow: 0 0 0 3px rgba(0, 163, 181, 0.2) !important;
+  outline: none !important;
+}
+
+/* Toolbar Refresh Buttons */
+#adminRefreshLog,
+header.w-full.h-12 button[onclick*="reload"],
+.function-toolbar button[onclick*="reload"] {
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 14px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(0, 163, 181, 0.4) !important;
+  background: var(--jelly-gradient-primary) !important;
+  color: #ffffff !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  box-shadow: var(--jelly-depth-sm) !important;
+  cursor: pointer !important;
+  transition: all 0.2s var(--jelly-spring) !important;
+}
+
+#adminRefreshLog:hover,
+header.w-full.h-12 button[onclick*="reload"]:hover,
+.function-toolbar button[onclick*="reload"]:hover {
+  background: var(--jelly-gradient-hover) !important;
+  box-shadow: var(--jelly-depth-hover) !important;
+  transform: translateY(-1.5px) scale(1.02) !important;
+}
+
+#adminRefreshLog:hover .material-symbols-outlined,
+header.w-full.h-12 button[onclick*="reload"]:hover .material-symbols-outlined,
+.function-toolbar button[onclick*="reload"]:hover .material-symbols-outlined {
+  transform: rotate(180deg);
+  transition: transform 0.4s var(--jelly-spring);
+}
+
+/* Permission Toolbar Save Button */
+#permissionToolbarSave {
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 16px !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  transition: all 0.2s var(--jelly-spring) !important;
+}
+
+#permissionToolbarSave:disabled {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  color: #94a3b8 !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  opacity: 0.65 !important;
+}
+
+#permissionToolbarSave:not(:disabled),
+#permissionToolbarSave.permission-toolbar-save {
+  background: var(--jelly-gradient-primary) !important;
+  border: 1px solid rgba(0, 163, 181, 0.4) !important;
+  color: #ffffff !important;
+  box-shadow: var(--jelly-depth-sm) !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+}
+
+#permissionToolbarSave:not(:disabled):hover,
+#permissionToolbarSave.permission-toolbar-save:hover {
+  background: var(--jelly-gradient-hover) !important;
+  box-shadow: var(--jelly-depth-hover) !important;
+  transform: translateY(-1.5px) scale(1.02) !important;
+}
+
+#permissionToolbarSave:not(:disabled):active,
+#permissionToolbarSave.permission-toolbar-save:active {
+  transform: translateY(1px) scale(0.98) !important;
+  box-shadow: var(--jelly-depth-active) !important;
+}
+
+/* Permission Management Controls */
+#permissionRoleTab,
+#permissionUserTab {
+  transition: all 0.2s var(--jelly-spring) !important;
+  font-weight: 600 !important;
+}
+
+#permissionCopyRole,
+#permissionCreateRole,
+[data-preset] {
+  transition: all 0.2s var(--jelly-spring) !important;
+  border-radius: 8px !important;
+}
+
+#permissionCopyRole:hover,
+#permissionCreateRole:hover,
+[data-preset]:hover {
+  transform: translateY(-1px) !important;
+  border-color: var(--aair-secondary) !important;
+  color: var(--aair-secondary) !important;
+  box-shadow: 0 2px 8px rgba(0, 163, 181, 0.2) !important;
+}
+
+#permissionSave,
+#permissionReview,
+#permissionConfirm {
+  transition: all 0.2s var(--jelly-spring) !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+}
+
+#permissionSave:hover,
+#permissionConfirm:hover {
+  box-shadow: var(--jelly-depth-hover) !important;
+  transform: translateY(-1.5px) !important;
+}
+
+
+/* ==========================================================================
+   GLOBAL UI HARMONIZATION & RESPONSIVE POLISH
+   ========================================================================== */
+
+/* 1. Standardize Primary Header Height, Brand Colors & Tabs across ALL Roles */
+html body header.fixed.top-0,
+html body header.aair-navbar,
+html body .aair-navbar,
+html body header.manual-navbar,
+html body .manual-navbar,
+html body header.review-topbar,
+html body .review-topbar,
+html body header[class*="bg-normal"],
+html body [data-aair-navbar],
+header.fixed.top-0,
+header.aair-navbar,
+header.manual-navbar,
+header.review-topbar {
+  height: 58px !important;
+  min-height: 58px !important;
+  background: linear-gradient(90deg, #0A3D91 0%, #0066CC 60%, #008AB8 100%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 2px 10px rgba(10, 61, 145, 0.12) !important;
+  color: #ffffff !important;
+}
+
+/* Active navigation tab across all headers */
+html body header.fixed.top-0 nav a.bg-button-active,
+html body header.aair-navbar .aair-navbar__nav a.is-active,
+html body .aair-navbar__nav a.is-active,
+html body .manual-navbar__nav a.is-active,
+html body .review-nav a.is-active,
+header.fixed.top-0 nav a.bg-button-active {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+  box-shadow: inset 0 -3px 0 #ffffff !important;
+}
+
+/* Inactive navigation tab hover across all headers */
+html body header.fixed.top-0 nav a:not(.bg-button-active):hover,
+html body header.aair-navbar .aair-navbar__nav a:not(.is-active):hover,
+html body .manual-navbar__nav a:not(.is-active):hover,
+html body .review-nav a:not(.is-active):hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+/* Header brand logo and borders */
+html body header.fixed.top-0 > div:first-child,
+html body .manual-navbar__brand,
+html body .review-brand,
+html body .aair-navbar__brand {
+  border-right: 1px solid rgba(255, 255, 255, 0.18) !important;
+}
+
+/* Header vertical divider lines */
+html body header.fixed.top-0 nav > div,
+html body header.fixed.top-0 nav a {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+html body header.fixed.top-0 nav > div.h-12.w-\[1px\] {
+  background: rgba(255, 255, 255, 0.18) !important;
+}
+
+/* Header avatar node across all headers */
+html body header.fixed.top-0 > div.ml-auto > div:first-child,
+html body .manual-navbar__avatar,
+html body .review-avatar,
+html body .aair-navbar__avatar,
+html body #raAvatar {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+}
+
+header.w-full.h-12,
+.function-toolbar {
+  top: 58px !important;
+}
+
+/* 2. Responsive Table Scroll & Smooth Scrollbar */
+.table-container,
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.table-container::-webkit-scrollbar,
+.overflow-x-auto::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.table-container::-webkit-scrollbar-track,
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb,
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover,
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* 3. Modal Responsive Viewport Containment */
+.glass-modal,
+#modalContent {
+  max-height: calc(100vh - 40px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* ==========================================================================
+   4. JELLY KEY SKELETON SHIMMER LOADER SYSTEM
+   ========================================================================== */
+.aair-skeleton-row {
+  border-bottom: 1px solid rgba(226, 232, 240, 0.6) !important;
+  transition: background-color 0.2s ease;
+}
+
+.aair-skeleton-row td {
+  padding: 14px 16px !important;
+  vertical-align: middle !important;
+}
+
+.aair-skeleton-shimmer-bar {
+  height: 14px;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    rgba(241, 245, 249, 0.85) 0%,
+    rgba(226, 232, 240, 0.95) 25%,
+    rgba(255, 255, 255, 0.98) 50%,
+    rgba(226, 232, 240, 0.95) 75%,
+    rgba(241, 245, 249, 0.85) 100%
+  ) !important;
+  background-size: 250% 100% !important;
+  animation: jellykey-skeleton-sweep 1.8s infinite cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+@keyframes jellykey-skeleton-sweep {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Floating Jelly Key API Loading Pill */
+.workspace-api-loading {
+  position: fixed !important;
+  top: 14px !important;
+  right: 180px !important;
+  z-index: 9999 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 6px 14px !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #0A3D91 !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(10, 61, 145, 0.18) !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 4px 16px rgba(10, 61, 145, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  letter-spacing: 0.02em !important;
+}
+
+.workspace-api-loading::before {
+  content: '' !important;
+  display: inline-block !important;
+  width: 12px !important;
+  height: 12px !important;
+  border: 2px solid rgba(10, 61, 145, 0.2) !important;
+  border-top-color: #0066CC !important;
+  border-radius: 50% !important;
+  animation: aair-spinner-rotate 0.75s linear infinite !important;
+}
+
+@keyframes aair-spinner-rotate {
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   DROPDOWNS, SELECTS & DATE RANGES (FIXES OVERFLOW & CHEVRON COLLISION)
+   ========================================================================== */
+select,
+.manager-time-select,
+.filter-select,
+.admin-filter-select,
+#managerTimeFilter,
+#adminTimeFilter,
+#dashboardRange,
+#analystRangeSelect,
+#taskSessionFilter,
+#sessionFilter,
+select.bg-surface {
+  padding-left: 12px !important;
+  padding-right: 34px !important;
+  min-width: 130px !important;
+  height: 36px !important;
+  line-height: 1.4 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  background-color: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 8px !important;
+  color: #1f2937 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.18s var(--jelly-spring) !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+}
+
+select:hover,
+.manager-time-select:hover,
+.filter-select:hover,
+.admin-filter-select:hover,
+#managerTimeFilter:hover {
+  border-color: #008AB8 !important;
+  box-shadow: 0 2px 6px rgba(0, 138, 184, 0.14) !important;
+}
+
+select:focus,
+.manager-time-select:focus,
+.filter-select:focus,
+.admin-filter-select:focus,
+#managerTimeFilter:focus {
+  border-color: #0066CC !important;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.16) !important;
+  outline: none !important;
+}
+
+/* ==========================================================================
+   PERMISSION MANAGEMENT & AUDIT LOGS UI POLISH
+   ========================================================================== */
+#permissionRoleTab,
+#permissionUserTab {
+  transition: all 0.2s var(--jelly-spring) !important;
+  border-radius: 8px !important;
+}
+
+[data-preset] {
+  transition: all 0.18s var(--jelly-spring) !important;
+  border-radius: 6px !important;
+}
+[data-preset]:hover:not(:disabled) {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 5px rgba(10, 61, 145, 0.1) !important;
+}
+[data-preset]:active:not(:disabled) {
+  transform: translateY(1px) !important;
+}
+
+#permissionToolbarSave,
+#permissionSave {
+  transition: all 0.2s var(--jelly-spring) !important;
+}
+#permissionToolbarSave:not(:disabled),
+#permissionSave:not(:disabled) {
+  background: var(--jelly-gradient-primary) !important;
+  box-shadow: 0 2px 8px rgba(0, 102, 204, 0.35) !important;
+  color: #ffffff !important;
+}
+#permissionToolbarSave:not(:disabled):hover,
+#permissionSave:not(:disabled):hover {
+  transform: translateY(-1.5px) scale(1.02) !important;
+  box-shadow: 0 4px 14px rgba(0, 102, 204, 0.45) !important;
+}
+
+.permission-check {
+  accent-color: #0066CC !important;
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+}
+
+#permissionSticky {
+  backdrop-filter: blur(12px) !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  box-shadow: 0 10px 30px rgba(10, 61, 145, 0.16) !important;
+}
+
+#adminLogTable tbody tr {
+  transition: background-color 0.15s ease !important;
+}
+#adminLogTable tbody tr:hover {
+  background-color: #f8fafc !important;
+}
+#adminLogTable a,
+#adminLogTable button[data-view-log] {
+  color: #0066CC !important;
+  font-weight: 600 !important;
+  transition: all 0.15s ease !important;
+}
+#adminLogTable a:hover,
+#adminLogTable button[data-view-log]:hover {
+  color: #0A3D91 !important;
+  text-decoration: underline !important;
+}
+
+
+/* ==========================================================================
+   SIGN IN / GET STARTED BUTTON HARMONIZATION
+   ========================================================================== */
+.login-submit,
+.custom-gradient-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  margin-top: 10px !important;
+  padding: 12px 24px !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: linear-gradient(105deg, #1d4ed8 0%, #0066CC 55%, #0e9f9a 100%) !important;
+  color: #ffffff !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+  cursor: pointer !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: all 0.22s var(--jelly-spring) !important;
+  box-sizing: border-box !important;
+}
+
+.login-submit span,
+.custom-gradient-btn span {
+  font-size: 17px !important;
+  line-height: 1 !important;
+  color: #ffffff !important;
+  transition: transform 0.2s var(--jelly-spring) !important;
+}
+
+.login-submit:hover:not(:disabled),
+.custom-gradient-btn:hover:not(:disabled) {
+  background: linear-gradient(105deg, #1d4ed8 0%, #0066CC 50%, #00A3B5 100%) !important;
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.32), 0 0 18px rgba(0, 163, 181, 0.35) !important;
+  transform: translateY(-1.5px) !important;
+  color: #ffffff !important;
+}
+
+.login-submit:hover:not(:disabled) span,
+.custom-gradient-btn:hover:not(:disabled) span {
+  transform: translateX(4px) !important;
+}
+
+.login-submit:active:not(:disabled),
+.custom-gradient-btn:active:not(:disabled) {
+  transform: translateY(1px) scale(0.985) !important;
+  box-shadow: 0 3px 8px rgba(29, 78, 216, 0.3), inset 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+.login-submit:disabled,
+.custom-gradient-btn:disabled {
+  opacity: 0.65 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+
+/* Ensure all header and navbar logos are strictly constrained */
+header img,
+.aair-navbar__brand img,
+.manual-navbar__brand img,
+.review-brand img {
+    height: 32px !important;
+    max-height: 32px !important;
+    width: auto !important;
+    max-width: 48px !important;
+    object-fit: contain !important;
+}

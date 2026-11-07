@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="ug2Bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="50%" stop-color="#14b8a6"/>
+      <stop offset="100%" stop-color="#5eead4"/>
+    </linearGradient>
+    <linearGradient id="ug2Face" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff5f0"/>
+      <stop offset="100%" stop-color="#fed7aa"/>
+    </linearGradient>
+  </defs>
+  <circle cx="80" cy="80" r="78" fill="url(#ug2Bg)"/>
+  <circle cx="80" cy="80" r="74" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <!-- Hair back -->
+  <path d="M48 58 C48 95 52 118 52 118 C52 118 108 118 108 118 C108 118 112 95 112 58 C112 30 100 24 80 24 C60 24 48 30 48 58 Z" fill="#1c1917"/>
+  <!-- Body / Denim or Teal Jacket -->
+  <path d="M30 152 C30 120 54 112 80 112 C106 112 130 120 130 152 Z" fill="#0f766e"/>
+  <!-- Inner White Tee -->
+  <path d="M70 112 Q80 126 90 112 Z" fill="#ffffff"/>
+  <rect x="73" y="93" width="14" height="20" rx="3" fill="#fed7aa"/>
+  <!-- Head -->
+  <ellipse cx="80" cy="70" rx="24" ry="29" fill="url(#ug2Face)"/>
+  <!-- Hair Front (Ponytail or bob bangs) -->
+  <path d="M52 54 C54 36 66 28 80 28 C94 28 106 36 108 54 C104 42 90 38 80 38 C70 38 56 42 52 54 Z" fill="#1c1917"/>
+  <!-- Eyes -->
+  <circle cx="70" cy="66" r="2.3" fill="#1c1917"/>
+  <circle cx="90" cy="66" r="2.3" fill="#1c1917"/>
+  <!-- Smile -->
+  <path d="M75 84 Q80 89 85 84" fill="none" stroke="#e11d48" stroke-width="2" stroke-linecap="round"/>
+</svg>

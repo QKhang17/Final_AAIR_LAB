@@ -1,3 +1,4 @@
+@import url('./jellykeyDesignSystem.css');
 .ai-task-page main,
 .manual-task-page main {
     --pdf-pane-width: 58%;

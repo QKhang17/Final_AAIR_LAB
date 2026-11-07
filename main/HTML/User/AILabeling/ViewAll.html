@@ -29,7 +29,7 @@
     <style>
         .ai-task-list-page{--task-row-height:52px;--task-muted:#526473;background:#f4f7f9;color:#101828;font-family:Inter,Arial,sans-serif;}
         .ai-task-list-page :where(button,input,select,label,th,td){font-family:inherit;}
-        .ai-task-list-page .ai-task-toolbar{margin-top:50px!important;height:48px;}
+        .ai-task-list-page .ai-task-toolbar{margin-top:58px!important;height:48px;}
         .ai-task-list-page .ai-task-toolbar input{height:40px!important;font-size:13px;}
         .ai-task-list-page .filter-select{min-width:120px!important;height:40px!important;padding:0 28px 0 12px!important;font-size:13px!important;font-weight:500!important;}
         .ai-task-list-page .ai-task-content{padding:24px!important;}
@@ -88,17 +88,18 @@
         @media(max-width:800px){.ai-task-page-title{align-items:flex-start;flex-direction:column}.ai-task-list-page #taskTable{min-width:760px}.ai-task-list-page .ai-task-content{padding:16px!important;}}
     </style>
 
+    <link href="../../../Style/jellykeyDesignSystem.css" rel="stylesheet">
 </head>
 
 <body class="ai-task-list-page bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
 
     <!-- Fixed Header -->
     <header
-        class="fixed top-0 left-0 right-0 h-[50px] bg-normal border-b border-outline-variant flex items-center px-2 z-50">
+        class="fixed top-0 left-0 right-0 h-[58px] bg-normal border-b border-outline-variant flex items-center px-2 z-50">
 
         <!-- AAIR Logo -->
         <div class="flex items-center gap-2 mr-6">
-            <img src="/resource/icon/logo_remove_BG.png" alt="AAIR Lab Logo" class="h-8 w-auto">
+            <img src="/resource/icon/logo_remove_BG.png" alt="AAIR Lab Logo" class="h-8 w-auto" width="32" height="32" style="height:32px;width:auto;max-height:32px;object-fit:contain;">
 
             <h1 class="font-headline-sm text-[14px] font-bold text-primary">
                 AAIR Lab
@@ -178,9 +179,9 @@
 
     <!-- TopNavBar -->
     <header class="ai-task-toolbar w-full h-12
-           flex items-center gap-2 px-lg
+           flex items-center gap-2 px-6
            bg-text-active border-b border-outline-variant
-           shadow-sm sticky top-[50px] z-30 mb-6">
+           shadow-sm sticky top-[58px] z-30 mb-6">
 
         <!-- Search Box - Left -->
         <div class="relative w-[280px]">

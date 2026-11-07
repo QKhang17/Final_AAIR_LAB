@@ -13,13 +13,13 @@ spring:
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/aair_db}
     username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:tuananh31}
+    password: ${DB_PASSWORD:}
     driver-class-name: org.postgresql.Driver
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:qan3650@gmail.com}
-    password: ${MAIL_PASSWORD:qszggdgaajnywsgo}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
     properties:
       mail:
         smtp:
@@ -42,12 +42,12 @@ spring:
 
 app:
   mail:
-    from: ${MAIL_FROM:qan3650@gmail.com}
+    from: ${MAIL_FROM:${spring.mail.username:}}
   storage:
     directory: ${UPLOAD_DIRECTORY:./uploads}
   cors:
     allowed-origin: ${FRONTEND_ORIGIN:http://localhost:5173}
   jwt:
-    # Khi triển khai thật, bắt buộc đặt biến môi trường JWT_SECRET có ít nhất 32 ký tự.
-    secret: ${JWT_SECRET:AAIR-Development-JWT-Secret-Must-Change-2026}
+    # Khi triển khai production, bắt buộc phải cung cấp biến môi trường JWT_SECRET với khóa ngẫu nhiên tối thiểu 32 ký tự (256-bit).
+    secret: ${JWT_SECRET:AAIR-Development-Secret-Key-Minimum-32-Characters-Must-Change-In-Production}
     expiration-ms: ${JWT_EXPIRATION_MS:28800000}

@@ -13,8 +13,7 @@ window.AAIR = (() => {
     }
     function accessToken() {
         const token = sessionStorage.getItem('aair_access_token')
-            || localStorage.getItem('aair_access_token')
-            || (window.name.startsWith('aair_access_token=') ? window.name.slice('aair_access_token='.length) : '');
+            || localStorage.getItem('aair_access_token');
         if (token && !sessionStorage.getItem('aair_access_token')) sessionStorage.setItem('aair_access_token', token);
         return token;
     }
@@ -31,14 +30,12 @@ window.AAIR = (() => {
             sessionStorage.setItem('aair_user', serializedUser);
             localStorage.setItem('aair_user', serializedUser);
         }
-        window.name = `aair_access_token=${token}`;
     }
     function logout() {
         sessionStorage.removeItem('aair_access_token');
         sessionStorage.removeItem('aair_user');
         localStorage.removeItem('aair_access_token');
         localStorage.removeItem('aair_user');
-        if (window.name.startsWith('aair_access_token=')) window.name = '';
         location.assign(loginPath);
     }
     function clearSession() {
@@ -46,7 +43,6 @@ window.AAIR = (() => {
         sessionStorage.removeItem('aair_user');
         localStorage.removeItem('aair_access_token');
         localStorage.removeItem('aair_user');
-        if (window.name.startsWith('aair_access_token=')) window.name = '';
     }
     async function firstValidToken(tokens) {
         for (const token of tokens) {
@@ -64,8 +60,7 @@ window.AAIR = (() => {
         const { json, blob, suppressAuthRedirect, ...init } = options;
         const sessionToken = sessionStorage.getItem('aair_access_token');
         const storedToken = localStorage.getItem('aair_access_token');
-        const windowToken = window.name.startsWith('aair_access_token=') ? window.name.slice('aair_access_token='.length) : '';
-        const tokens = [...new Set([sessionToken, storedToken, windowToken].filter(Boolean))];
+        const tokens = [...new Set([sessionToken, storedToken].filter(Boolean))];
         if (!tokens.length && path !== '/auth/login') {
             location.replace(loginUrl());
             throw new Error('Session does not exist.');

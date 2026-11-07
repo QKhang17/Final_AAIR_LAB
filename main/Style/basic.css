@@ -1,3 +1,4 @@
+@import url('./jellykeyDesignSystem.css');
  body {
      font-family: 'Inter', sans-serif;
  }
@@ -7,15 +8,42 @@ body:has(script[src*="workspace.js"]) main {
     visibility: hidden;
 }
 
+/* Sleek floating Jelly Key loading pill during data loading */
 .workspace-api-loading {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    display: grid;
-    place-items: center;
-    color: #52657a;
-    background: #f8fafc;
-    font-size: 14px;
+    position: fixed !important;
+    top: 14px !important;
+    right: 180px !important;
+    z-index: 9999 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 6px 14px !important;
+    font-family: 'Inter', system-ui, sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: #0A3D91 !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(10, 61, 145, 0.18) !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 4px 16px rgba(10, 61, 145, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    letter-spacing: 0.02em !important;
+}
+
+.workspace-api-loading::before {
+    content: '' !important;
+    display: inline-block !important;
+    width: 12px !important;
+    height: 12px !important;
+    border: 2px solid rgba(10, 61, 145, 0.2) !important;
+    border-top-color: #0066CC !important;
+    border-radius: 50% !important;
+    animation: aair-spinner-rotate 0.75s linear infinite !important;
+}
+
+@keyframes aair-spinner-rotate {
+    to { transform: rotate(360deg); }
 }
 
 .workspace-api-error {
@@ -63,7 +91,7 @@ body:has(script[src*="workspace.js"]) main {
  body > header.fixed.top-0 {
      height: 58px !important;
      min-height: 58px !important;
-     background: #079bc5 !important;
+     background: linear-gradient(90deg, #0A3D91 0%, #0066CC 60%, #008AB8 100%) !important;
      color: #fff !important;
      font-family: Inter, Arial, sans-serif;
  }
@@ -74,7 +102,7 @@ body:has(script[src*="workspace.js"]) main {
      height: 100%;
      margin-right: 0 !important;
      padding: 0 18px;
-     border-right: 1px solid #63c3dd;
+     border-right: 1px solid rgba(255, 255, 255, 0.18);
  }
 
  body > header.fixed.top-0 > div:first-child + div {
@@ -92,31 +120,42 @@ body:has(script[src*="workspace.js"]) main {
      color: #fff !important;
  }
 
- body > header.fixed.top-0 > div:first-child img {
+ body > header.fixed.top-0 > div:first-child img,
+ header.fixed img,
+ header img,
+ .aair-navbar__brand img,
+ .manual-navbar__brand img,
+ .review-brand img {
+     height: 32px !important;
+     max-height: 32px !important;
+     width: auto !important;
+     max-width: 48px !important;
+     object-fit: contain !important;
      filter: brightness(0) invert(1);
  }
 
  body > header.fixed.top-0 nav a {
      padding: 0 18px !important;
-     border-right: 1px solid #63c3dd;
+     border-right: 1px solid rgba(255, 255, 255, 0.18);
      font-size: 13px;
      font-weight: 600;
  }
 
  body > header.fixed.top-0 nav a.bg-button-active {
      color: #fff !important;
-     background: #087da7 !important;
+     background: rgba(255, 255, 255, 0.18) !important;
      box-shadow: inset 0 -3px 0 #fff;
  }
 
  body > header.fixed.top-0 nav > div {
      height: 100% !important;
-     background: #63c3dd !important;
+     background: rgba(255, 255, 255, 0.18) !important;
  }
 
  body > header.fixed.top-0 > div:last-child > div:first-child {
      color: #fff !important;
-     background: #167ea5 !important;
+     background: rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
  }
 
  body > header.fixed.top-0 > div:last-child p {
@@ -149,7 +188,7 @@ body > header.fixed.top-0 > div:last-child p:last-child {
      box-sizing: border-box;
      height: 58px !important;
      min-height: 58px !important;
-     background: #079bc5 !important;
+     background: linear-gradient(90deg, #0A3D91 0%, #0066CC 60%, #008AB8 100%) !important;
      color: #fff !important;
      font-family: Inter, Arial, sans-serif;
  }
@@ -167,7 +206,7 @@ body > header.fixed.top-0 > div:last-child p:last-child {
      gap: 8px;
      padding: 0 18px;
      color: #fff !important;
-     border-right: 1px solid #63c3dd;
+     border-right: 1px solid rgba(255, 255, 255, 0.18);
  }
 
  .manual-navbar__brand img,
@@ -246,7 +285,7 @@ body > header.fixed.top-0 > div:last-child p:last-child {
      gap: 0 !important;
      padding: 0 18px;
      color: #eaf9fd !important;
-     border-right: 1px solid #63c3dd;
+     border-right: 1px solid rgba(255, 255, 255, 0.18);
  }
 
  .manual-navbar__nav a:hover,
@@ -260,7 +299,7 @@ body > header.fixed.top-0 > div:last-child p:last-child {
  .manual-navbar__nav a.is-active,
  .review-nav a.is-active {
      color: #fff !important;
-     background: #087da7 !important;
+     background: rgba(255, 255, 255, 0.18) !important;
      box-shadow: inset 0 -3px 0 #fff;
  }
 
@@ -273,7 +312,8 @@ body > header.fixed.top-0 > div:last-child p:last-child {
  .manual-navbar__avatar,
  .review-avatar {
      color: #fff !important;
-     background: #167ea5 !important;
+     background: rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
  }
 
  .manual-navbar__identity b,

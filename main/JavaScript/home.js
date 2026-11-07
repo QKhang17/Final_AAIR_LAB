@@ -79,3 +79,43 @@ if (document.body.classList.contains('home-page') && nav) {
     window.addEventListener('resize', scheduleUpdate);
     updateSection();
 }
+
+
+// Interactive team category filtering
+const teamFilterButtons = document.querySelectorAll('.team-filter-btn');
+const teamCards = document.querySelectorAll('.team-card, .team-director-card');
+
+if (teamFilterButtons.length && teamCards.length) {
+    teamFilterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.dataset.filter;
+            teamFilterButtons.forEach(b => {
+                const isActive = b === btn;
+                b.classList.toggle('is-active', isActive);
+                b.setAttribute('aria-selected', String(isActive));
+            });
+            teamCards.forEach(card => {
+                const cats = (card.dataset.category || '').split(/\s+/);
+                const match = filter === 'all' || cats.includes(filter);
+                card.style.display = match ? '' : 'none';
+            });
+        });
+    });
+}
+
+
+// Toggle view more members
+const teamToggleMoreBtn = document.getElementById('teamToggleMoreBtn');
+if (teamToggleMoreBtn) {
+    const extraCards = document.querySelectorAll('.team-card-extra');
+    teamToggleMoreBtn.addEventListener('click', () => {
+        const isExpanded = teamToggleMoreBtn.getAttribute('aria-expanded') === 'true';
+        const willExpand = !isExpanded;
+        extraCards.forEach(card => card.classList.toggle('is-expanded', willExpand));
+        teamToggleMoreBtn.setAttribute('aria-expanded', String(willExpand));
+        const textSpan = teamToggleMoreBtn.querySelector('.team-toggle-text');
+        const arrowSpan = teamToggleMoreBtn.querySelector('.team-toggle-arrow');
+        if (textSpan) textSpan.textContent = willExpand ? 'Show less' : `View all members (${extraCards.length + 3})`;
+        if (arrowSpan) arrowSpan.textContent = willExpand ? '↑' : '↓';
+    });
+}

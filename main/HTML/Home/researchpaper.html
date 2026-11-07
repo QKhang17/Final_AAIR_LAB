@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet">
 
     <!-- Tailwind -->
@@ -23,13 +23,28 @@
     <!-- CSS -->
     <link rel="stylesheet" href="../../Style/basic.css">
     <style>
-        .card-shadow {
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
-                        0 2px 4px -2px rgba(0, 0, 0, 0.05);
+        /* Universal Typography Synchronization: Inter (AAIR Brand Core) */
+        html, body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
+        button, input, select, textarea {
+            font-family: inherit;
+        }
+
+        /* Inter Core Typography Design Tokens */
+        .font-sans-aair,
+        .font-body-sm, .font-body-md, .font-body-lg,
+        .font-headline-sm, .font-headline-md, .font-headline-lg,
+        .font-display-lg, .font-label-md {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        /* Material Symbols Preservation */
         .material-symbols-outlined {
-            font-family: "Material Symbols Outlined";
+            font-family: "Material Symbols Outlined" !important;
             font-weight: normal;
             font-style: normal;
             font-size: 1em;
@@ -44,6 +59,117 @@
             -webkit-font-smoothing: antialiased;
             font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
             vertical-align: middle;
+        }
+
+        /* Technical & Taxonomy Monospace: JetBrains Mono */
+        code, kbd, samp, pre,
+        .font-mono,
+        .font-mono-aair,
+        .font-code,
+        .font-code-sm,
+        .badge-system-id,
+        .btn-explore-domain,
+        .pub-filter-btn {
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+            font-feature-settings: "zero" 1;
+        }
+
+        /* Ambient Academic Lighting - Clean & Bright */
+        .hero-academic-bg {
+            background-color: #ffffff;
+            background-image: 
+                radial-gradient(circle at 92% 28%, rgba(190, 227, 255, 0.4) 0%, rgba(225, 242, 254, 0.22) 32%, rgba(255, 255, 255, 0) 65%),
+                radial-gradient(circle at 12% 80%, rgba(235, 245, 255, 0.25) 0%, rgba(255, 255, 255, 0) 50%);
+        }
+
+        /* Tactile AAIR Pill Button (Navbar "Get Started") */
+        .btn-aair-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 13.5px;
+            letter-spacing: -0.01em;
+            color: #ffffff;
+            background: linear-gradient(135deg, #0A3D91 0%, #0066CC 60%, #0077EE 100%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 2px 0 rgba(10, 61, 145, 0.35), 0 4px 14px rgba(0, 102, 204, 0.25);
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            user-select: none;
+            cursor: pointer;
+            text-decoration: none !important;
+        }
+        .btn-aair-primary:hover {
+            background: linear-gradient(135deg, #0c48ab 0%, #0077ee 60%, #0099ff 100%);
+            box-shadow: 0 4px 0 rgba(10, 61, 145, 0.35), 0 8px 22px rgba(0, 102, 204, 0.38);
+            transform: translateY(-1.5px);
+            color: #ffffff;
+        }
+        .btn-aair-primary:active {
+            box-shadow: 0 1px 0 rgba(10, 61, 145, 0.4), 0 2px 6px rgba(10, 61, 145, 0.2);
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* Academic Research Area Cards - Compact, Crisp & Airy */
+        .academic-card {
+            background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.85);
+            border-radius: 14px;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03), 0 4px 10px -2px rgba(15, 23, 42, 0.02);
+            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.2s ease;
+        }
+        .academic-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 102, 204, 0.32);
+            box-shadow: 0 10px 22px -4px rgba(10, 61, 145, 0.08), 0 3px 8px -2px rgba(10, 61, 145, 0.03);
+        }
+
+        /* Explore Domain Link Button */
+        .btn-explore-domain {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            color: #004ac6;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            margin-left: -6px;
+            border-radius: 6px;
+            transition: all 0.18s ease;
+            text-decoration: none !important;
+        }
+        .btn-explore-domain:hover {
+            color: #002d7a;
+            background-color: rgba(0, 74, 198, 0.06);
+        }
+        .btn-explore-domain:hover .arrow-icon {
+            transform: translateX(3px);
+        }
+        .arrow-icon {
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Monospace System Badge */
+        .badge-system-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10.5px;
+            font-weight: 600;
+            color: #64748b;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 2px 7px;
+            border-radius: 5px;
+            letter-spacing: 0.04em;
+        }
+
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
+                        0 2px 4px -2px rgba(0, 0, 0, 0.05);
         }
 
         .sidebar-active {
@@ -68,227 +194,233 @@
             background: #94a3b8;
         }
     </style>
+    <link href="../../Style/jellykeyDesignSystem.css" rel="stylesheet">
 </head>
 
 <body class="bg-surface text-on-surface font-body-md text-body-md min-h-screen flex flex-col antialiased">
-    <nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent py-4" id="top-nav">
-        <div class="max-w-container-max mx-auto px-gutter py-4 flex justify-between items-center">
+    <nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-xl border-b border-slate-100 py-3 shadow-xs" id="top-nav">
+        <div class="max-w-container-max mx-auto px-gutter flex justify-between items-center">
             <div class="flex items-center gap-sm">
-                <img alt="AAIR Lab Logo" class="h-8 w-auto object-contain"
-                    src="../../../resource/icon/logo_remove_BG.png">
-                <a href="../Home/home.html">
-                    <span class="font-headline-md text-headline-md font-bold text-on-surface">AAIR Lab</span>
+                <a href="home.html" class="flex items-center gap-sm group">
+                    <img src="../../../resource/icon/logo_remove_BG.png" alt="AAIR Lab Logo" class="h-8 w-auto object-contain transition-transform group-hover:scale-105" width="32" height="32" style="height:32px;width:auto;max-height:32px;object-fit:contain;">
+                    <span class="font-headline-sm text-[19px] font-bold text-slate-900 tracking-tight">AAIR<span class="font-normal text-primary"> Lab</span></span>
                 </a>
             </div>
 
-            <div class="hidden md:flex items-center gap-xl">
-                <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors"
-                    href="../Home/home.html#about">About</a>
-                <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors"
-                    href="../Home/home.html#features">Features</a>
-                <div class="flex items-center gap-md ml-lg">
-                    <a class="px-lg py-sm rounded-lg font-label-md text-label-md bg-primary text-white shadow-sm hover:shadow-md transition-all"
-                        href="../../../main/HTML/Home/signIn.html">Get Started</a>
+            <div class="hidden md:flex items-center gap-8">
+                <a class="font-body-sm text-[14px] font-medium text-slate-600 hover:text-primary transition-colors"
+                    href="home.html#about">About</a>
+                <a class="font-body-sm text-[14px] font-medium text-slate-600 hover:text-primary transition-colors"
+                    href="home.html#features">Features</a>
+                <div class="flex items-center gap-md ml-4">
+                    <a class="btn-aair-primary px-6 py-2.5"
+                        href="signIn.html">Get Started</a>
                 </div>
             </div>
-            <button class="md:hidden text-on-surface" aria-label="Open navigation menu">
+            <button class="md:hidden text-slate-800" aria-label="Open navigation menu">
                 <span class="material-symbols-outlined">menu</span>
             </button>
         </div>
     </nav>
 
-    <main class="w-full pt-20 flex-grow bg-surface">
+    <main class="w-full pt-16 flex-grow bg-[#f8fafc]">
         <div class="flex flex-col w-full">
-            <!-- Section 1: Academic Hero Header -->
-            <section class="relative w-full bg-surface-container-lowest py-xl overflow-hidden shadow-sm">
-                <div
-                    class="absolute -top-24 right-0 w-96 h-96 bg-secondary-fixed/30 rounded-full blur-3xl pointer-events-none">
-                </div>
-                <div
-                    class="absolute bottom-0 left-1/4 w-80 h-80 bg-primary-fixed/20 rounded-full blur-2xl pointer-events-none">
-                </div>
-                <div class="max-w-[1440px] mx-auto px-md md:px-xl relative z-10">
-                    <div class="flex flex-col max-w-4xl">
+            <!-- Section 1: Academic Hero Header (Condensed & Airy) -->
+            <section class="relative w-full hero-academic-bg py-10 md:py-14 overflow-hidden border-b border-slate-200/70">
+                <div class="max-w-container-max mx-auto px-gutter relative z-10">
+                    <div class="flex flex-col max-w-3xl">
+                        <!-- Pill Badge -->
                         <div
-                            class="inline-flex items-center gap-sm px-md py-xs rounded-full bg-surface-container-high w-fit mb-md">
-                            <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#e8f0fe] border border-[#d2e3fc] w-fit mb-3">
+                            <span class="w-2 h-2 rounded-full bg-[#1a73e8] animate-pulse"></span>
                             <span
-                                class="font-code-sm text-code-sm text-primary font-semibold tracking-wider uppercase">AAIR
+                                class="font-code-sm text-[11px] text-[#1a73e8] font-bold tracking-wider uppercase">AAIR
                                 Research</span>
                         </div>
-                        <h1 class="font-display-lg text-display-lg text-on-surface tracking-tight mb-md leading-tight">
+                        <!-- Hero Heading -->
+                        <h1 class="font-display-lg text-[32px] md:text-[38px] lg:text-[42px] text-slate-900 font-bold tracking-[-0.03em] mb-3 leading-[1.18]">
                             Research &amp; Publications
                         </h1>
+                        <!-- Hero Subtitle (Crisp & Concise) -->
                         <p
-                            class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed mb-lg max-w-3xl">
-                            Explore the research areas, projects, and publications developed by the Applied AI Research
-                            Laboratory. Our work focuses on applying artificial intelligence to real-world and
-                            domain-specific challenges with mathematical and empirical rigor.
+                            class="font-body-lg text-[15px] md:text-[16px] text-slate-600 leading-[1.7] max-w-2xl font-normal">
+                            Pioneering empirical methodologies, formal verification, and domain-grounded foundation models. 
+                            We unify mathematical rigor with systems engineering to solve complex, high-consequence challenges.
                         </p>
                     </div>
                 </div>
             </section>
-            <!-- Section 2: Research Areas (6 Grid Cards) -->
-            <section class="w-full bg-surface py-xl">
-                <div class="max-w-[1440px] mx-auto px-md md:px-xl">
-                    <div class="flex flex-col md:flex-row md:items-end justify-between mb-xl gap-md">
+
+            <!-- Section 2: Research Areas (Streamlined 6-Grid) -->
+            <section class="w-full bg-[#f8fafc] py-10 md:py-14" id="research-areas">
+                <div class="max-w-container-max mx-auto px-gutter">
+                    <!-- Section Header -->
+                    <div class="flex flex-col md:flex-row md:items-end justify-between mb-7 gap-3">
                         <div>
                             <span
-                                class="font-code-sm text-code-sm text-secondary font-semibold uppercase tracking-wider block mb-xs">Scientific
+                                class="font-code-sm text-[11px] text-[#00687a] font-bold uppercase tracking-widest block mb-1">Scientific
                                 Taxonomy</span>
-                            <h2 class="font-headline-lg text-headline-lg text-on-surface">Research Areas</h2>
-                            <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Core scientific
-                                directions guiding our laboratory investigation and prototype deployments.</p>
+                            <h2 class="font-headline-lg text-[24px] md:text-[28px] text-slate-900 font-bold tracking-[-0.02em]">Research Areas</h2>
+                            <p class="font-body-md text-[13.5px] text-slate-500 mt-0.5 max-w-xl leading-relaxed">
+                                Core scientific directions guiding our laboratory investigation and prototype deployments.
+                            </p>
                         </div>
                         <div
-                            class="hidden md:flex items-center gap-xs font-code-sm text-code-sm text-on-surface-variant bg-surface-container-low px-md py-sm rounded-lg">
-                            <span class="material-symbols-outlined text-[18px] text-primary">science</span>
+                            class="inline-flex items-center gap-2 font-code-sm text-[11.5px] text-slate-700 bg-white border border-slate-200/90 shadow-2xs px-3 py-1 rounded-lg self-start md:self-end font-medium">
+                            <span class="material-symbols-outlined text-[17px] text-primary">science</span>
                             <span>6 Active Research Laboratories</span>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
-                        <!-- Area 1 -->
+
+                    <!-- 6 Grid Cards (Clean, Balanced & Compact) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+                        <!-- Area 1: Artificial Intelligence -->
                         <div
-                            class="bg-surface-container-lowest p-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between group">
+                            class="academic-card p-5 flex flex-col justify-between group">
                             <div>
                                 <div
-                                    class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container mb-md group-hover:scale-105 transition-transform">
-                                    <span class="material-symbols-outlined text-[26px]">psychology</span>
+                                    class="w-10 h-10 rounded-lg bg-[#eef4ff] border border-[#dbe7ff] flex items-center justify-center text-[#1d4ed8] mb-3 group-hover:scale-105 transition-transform duration-200">
+                                    <span class="material-symbols-outlined text-[22px]">psychology</span>
                                 </div>
-                                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Artificial
-                                    Intelligence</h3>
-                                <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                                    Researching intelligent systems, robust decision architectures, and applied AI
-                                    methodologies for complex non-deterministic environments.
+                                <h3 class="font-headline-sm text-[16.5px] text-slate-900 font-bold tracking-tight mb-1.5 group-hover:text-primary transition-colors">
+                                    Artificial Intelligence
+                                </h3>
+                                <p class="font-body-sm text-[13px] text-slate-600 leading-[1.6]">
+                                    Investigating neuro-symbolic reasoning, causal decision architectures, and verifiable policies for complex non-deterministic environments.
                                 </p>
                             </div>
-                            <div class="pt-md mt-md flex items-center justify-between">
-                                <span
-                                    class="font-code-sm text-code-sm text-primary font-semibold group-hover:text-primary-container inline-flex items-center gap-1">
-                                    Explore Domain <span
-                                        class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                                </span>
-                                <span class="font-code-sm text-code-sm text-outline">SYS-01</span>
+                            <div class="pt-3 mt-3.5 border-t border-slate-100 flex items-center justify-between">
+                                <a href="#publications" data-domain="Artificial Intelligence"
+                                    class="btn-explore-domain font-code-sm group/btn">
+                                    <span>Explore Domain</span>
+                                    <span class="material-symbols-outlined text-[15px] arrow-icon">arrow_forward</span>
+                                </a>
+                                <span class="badge-system-id font-code-sm">SYS-01</span>
                             </div>
                         </div>
-                        <!-- Area 2 -->
+
+                        <!-- Area 2: Computer Vision -->
                         <div
-                            class="bg-surface-container-lowest p-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between group">
+                            class="academic-card p-5 flex flex-col justify-between group">
                             <div>
                                 <div
-                                    class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container mb-md group-hover:scale-105 transition-transform">
-                                    <span class="material-symbols-outlined text-[26px]">visibility</span>
+                                    class="w-10 h-10 rounded-lg bg-[#e6f7fa] border border-[#c7f0f6] flex items-center justify-center text-[#007a8c] mb-3 group-hover:scale-105 transition-transform duration-200">
+                                    <span class="material-symbols-outlined text-[22px]">visibility</span>
                                 </div>
-                                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Computer
-                                    Vision</h3>
-                                <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                                    Exploring visual recognition, spatial-temporal understanding, kinematic tracking,
-                                    and intelligent real-time vision pipelines on edge hardware.
+                                <h3 class="font-headline-sm text-[16.5px] text-slate-900 font-bold tracking-tight mb-1.5 group-hover:text-[#007a8c] transition-colors">
+                                    Computer Vision
+                                </h3>
+                                <p class="font-body-sm text-[13px] text-slate-600 leading-[1.6]">
+                                    Developing open-vocabulary perception, 3D kinematic tracking, and low-latency neural pipelines optimized for edge hardware.
                                 </p>
                             </div>
-                            <div class="pt-md mt-md flex items-center justify-between">
-                                <span
-                                    class="font-code-sm text-code-sm text-primary font-semibold group-hover:text-primary-container inline-flex items-center gap-1">
-                                    Explore Domain <span
-                                        class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                                </span>
-                                <span class="font-code-sm text-code-sm text-outline">SYS-02</span>
+                            <div class="pt-3 mt-3.5 border-t border-slate-100 flex items-center justify-between">
+                                <a href="#publications" data-domain="Computer Vision"
+                                    class="btn-explore-domain font-code-sm group/btn">
+                                    <span>Explore Domain</span>
+                                    <span class="material-symbols-outlined text-[15px] arrow-icon">arrow_forward</span>
+                                </a>
+                                <span class="badge-system-id font-code-sm">SYS-02</span>
                             </div>
                         </div>
-                        <!-- Area 3 -->
+
+                        <!-- Area 3: Natural Language Processing -->
                         <div
-                            class="bg-surface-container-lowest p-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between group">
+                            class="academic-card p-5 flex flex-col justify-between group">
                             <div>
                                 <div
-                                    class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container mb-md group-hover:scale-105 transition-transform">
-                                    <span class="material-symbols-outlined text-[26px]">translate</span>
+                                    class="w-10 h-10 rounded-lg bg-[#eef2ff] border border-[#e0e7ff] flex items-center justify-center text-[#4338ca] mb-3 group-hover:scale-105 transition-transform duration-200">
+                                    <span class="material-symbols-outlined text-[22px]">translate</span>
                                 </div>
-                                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Natural
-                                    Language Processing</h3>
-                                <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                                    Developing AI methods for understanding and processing complex human language,
-                                    contextual embeddings, and semantic knowledge retrieval.
+                                <h3 class="font-headline-sm text-[16.5px] text-slate-900 font-bold tracking-tight mb-1.5 group-hover:text-[#4338ca] transition-colors">
+                                    Natural Language Processing
+                                </h3>
+                                <p class="font-body-sm text-[13px] text-slate-600 leading-[1.6]">
+                                    Formulating dense contextual embeddings, verifiable RAG architectures, and domain ontology alignment for structured knowledge synthesis.
                                 </p>
                             </div>
-                            <div class="pt-md mt-md flex items-center justify-between">
-                                <span
-                                    class="font-code-sm text-code-sm text-primary font-semibold group-hover:text-primary-container inline-flex items-center gap-1">
-                                    Explore Domain <span
-                                        class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                                </span>
-                                <span class="font-code-sm text-code-sm text-outline">SYS-03</span>
+                            <div class="pt-3 mt-3.5 border-t border-slate-100 flex items-center justify-between">
+                                <a href="#publications" data-domain="NLP"
+                                    class="btn-explore-domain font-code-sm group/btn">
+                                    <span>Explore Domain</span>
+                                    <span class="material-symbols-outlined text-[15px] arrow-icon">arrow_forward</span>
+                                </a>
+                                <span class="badge-system-id font-code-sm">SYS-03</span>
                             </div>
                         </div>
-                        <!-- Area 4 -->
+
+                        <!-- Area 4: Document Intelligence -->
                         <div
-                            class="bg-surface-container-lowest p-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between group">
+                            class="academic-card p-5 flex flex-col justify-between group">
                             <div>
                                 <div
-                                    class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container mb-md group-hover:scale-105 transition-transform">
-                                    <span class="material-symbols-outlined text-[26px]">description</span>
+                                    class="w-10 h-10 rounded-lg bg-[#eafaf1] border border-[#c6f6d5] flex items-center justify-center text-[#047857] mb-3 group-hover:scale-105 transition-transform duration-200">
+                                    <span class="material-symbols-outlined text-[22px]">description</span>
                                 </div>
-                                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Document
-                                    Intelligence</h3>
-                                <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                                    Applying AI to extract and synthesize complex multi-modal documents, non-standard
-                                    financial filings, and cross-domain knowledge graphs.
+                                <h3 class="font-headline-sm text-[16.5px] text-slate-900 font-bold tracking-tight mb-1.5 group-hover:text-[#047857] transition-colors">
+                                    Document Intelligence
+                                </h3>
+                                <p class="font-body-sm text-[13px] text-slate-600 leading-[1.6]">
+                                    Engineering layout-aware multimodal Transformers for automated document parsing, tabular disentanglement, and auditable provenance.
                                 </p>
                             </div>
-                            <div class="pt-md mt-md flex items-center justify-between">
-                                <span
-                                    class="font-code-sm text-code-sm text-primary font-semibold group-hover:text-primary-container inline-flex items-center gap-1">
-                                    Explore Domain <span
-                                        class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                                </span>
-                                <span class="font-code-sm text-code-sm text-outline">SYS-04</span>
+                            <div class="pt-3 mt-3.5 border-t border-slate-100 flex items-center justify-between">
+                                <a href="#publications" data-domain="Document Intelligence"
+                                    class="btn-explore-domain font-code-sm group/btn">
+                                    <span>Explore Domain</span>
+                                    <span class="material-symbols-outlined text-[15px] arrow-icon">arrow_forward</span>
+                                </a>
+                                <span class="badge-system-id font-code-sm">SYS-04</span>
                             </div>
                         </div>
-                        <!-- Area 5 -->
+
+                        <!-- Area 5: Machine Learning -->
                         <div
-                            class="bg-surface-container-lowest p-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between group">
+                            class="academic-card p-5 flex flex-col justify-between group">
                             <div>
                                 <div
-                                    class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container mb-md group-hover:scale-105 transition-transform">
-                                    <span class="material-symbols-outlined text-[26px]">model_training</span>
+                                    class="w-10 h-10 rounded-lg bg-[#f5f3ff] border border-[#ede9fe] flex items-center justify-center text-[#6d28d9] mb-3 group-hover:scale-105 transition-transform duration-200">
+                                    <span class="material-symbols-outlined text-[22px]">model_training</span>
                                 </div>
-                                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Machine
-                                    Learning</h3>
-                                <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                                    Developing and evaluating verifiable machine learning methods, parameter-efficient
-                                    adaptations, and specialized foundation architectures.
+                                <h3 class="font-headline-sm text-[16.5px] text-slate-900 font-bold tracking-tight mb-1.5 group-hover:text-[#6d28d9] transition-colors">
+                                    Machine Learning
+                                </h3>
+                                <p class="font-body-sm text-[13px] text-slate-600 leading-[1.6]">
+                                    Pioneering parameter-efficient adaptation (PEFT), uncertainty quantification, and sample-efficient optimization with provable generalization bounds.
                                 </p>
                             </div>
-                            <div class="pt-md mt-md flex items-center justify-between">
-                                <span
-                                    class="font-code-sm text-code-sm text-primary font-semibold group-hover:text-primary-container inline-flex items-center gap-1">
-                                    Explore Domain <span
-                                        class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                                </span>
-                                <span class="font-code-sm text-code-sm text-outline">SYS-05</span>
+                            <div class="pt-3 mt-3.5 border-t border-slate-100 flex items-center justify-between">
+                                <a href="#publications" data-domain="Machine Learning"
+                                    class="btn-explore-domain font-code-sm group/btn">
+                                    <span>Explore Domain</span>
+                                    <span class="material-symbols-outlined text-[15px] arrow-icon">arrow_forward</span>
+                                </a>
+                                <span class="badge-system-id font-code-sm">SYS-05</span>
                             </div>
                         </div>
-                        <!-- Area 6 -->
+
+                        <!-- Area 6: Human-AI Interaction -->
                         <div
-                            class="bg-surface-container-lowest p-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between group">
+                            class="academic-card p-5 flex flex-col justify-between group">
                             <div>
                                 <div
-                                    class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container mb-md group-hover:scale-105 transition-transform">
-                                    <span class="material-symbols-outlined text-[26px]">accessibility_new</span>
+                                    class="w-10 h-10 rounded-lg bg-[#fffbeb] border border-[#fef3c7] flex items-center justify-center text-[#b45309] mb-3 group-hover:scale-105 transition-transform duration-200">
+                                    <span class="material-symbols-outlined text-[22px]">accessibility_new</span>
                                 </div>
-                                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Human-AI
-                                    Interaction</h3>
-                                <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                                    Exploring how intelligent systems can effectively support human decision-making,
-                                    assistive communication, and accessible interfaces.
+                                <h3 class="font-headline-sm text-[16.5px] text-slate-900 font-bold tracking-tight mb-1.5 group-hover:text-[#b45309] transition-colors">
+                                    Human-AI Interaction
+                                </h3>
+                                <p class="font-body-sm text-[13px] text-slate-600 leading-[1.6]">
+                                    Designing bilateral human-in-the-loop verification loops, explainable AI (XAI), and adaptive trust calibration for high-stakes decisions.
                                 </p>
                             </div>
-                            <div class="pt-md mt-md flex items-center justify-between">
-                                <span
-                                    class="font-code-sm text-code-sm text-primary font-semibold group-hover:text-primary-container inline-flex items-center gap-1">
-                                    Explore Domain <span
-                                        class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                                </span>
-                                <span class="font-code-sm text-code-sm text-outline">SYS-06</span>
+                            <div class="pt-3 mt-3.5 border-t border-slate-100 flex items-center justify-between">
+                                <a href="#publications" data-domain="All"
+                                    class="btn-explore-domain font-code-sm group/btn">
+                                    <span>Explore Domain</span>
+                                    <span class="material-symbols-outlined text-[15px] arrow-icon">arrow_forward</span>
+                                </a>
+                                <span class="badge-system-id font-code-sm">SYS-06</span>
                             </div>
                         </div>
                     </div>
@@ -341,9 +473,10 @@
                                     <span
                                         class="bg-surface-container px-sm py-0.5 rounded font-code-sm text-code-sm text-on-surface-variant">Transformer</span>
                                 </div>
-                                <a class="inline-flex items-center justify-center w-full py-sm px-md rounded bg-primary text-on-primary font-body-sm text-body-sm font-medium hover:bg-primary-container transition-colors gap-2"
+                                <a class="btn-aair-primary w-full py-2.5 px-4 rounded-xl text-sm gap-2 font-medium"
                                     href="#spotlight">
-                                    Read Paper <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                    <span>Read Paper</span>
+                                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                                 </a>
                             </div>
                         </div>
@@ -382,8 +515,9 @@
                                         class="bg-surface-container px-sm py-0.5 rounded font-code-sm text-code-sm text-on-surface-variant">Finance</span>
                                 </div>
                                 <button
-                                    class="inline-flex items-center justify-center w-full py-sm px-md rounded bg-primary text-on-primary font-body-sm text-body-sm font-medium hover:bg-primary-container transition-colors gap-2">
-                                    Read Paper <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                    class="btn-aair-primary w-full py-2.5 px-4 rounded-xl text-sm gap-2 font-medium">
+                                    <span>Read Paper</span>
+                                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                                 </button>
                             </div>
                         </div>
@@ -422,8 +556,9 @@
                                         Networks</span>
                                 </div>
                                 <button
-                                    class="inline-flex items-center justify-center w-full py-sm px-md rounded bg-primary text-on-primary font-body-sm text-body-sm font-medium hover:bg-primary-container transition-colors gap-2">
-                                    Read Paper <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                    class="btn-aair-primary w-full py-2.5 px-4 rounded-xl text-sm gap-2 font-medium">
+                                    <span>Read Paper</span>
+                                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                                 </button>
                             </div>
                         </div>
@@ -432,7 +567,7 @@
             </section>
             
             <!-- Section 5: All Publications Matrix with Search and Filter -->
-            <section class="w-full bg-surface-container-low py-xl">
+            <section class="w-full bg-surface-container-low py-xl" id="publications">
                 <div class="max-w-[1440px] mx-auto px-md md:px-xl">
                     <!-- Section Title & Counter -->
                     <div class="flex flex-col md:flex-row md:items-end justify-between mb-lg gap-sm">
@@ -444,7 +579,7 @@
                         </div>
                         <span
                             class="font-code-sm text-code-sm text-on-surface-variant bg-surface-container-lowest px-md py-xs rounded-full shadow-sm">
-                            Showing <strong class="text-primary font-semibold">18</strong> scholarly publications
+                            Showing <strong class="text-primary font-semibold" id="pubCount">18</strong> scholarly publications
                         </span>
                     </div>
                     <!-- Search & Filter Controls -->
@@ -456,33 +591,30 @@
                                 class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
                             <input
                                 class="w-full pl-10 pr-12 py-sm bg-surface-container-low rounded font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-high transition-colors"
+                                id="pubSearchInput"
                                 placeholder="Search research papers, DOIs, authors..." type="text" />
                             <span
                                 class="absolute right-3 top-1/2 -translate-y-1/2 font-code-sm text-code-sm text-outline bg-surface-container px-1.5 py-0.5 rounded">⌘K</span>
                         </div>
                         <!-- Filter Chips -->
-                        <div class="flex flex-wrap items-center gap-xs w-full lg:w-auto">
+                        <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto" id="pubFilterChips">
                             <button
-                                class="px-md py-xs rounded-full font-code-sm text-code-sm font-semibold bg-primary text-on-primary">All</button>
+                                class="pub-filter-btn px-4 py-1.5 rounded-full font-code-sm text-[12px] font-semibold bg-primary text-white shadow-2xs border border-primary transition-all" data-category="All">All</button>
                             <button
-                                class="px-md py-xs rounded-full font-code-sm text-code-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">Artificial
-                                Intelligence</button>
+                                class="pub-filter-btn px-4 py-1.5 rounded-full font-code-sm text-[12px] font-medium text-slate-600 bg-white hover:bg-slate-100/90 border border-slate-200 transition-all" data-category="Artificial Intelligence">Artificial Intelligence</button>
                             <button
-                                class="px-md py-xs rounded-full font-code-sm text-code-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">Computer
-                                Vision</button>
+                                class="pub-filter-btn px-4 py-1.5 rounded-full font-code-sm text-[12px] font-medium text-slate-600 bg-white hover:bg-slate-100/90 border border-slate-200 transition-all" data-category="Computer Vision">Computer Vision</button>
                             <button
-                                class="px-md py-xs rounded-full font-code-sm text-code-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">NLP</button>
+                                class="pub-filter-btn px-4 py-1.5 rounded-full font-code-sm text-[12px] font-medium text-slate-600 bg-white hover:bg-slate-100/90 border border-slate-200 transition-all" data-category="NLP">NLP</button>
                             <button
-                                class="px-md py-xs rounded-full font-code-sm text-code-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">Document
-                                Intelligence</button>
+                                class="pub-filter-btn px-4 py-1.5 rounded-full font-code-sm text-[12px] font-medium text-slate-600 bg-white hover:bg-slate-100/90 border border-slate-200 transition-all" data-category="Document Intelligence">Document Intelligence</button>
                             <button
-                                class="px-md py-xs rounded-full font-code-sm text-code-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">Machine
-                                Learning</button>
+                                class="pub-filter-btn px-4 py-1.5 rounded-full font-code-sm text-[12px] font-medium text-slate-600 bg-white hover:bg-slate-100/90 border border-slate-200 transition-all" data-category="Machine Learning">Machine Learning</button>
                         </div>
                         <!-- Year Select -->
                         <div class="shrink-0 w-full lg:w-auto">
                             <select
-                                class="w-full lg:w-auto px-md py-sm bg-surface-container-low rounded font-code-sm text-code-sm text-on-surface focus:outline-none">
+                                class="w-full lg:w-auto px-md py-sm bg-surface-container-low rounded font-code-sm text-code-sm text-on-surface focus:outline-none" id="pubYearSelect">
                                 <option>All Years</option>
                                 <option>2026</option>
                                 <option>2025</option>
@@ -491,10 +623,10 @@
                         </div>
                     </div>
                     <!-- Publication List Items -->
-                    <div class="flex flex-col gap-md">
+                    <div class="flex flex-col gap-md" id="publicationList">
                         <!-- Item 1 -->
                         <div
-                            class="bg-surface-container-lowest p-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col lg:flex-row lg:items-start justify-between gap-lg">
+                            class="publication-item bg-surface-container-lowest p-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col lg:flex-row lg:items-start justify-between gap-lg" data-domain="Computer Vision">
                             <div class="max-w-4xl">
                                 <div class="flex flex-wrap items-center gap-sm mb-xs">
                                     <span class="font-code-sm text-code-sm text-secondary font-semibold">Computer
@@ -531,7 +663,7 @@
                         </div>
                         <!-- Item 2 -->
                         <div
-                            class="bg-surface-container-lowest p-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col lg:flex-row lg:items-start justify-between gap-lg">
+                            class="publication-item bg-surface-container-lowest p-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col lg:flex-row lg:items-start justify-between gap-lg" data-domain="Document Intelligence">
                             <div class="max-w-4xl">
                                 <div class="flex flex-wrap items-center gap-sm mb-xs">
                                     <span class="font-code-sm text-code-sm text-secondary font-semibold">Document
@@ -568,7 +700,7 @@
                         </div>
                         <!-- Item 3 -->
                         <div
-                            class="bg-surface-container-lowest p-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col lg:flex-row lg:items-start justify-between gap-lg">
+                            class="publication-item bg-surface-container-lowest p-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col lg:flex-row lg:items-start justify-between gap-lg" data-domain="Machine Learning">
                             <div class="max-w-4xl">
                                 <div class="flex flex-wrap items-center gap-sm mb-xs">
                                     <span class="font-code-sm text-code-sm text-secondary font-semibold">Machine
@@ -604,7 +736,7 @@
                         </div>
                         <!-- Item 4 -->
                         <div
-                            class="bg-surface-container-lowest p-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col lg:flex-row lg:items-start justify-between gap-lg">
+                            class="publication-item bg-surface-container-lowest p-lg rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col lg:flex-row lg:items-start justify-between gap-lg" data-domain="Computer Vision">
                             <div class="max-w-4xl">
                                 <div class="flex flex-wrap items-center gap-sm mb-xs">
                                     <span class="font-code-sm text-code-sm text-secondary font-semibold">Computer
@@ -720,7 +852,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-2xl mb-2xl">
                 <div class="md:col-span-2">
                     <div class="flex items-center gap-sm mb-lg">
-                        <img alt="AAIR Lab" class="h-8" src="../../../resource/icon/logo_remove_BG.png">
+                        <img src="../../../resource/icon/logo_remove_BG.png" alt="AAIR Lab" class="h-8" width="32" height="32" style="height:32px;width:auto;max-height:32px;object-fit:contain;">
                         <span class="font-headline-md text-headline-md font-bold text-on-surface">AAIR Lab</span>
                     </div>
                     <p class="font-body-md text-body-md text-on-surface-variant max-w-sm mb-lg">Defining the future of
@@ -762,5 +894,91 @@
 </body>
 
 <script src="../../JavaScript/home.js"></script>
+<script>
+    // Publication Filter and Domain Explore Script
+    document.addEventListener('DOMContentLoaded', () => {
+        const filterButtons = document.querySelectorAll('.pub-filter-btn');
+        const publicationItems = document.querySelectorAll('.publication-item');
+        const searchInput = document.getElementById('pubSearchInput');
+        const yearSelect = document.getElementById('pubYearSelect');
+        const pubCountEl = document.getElementById('pubCount');
+
+        let currentCategory = 'All';
+        let searchQuery = '';
+        let selectedYear = 'All Years';
+
+        function applyFilters() {
+            let visibleCount = 0;
+            publicationItems.forEach(item => {
+                const domain = item.getAttribute('data-domain') || '';
+                const text = item.textContent.toLowerCase();
+                
+                const matchesCategory = currentCategory === 'All' || 
+                                       domain.toLowerCase().includes(currentCategory.toLowerCase()) ||
+                                       text.includes(currentCategory.toLowerCase());
+                
+                const matchesSearch = !searchQuery || text.includes(searchQuery);
+                const matchesYear = selectedYear === 'All Years' || text.includes(selectedYear);
+
+                if (matchesCategory && matchesSearch && matchesYear) {
+                    item.style.display = '';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            if (pubCountEl) {
+                pubCountEl.textContent = visibleCount;
+            }
+        }
+
+        // Filter button clicks
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => {
+                    b.classList.remove('bg-primary', 'text-white', 'font-semibold', 'border-primary', 'shadow-2xs');
+                    b.classList.add('text-slate-600', 'bg-white', 'border-slate-200');
+                });
+                btn.classList.add('bg-primary', 'text-white', 'font-semibold', 'border-primary', 'shadow-2xs');
+                btn.classList.remove('text-slate-600', 'bg-white', 'border-slate-200');
+
+                currentCategory = btn.getAttribute('data-category') || 'All';
+                applyFilters();
+            });
+        });
+
+        // Search input
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                applyFilters();
+            });
+        }
+
+        // Year select
+        if (yearSelect) {
+            yearSelect.addEventListener('change', (e) => {
+                selectedYear = e.target.value;
+                applyFilters();
+            });
+        }
+
+        // Explore Domain buttons in Research Areas section
+        document.querySelectorAll('.btn-explore-domain, .domain-explore-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const targetDomain = btn.getAttribute('data-domain');
+                if (targetDomain) {
+                    const matchedBtn = Array.from(filterButtons).find(b => 
+                        (b.getAttribute('data-category') || '').toLowerCase() === targetDomain.toLowerCase()
+                    );
+                    if (matchedBtn) {
+                        matchedBtn.click();
+                    }
+                }
+            });
+        });
+    });
+</script>
 
 </html>

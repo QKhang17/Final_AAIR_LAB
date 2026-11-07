@@ -37,13 +37,14 @@
       #taskTable{table-layout:fixed;min-width:960px}#taskTable th,#taskTable td{padding:10px 16px!important;height:var(--row-h);vertical-align:middle;text-align:left!important}#taskTable th{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#667085}#taskTable td{font-size:13px;color:#475467}#taskTable td:first-child a{font-size:14px;font-weight:500;color:#101828;text-decoration:none}#taskTable td:first-child a:hover{color:#175cd3;text-decoration:underline}#taskTable th:last-child,#taskTable td:last-child{text-align:right!important;width:112px}.task-action{display:inline-flex;align-items:center;justify-content:center;width:78px;min-height:32px;padding:0 10px;border:1px solid #cbd5e1;border-radius:7px;color:#344054!important;background:#fff;font-size:13px;font-weight:600}.task-action:hover{border-color:#175cd3;color:#175cd3!important;background:#f8fbff}.task-type,.task-status,.task-conflicts{display:inline-flex;align-items:center;min-height:24px;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:600}.task-type{color:#475467;background:#eef2f6;font-weight:500}.task-status--pending{color:#475467;background:#f2f4f7}.task-status--progress{color:#175cd3;background:#dbeafe}.task-status--submitted{color:#6941c6;background:#f4ebff}.task-status--approved{color:#067647;background:#dff3e9}.task-status--rejected{color:#b42318;background:#fee4e2}.task-conflicts{color:#667085;background:#f2f4f7}.task-conflicts--active{color:#b54708;background:#fef0c7}.task-pagination[hidden]{display:none}
     </style>
 
+    <link href="../../../Style/jellykeyDesignSystem.css" rel="stylesheet">
 </head>
 
 <body class="review-queue-page bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
 
     <header class="manual-navbar review-topbar">
         <a class="manual-navbar__brand review-brand" href="Dashboard.html" aria-label="AAIR Lab - Dashboard">
-            <img src="/resource/icon/logo_remove_BG.png" alt="" />
+            <img src="/resource/icon/logo_remove_BG.png" alt="" class="h-8 w-auto" width="32" height="32" style="height:32px;width:auto;max-height:32px;object-fit:contain;">
             <strong>AAIR Lab</strong>
         </a>
         <nav class="manual-navbar__nav review-nav" aria-label="Navigation">
@@ -59,7 +60,7 @@
 
     <!-- TopNavBar -->
     <header class="mt-[58px] w-full h-12
-           flex items-center gap-2 px-lg
+           flex items-center gap-2 px-6
            bg-text-active border-b border-outline-variant
            shadow-sm sticky top-[58px] z-30 mb-6">
 

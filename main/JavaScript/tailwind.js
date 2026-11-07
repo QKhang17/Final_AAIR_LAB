@@ -11,9 +11,9 @@ tailwind.config = {
             colors: {
 
                 /* Main  Color */
-                "normal": "#0099cc",
-                "button-hover": "#19A9D6",
-                "button-active": "#008AB8",
+                "normal": "#0A3D91",
+                "button-hover": "rgba(255, 255, 255, 0.1)",
+                "button-active": "rgba(255, 255, 255, 0.18)",
                 "text-hover": "#D1D5DB",
                 "text-active": "#F1F5F9",
 
@@ -166,27 +166,31 @@ tailwind.config = {
 
             fontFamily: {
 
+                /* Standard default font mappings */
+                "sans": ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+                "mono": ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"],
+
                 /* Body */
-                "body-sm": ["Inter"],
-                "body-md": ["Inter"],
-                "body-lg": ["Inter"],
+                "body-sm": ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+                "body-md": ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+                "body-lg": ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
 
                 /* Headlines */
-                "headline-sm": ["Inter"],
-                "headline-md": ["Inter"],
-                "headline-lg": ["Inter"],
-                "headline-lg-mobile": ["Inter"],
+                "headline-sm": ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+                "headline-md": ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+                "headline-lg": ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+                "headline-lg-mobile": ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
 
                 /* Display */
-                "display-lg": ["Inter"],
-                "display-lg-mobile": ["Inter"],
+                "display-lg": ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+                "display-lg-mobile": ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
 
                 /* Labels */
-                "label-md": ["Inter"],
+                "label-md": ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
 
                 /* Code */
-                "code": ["JetBrains Mono"],
-                "code-sm": ["JetBrains Mono"]
+                "code": ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"],
+                "code-sm": ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"]
             },
 
 

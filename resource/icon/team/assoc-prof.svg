@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="apBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="apFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fdf2e9"/>
+      <stop offset="100%" stop-color="#fad5b8"/>
+    </linearGradient>
+    <linearGradient id="apSuit" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#312e81"/>
+      <stop offset="100%" stop-color="#4338ca"/>
+    </linearGradient>
+  </defs>
+  <circle cx="80" cy="80" r="78" fill="url(#apBg)"/>
+  <circle cx="80" cy="80" r="74" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <!-- Hair back -->
+  <path d="M46 55 C46 95 50 115 50 115 C50 115 110 115 110 115 C110 115 114 95 114 55 C114 30 102 24 80 24 C58 24 46 30 46 55 Z" fill="#1e1b4b"/>
+  <!-- Body / Blazer -->
+  <path d="M30 152 C30 120 54 112 80 112 C106 112 130 120 130 152 Z" fill="url(#apSuit)"/>
+  <!-- Blouse / Collar -->
+  <path d="M68 112 Q80 130 92 112 Z" fill="#ffffff"/>
+  <!-- Pearl necklace -->
+  <circle cx="74" cy="118" r="2.5" fill="#f8fafc"/>
+  <circle cx="80" cy="120" r="2.5" fill="#f8fafc"/>
+  <circle cx="86" cy="118" r="2.5" fill="#f8fafc"/>
+  <!-- Neck -->
+  <rect x="72" y="94" width="16" height="20" rx="3" fill="#fad5b8"/>
+  <!-- Head -->
+  <ellipse cx="80" cy="70" rx="24" ry="29" fill="url(#apFace)"/>
+  <!-- Hair Front -->
+  <path d="M52 54 C54 36 66 28 80 28 C94 28 106 36 108 54 C104 42 90 36 80 36 C70 36 56 42 52 54 Z" fill="#1e1b4b"/>
+  <!-- Eyebrows -->
+  <path d="M64 58 Q70 56 75 58" fill="none" stroke="#312e81" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M85 58 Q90 56 96 58" fill="none" stroke="#312e81" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Eyes -->
+  <circle cx="69" cy="65" r="2.2" fill="#1e1b4b"/>
+  <circle cx="91" cy="65" r="2.2" fill="#1e1b4b"/>
+  <!-- Smile -->
+  <path d="M74 84 Q80 90 86 84" fill="none" stroke="#e11d48" stroke-width="2" stroke-linecap="round"/>
+</svg>

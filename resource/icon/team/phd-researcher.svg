@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="phdBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="50%" stop-color="#0369a1"/>
+      <stop offset="100%" stop-color="#0c4a6e"/>
+    </linearGradient>
+    <linearGradient id="phdFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#feede1"/>
+      <stop offset="100%" stop-color="#f8cfb4"/>
+    </linearGradient>
+    <linearGradient id="phdShirt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+  </defs>
+  <circle cx="80" cy="80" r="78" fill="url(#phdBg)"/>
+  <circle cx="80" cy="80" r="74" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <!-- Body -->
+  <path d="M32 152 C32 118 54 110 80 110 C106 110 128 118 128 152 Z" fill="#1e293b"/>
+  <!-- Blue Shirt Collar -->
+  <polygon points="68,110 92,110 80,126" fill="url(#phdShirt)"/>
+  <rect x="73" y="93" width="14" height="20" rx="3" fill="#f8cfb4"/>
+  <!-- Head -->
+  <ellipse cx="80" cy="69" rx="25" ry="30" fill="url(#phdFace)"/>
+  <!-- Modern Hair -->
+  <path d="M55 58 C55 35 68 28 82 28 C98 28 106 35 106 52 C106 52 98 42 82 42 C66 42 55 58 55 58 Z" fill="#0f172a"/>
+  <!-- Glasses -->
+  <circle cx="70" cy="65" r="8" fill="none" stroke="#0284c7" stroke-width="2"/>
+  <circle cx="90" cy="65" r="8" fill="none" stroke="#0284c7" stroke-width="2"/>
+  <line x1="78" y1="65" x2="82" y2="65" stroke="#0284c7" stroke-width="2"/>
+  <circle cx="70" cy="65" r="2.2" fill="#0f172a"/>
+  <circle cx="90" cy="65" r="2.2" fill="#0f172a"/>
+  <!-- Smile -->
+  <path d="M74 85 Q80 89 86 85" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round"/>
+</svg>

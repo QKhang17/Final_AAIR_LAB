@@ -1,13 +1,19 @@
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+*.env
+*.env.local
+
 # Frontend
 frontend/node_modules/
 frontend/dist/
-frontend/.env
+frontend/dist-react/
 .vite/
 
 # Backend
 backend/target/
 backend/.m2/
-backend/.env
 backend/start-local.ps1
 backend/uploads/
 backend/src/main/resources/application-ai-keys.yml

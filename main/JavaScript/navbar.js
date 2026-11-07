@@ -13,8 +13,8 @@ window.AAIRNavbar = (() => {
   const roleTabs = {
     ADMIN: [
       { label: 'Dashboard', href: 'Dashboard.html' },
-      { label: 'Manager Management', href: 'ManagerManagement.html' },
-      { label: 'Permissions', href: 'PermissionManagement.html' },
+      { label: 'Users', href: 'ManagerManagement.html' },
+      { label: 'Permission', href: 'PermissionManagement.html' },
       { label: 'Audit Logs', href: 'LogView.html' },
     ],
     MANAGER: [
@@ -42,12 +42,17 @@ window.AAIRNavbar = (() => {
     return { ...defaultConfig, ...config, tabs: config.tabs || roleTabs[currentUser?.role] || defaultConfig.tabs };
   }
 
-  const roleLabel = role => role === 'RESULT_ANALYST' ? 'ANALYST' : role === 'TERMINOLOGY' ? 'TERMINOLOGY' : String(role || '')
-    .toLowerCase()
-    .split(/[_\s-]+/)
-    .filter(Boolean)
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ') || 'Analyst';
+  const roleLabel = role => {
+    if (role === 'ADMIN') return 'Administrator';
+    if (role === 'RESULT_ANALYST') return 'ANALYST';
+    if (role === 'TERMINOLOGY') return 'TERMINOLOGY';
+    return String(role || '')
+      .toLowerCase()
+      .split(/[_\s-]+/)
+      .filter(Boolean)
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ') || 'Analyst';
+  };
 
   function paint(user) {
     if (!host || !user) return;

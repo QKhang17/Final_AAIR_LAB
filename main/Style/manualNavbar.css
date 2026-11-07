@@ -1,4 +1,4 @@
-:root { --manual-nav-height:60px; --manual-nav-blue:#087fa8; --manual-nav-active:#075985; --manual-nav-ink:#fff; --manual-nav-line:rgba(255,255,255,.32); }
+:root { --manual-nav-height:60px; --manual-nav-blue:linear-gradient(90deg, #0A3D91 0%, #0066CC 60%, #008AB8 100%); --manual-nav-active:rgba(255, 255, 255, 0.18); --manual-nav-ink:#fff; --manual-nav-line:rgba(255, 255, 255, 0.18); }
 .manual-navbar { display:flex; align-items:center; height:var(--manual-nav-height); min-height:var(--manual-nav-height); color:var(--manual-nav-ink); background:var(--manual-nav-blue); font-family:Inter,Arial,sans-serif; }
 .manual-navbar * { box-sizing:border-box; }
 .manual-navbar__brand { display:flex; align-items:center; align-self:stretch; gap:10px; padding:0 22px; border-right:1px solid var(--manual-nav-line); color:#fff; text-decoration:none; font-size:15px; font-weight:700; }
@@ -10,12 +10,12 @@
 .manual-navbar__nav a.is-active { color:#fff; background:var(--manual-nav-active); }
 .manual-navbar__nav .material-symbols-outlined { font-size:20px; }
 .manual-navbar__account { display:flex; align-items:center; gap:8px; margin-left:auto; padding-right:12px; }
-.manual-navbar__avatar { display:grid; place-items:center; width:30px; height:30px; border-radius:50%; color:#075985; background:rgba(255,255,255,.2); font-size:12px; font-weight:800; }
+.manual-navbar__avatar { display:grid; place-items:center; width:30px; height:30px; border-radius:50%; color:#075985; background:rgba(255, 255, 255, 0.2); border:1px solid rgba(255, 255, 255, 0.3); font-size:12px; font-weight:800; }
 .manual-navbar__identity { display:flex; flex-direction:column; line-height:1.15; }
 .manual-navbar__identity b { color:#fff; font-size:13px; }
 .manual-navbar__identity small { margin-top:2px; color:#e6f7fb; font-size:11px; font-weight:700; letter-spacing:.04em; }
 .manual-navbar__logout { display:inline-flex; align-items:center; gap:6px; height:34px; margin-left:12px; padding:0 11px; border:1px solid rgba(255,255,255,.72); border-radius:7px; color:#fff; background:rgba(0,94,132,.15); font:600 12px Inter,Arial,sans-serif; cursor:pointer; }
-.manual-navbar__logout:hover,.manual-navbar__logout:focus-visible { background:rgba(255,255,255,.2); outline:2px solid rgba(255,255,255,.65); outline-offset:1px; }
+.manual-navbar__logout:hover,.manual-navbar__logout:focus-visible { background:rgba(255, 255, 255, 0.2); border:1px solid rgba(255, 255, 255, 0.3); outline:2px solid rgba(255,255,255,.65); outline-offset:1px; }
 
 @media (max-width: 900px) {
     .manual-navbar { overflow-x: auto; }

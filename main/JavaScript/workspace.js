@@ -700,7 +700,7 @@
             </div>
             <div class="space-y-1.5">
                 <label class="text-label-md text-on-surface-variant uppercase tracking-wider font-bold">
-                    Result Analyst <span class="text-error font-normal">*</span>
+                    Reviewer <span class="text-error font-normal">*</span>
                 </label>
                 <select id="aiReviewer" class="w-full px-4 py-2.5 rounded-lg border border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-body-md cursor-pointer">
                     <option value="">Select user...</option>
@@ -720,10 +720,10 @@
         const roleOf=user=>String(user?.role||'').toUpperCase();
         const isUnavailable=user=>user?.is_active===false||String(user?.status||'UNKNOWN').toUpperCase()!=='AVAILABLE';
         const selectableUser=user=>['USER','AI_LABELER','MANUAL_LABELER','REVIEWER','RESULT_ANALYST'].includes(roleOf(user));
-        const canManual=user=>selectableUser(user)&&['USER','MANUAL_LABELER'].includes(roleOf(user));
-        const canAi=user=>selectableUser(user)&&['USER','AI_LABELER'].includes(roleOf(user));
-        const canManualReview=user=>selectableUser(user)&&['USER','REVIEWER'].includes(roleOf(user));
-        const canAiReview=user=>selectableUser(user)&&['USER','RESULT_ANALYST'].includes(roleOf(user));
+        const canManual=user=>selectableUser(user)&&roleOf(user)==='MANUAL_LABELER';
+        const canAi=user=>selectableUser(user)&&roleOf(user)==='AI_LABELER';
+        const canManualReview=user=>selectableUser(user)&&roleOf(user)==='REVIEWER';
+        const canAiReview=user=>selectableUser(user)&&roleOf(user)==='REVIEWER';
         let manualLabelers=currentAssignees.filter(canManual);
         let aiLabelers=currentAssignees.filter(canAi);
         let manualReviewers=currentAssignees.filter(canManualReview);
@@ -1028,8 +1028,8 @@
                 if(sessionDue.parsed<=new Date())throw new Error('Ngày hết hạn phải ở tương lai.');
                 if(!docIds.length)throw new Error('Vui lòng chọn ít nhất một tài liệu PDF.');
 
-                if(!aiLabelerSelect.value)throw new Error('Vui lòng chọn AI Labeler.');
-                if(!aiReviewerSelect.value)throw new Error('Vui lòng chọn Result Analyst.');
+                if(!aiLabelerSelect.value)throw new Error('Please select an AI Labeler.');
+                if(!aiReviewerSelect.value)throw new Error('Please select a Reviewer.');
 
                 const aiId=Number(aiLabelerSelect.value);
                 const revId=Number(aiReviewerSelect.value);
@@ -1041,7 +1041,7 @@
 
                 const hasRole=(candidate,...roles)=>candidate&&roles.includes(String(candidate.role||'').toUpperCase());
                 if(!hasRole(aiUser,'USER','AI_LABELER'))throw new Error('AI Labeler phải là tài khoản USER hoặc AI_LABELER.');
-                if(!hasRole(revUser,'USER','RESULT_ANALYST'))throw new Error('Result Analyst phải là tài khoản USER hoặc RESULT_ANALYST.');
+                if(!hasRole(revUser,'USER','REVIEWER'))throw new Error('Reviewer phải là tài khoản USER hoặc REVIEWER.');
 
                 const payload={
                     name:name.value.trim(),
@@ -1052,7 +1052,7 @@
                     manualLabelerIds:[],
                     aiLabelerId:aiId,
                     reviewerId:revId,
-                    assistanceMode:'AI_ASSISTED'
+                    assistanceMode:'NONE'
                 };
 
                 await request('/sessions',{method:'POST',json:payload});
@@ -1125,7 +1125,7 @@
             const formatDate=value=>{const parsed=dateValue(value);if(!parsed)return 'No due date';return new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(parsed);};
             const statusOf=row=>String(row.status||'PENDING').toUpperCase();
             const isOverdue=row=>{const due=dateValue(row.due_at);return Boolean(due&&due.getTime()<Date.now()&&statusOf(row)!=='APPROVED');};
-            const sessionKey=row=>String(row.session_id??row.session_name??'unassigned');
+            const sessionKey=row=>row.session_name||String(row.session_id??'unassigned');
             const sessionName=row=>row.session_name||'Unassigned session';
             const actionFor=status=>status==='PENDING'?['Start','task-action--start']:['Continue','task-action--continue'];
             const renderAction=(row)=>{const status=statusOf(row);if(status==='SUBMITTED'||status==='APPROVED')return ['View','task-action--view'];if(status==='PENDING')return ['Start','task-action--start'];return ['Continue','task-action--continue'];};
@@ -1137,7 +1137,7 @@
                 const query=(search?.value||'').trim().toLocaleLowerCase();
                 const filtered=rows.filter(row=>{
                     const status=statusOf(row),dueMatch=!dueFilter||(dueFilter==='OVERDUE'?isOverdue(row):!isOverdue(row));
-                    const sessionMatch=!sessionSelect?.value||sessionKey(row)===sessionSelect.value;
+                    const sessionMatch=!sessionSelect?.value||sessionKey(row)===sessionSelect.value||String(row.session_id)===sessionSelect.value||row.session_name===sessionSelect.value;
                     const text=[row.document_title,row.session_name,row.assignee,statusLabels[status]].filter(Boolean).join(' ').toLocaleLowerCase();
                     return (!statusFilter||status===statusFilter)&&dueMatch&&sessionMatch&&(!query||text.includes(query));
                 });
@@ -1348,9 +1348,14 @@
             ]);
             if(state.task.id!==taskId)return;
             state.task=Object.assign(state.task,detail);
-            // Analysis compares only persisted AI runs. Manual/task labels are saved
-            // separately and must not appear as a selectable "Saved result" source.
-            state.rows=Array.isArray(aiRows)?aiRows.filter(row=>row?.run_id):[];
+            const manualRows = (detail.labels || []).map(label => ({
+                ...label,
+                provider: 'Manual Labeler',
+                model: 'Manual Labeler',
+                run_id: null
+            }));
+            const validAiRows = Array.isArray(aiRows) ? aiRows.filter(row => row?.run_id) : [];
+            state.rows = [...validAiRows, ...manualRows];
             state.models=[...new Map(state.rows.map(row=>[modelKey(row),{key:modelKey(row),provider:row.provider||'AI',model:row.model||row.provider||'Model',runId:row.run_id||null}])).values()];
             state.modelA='';state.modelB='';renderModels();syncModelOptions();renderResults();setMessage('');
             try{await loadPdf();}catch(error){setMessage(error.message); }
@@ -2116,7 +2121,7 @@
             statisticsRoot.replaceChildren();
             const loading=document.createElement('p');
             loading.className='workspace-api-loading';
-            loading.textContent='Loading data…';
+            loading.textContent='Loading statistics…';
             statisticsRoot.append(loading);
         }
         const [data,tasks,assignees,sessions]=await Promise.all([request('/statistics'),request('/tasks'),request('/assignees'),request('/sessions')]);
@@ -2185,16 +2190,38 @@
         loadingOverlay.className='workspace-api-loading';
         loadingOverlay.textContent='Loading data…';
         document.body.append(loadingOverlay);
-        // Clear sample rows immediately so network failures never look like real data.
-        $$('tbody').forEach(body=>{const el=body.closest('table');tableStyles.set(el,$$('tr:first-child td',body).map(c=>c.className));const columns=$$('thead th',el).length;body.replaceChildren();const td=body.insertRow().insertCell();td.colSpan=columns||1;td.className='p-4';td.textContent='Loading data…';});
+        function renderTableSkeleton(tbody, colCount = 4, rowCount = 4) {
+            tbody.replaceChildren();
+            for (let r = 0; r < rowCount; r++) {
+                const tr = document.createElement('tr');
+                tr.className = 'aair-skeleton-row';
+                for (let c = 0; c < colCount; c++) {
+                    const td = document.createElement('td');
+                    td.className = 'px-4 py-3.5';
+                    const bar = document.createElement('div');
+                    bar.className = 'aair-skeleton-shimmer-bar';
+                    const widths = [45, 70, 85, 55, 65, 40];
+                    const w = widths[(r * 2 + c) % widths.length];
+                    bar.style.width = `${w}%`;
+                    td.appendChild(bar);
+                    tr.appendChild(td);
+                }
+                tbody.appendChild(tr);
+            }
+        }
+        // Clear sample rows immediately and render elegant Jelly Key skeleton placeholders.
+        $$('tbody').forEach(body=>{const el=body.closest('table');tableStyles.set(el,$$('tr:first-child td',body).map(c=>c.className));const columns=$$('thead th',el).length||4;renderTableSkeleton(body,columns,4);});if(main)main.style.visibility='visible';
         user=await AAIR.guard();if(!user){loadingOverlay.remove();if(main)main.style.visibility='visible';return;}window.AAIRGuidelineModal?.init();
         $$('button.manual-navbar__logout, #logoutButton').forEach(button=>bind(button,()=>{if(confirm('Are you sure you want to log out?'))AAIR.logout();}));
         const profile=$('header .hidden.md\\:block');
         if(profile){const ps=$$('p',profile);const roleNames={ADMIN:'Administrator',MANAGER:'Manager',ANALYST:'Analyst',RESULT_ANALYST:'Analyst',AI_LABELER:'AI Labeler',MANUAL_LABELER:'Manual Labeler',REVIEWER:'Reviewer'};if(ps[0])ps[0].textContent=user.username;if(ps[1])ps[1].textContent=roleNames[user.role]||user.role;
             const avatar=profile.previousElementSibling;if(avatar){avatar.replaceChildren();const node=avatarNode(user,'w-full h-full');avatar.append(node);}
+            Array.from(profile.parentElement.childNodes).forEach(node => {
+                if (node !== avatar && node !== profile) node.remove();
+            });
             const logout=document.createElement('button');
             logout.type='button';logout.setAttribute('aria-label','Log out');logout.title='Log out of the system';
-            logout.className='ml-2 inline-flex min-h-9 items-center gap-2 rounded-lg border border-white/40 bg-white/15 px-3 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-white/25 focus:outline-none focus:ring-2 focus:ring-white/70';
+            logout.className='aair-header-logout-btn';
             const label=document.createElement('span');label.textContent='Log out';
             logout.append(label);bind(logout,()=>{if(confirm('Are you sure you want to log out?'))AAIR.logout();});
             profile.parentElement.append(logout);

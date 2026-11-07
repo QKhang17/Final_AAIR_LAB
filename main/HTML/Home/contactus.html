@@ -1,276 +1,394 @@
 <!DOCTYPE html>
-
 <html class="scroll-smooth" data-stitch-anim-opacity="true" lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact the Applied AI Research Laboratory (AAIR Lab) for research collaboration, dataset access, and academic inquiries.">
     
-    <title>Contact Us | AAIR Lab</title> <!-- Google Fonts -->
-     <link rel="icon" type="image/svg+xml" href="../../../resource/icon/brand/aair-logo.svg">
+    <title>Contact Us | AAIR Lab</title>
+    <link rel="icon" type="image/svg+xml" href="../../../resource/icon/brand/aair-logo.svg">
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet">
         
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script> 
+    <!-- Custom theme configuration loaded before DOM rendering -->
+    <script src="../../JavaScript/tailwind.js"></script>
     
-    <!-- CSS -->
+    <!-- Core & Project Styles -->
+    <link rel="stylesheet" href="../../Style/basic.css">
     <link rel="stylesheet" href="../../Style/home.css">
+    <link href="../../Style/jellykeyDesignSystem.css" rel="stylesheet">
+
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        /* Tactile AAIR Pill Button - Format Chuẩn Hệ Thống (border-radius: 9999px) */
+        .btn-aair-primary,
+        .contact-submit-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            overflow: hidden;
+            border-radius: 9999px !important;
+            padding: 10px 26px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #0A3D91 0%, #0066CC 60%, #00A3B5 100%);
+            color: #ffffff !important;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-weight: 600;
+            font-size: 13.5px;
+            letter-spacing: -0.01em;
+            cursor: pointer;
+            user-select: none;
+            box-shadow: 0 2px 0 rgba(10, 61, 145, 0.35), 0 4px 14px rgba(0, 102, 204, 0.28);
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, box-shadow;
+            text-decoration: none !important;
+        }
+
+        .btn-aair-primary::before,
+        .contact-submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0) 0%, 
+                rgba(255, 255, 255, 0.7) 50%, 
+                rgba(255, 255, 255, 0) 100%
+            );
+            pointer-events: none;
+        }
+
+        .btn-aair-primary::after,
+        .contact-submit-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 60%; height: 100%;
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.22) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: translateX(-180%) skewX(-20deg);
+            pointer-events: none;
+        }
+
+        .btn-aair-primary:hover,
+        .contact-submit-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #0d4ab0 0%, #0077ee 60%, #00bcd4 100%);
+            box-shadow: 0 4px 0 rgba(10, 61, 145, 0.35), 0 8px 22px rgba(0, 102, 204, 0.38);
+            transform: translateY(-1.5px);
+            color: #ffffff !important;
+        }
+
+        .contact-submit-btn:hover:not(:disabled)::after {
+            animation: jelly-shimmer 1.8s infinite ease-in-out;
+        }
+
+        .btn-aair-primary:active,
+        .contact-submit-btn:active:not(:disabled) {
+            transform: translateY(1px) scale(0.98) !important;
+            box-shadow: 0 1px 0 rgba(10, 61, 145, 0.4), 0 2px 6px rgba(10, 61, 145, 0.2) !important;
+        }
+
+        /* Clean Minimal Channel Card */
+        .channel-card {
+            background: #ffffff;
+            border: 1px solid rgba(195, 198, 215, 0.45);
+            border-radius: 14px;
+            padding: 16px 18px;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .channel-card:hover {
+            border-color: #0066CC;
+            box-shadow: 0 4px 14px rgba(0, 102, 204, 0.08);
+            transform: translateY(-1.5px);
+        }
+
+        /* Minimal Form Card */
+        .contact-form-card {
+            background: #ffffff;
+            border: 1px solid rgba(195, 198, 215, 0.45);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px -2px rgba(10, 61, 145, 0.06);
+        }
+    </style>
 </head>
 
-<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden antialiased min-h-screen flex flex-col">
+    <!-- Top Navigation -->
     <nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent py-4" id="top-nav">
         <div class="max-w-container-max mx-auto px-gutter py-4 flex justify-between items-center">
             
-            <div class="flex items-center gap-sm"> 
-                <img alt="AAIR Lab Logo" class="h-8 w-auto object-contain"
-                    src="../../../resource/icon/brand/aair-logo.svg">
-                <span class="font-headline-md text-headline-md font-bold text-on-surface">AAIR Lab</span> 
+            <div class="flex items-center gap-sm">
+                <a href="home.html" class="flex items-center gap-sm group">
+                    <img alt="AAIR Lab Logo" class="h-8 w-auto object-contain transition-transform group-hover:scale-105"
+                        src="../../../resource/icon/brand/aair-logo.svg">
+                    <span class="font-headline-md text-headline-md font-bold text-on-surface">AAIR<span class="font-medium text-primary"> Lab</span></span>
+                </a>
             </div>
 
             <div class="hidden md:flex items-center gap-xl">
-                 <!-- <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors"
-                    href="#about">About</a> <a
-                    class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors"
-                    href="#features">Features</a> -->
-                <div class="flex items-center gap-md ml-lg"> <a
-                        class="px-lg py-sm rounded-lg font-label-md text-label-md bg-primary text-white shadow-sm hover:shadow-md transition-all"
-                        href="../../../main/HTML/Home/signIn.html">Get Started</a> 
+                <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors font-medium"
+                    href="home.html#about">About</a>
+                <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors font-medium"
+                    href="home.html#features">Features</a>
+                <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors font-medium"
+                    href="researchpaper.html">Research</a>
+                <a class="font-body-md text-body-md text-primary font-semibold transition-colors"
+                    href="contactus.html">Contact</a>
+
+                <div class="flex items-center gap-md ml-lg"> 
+                    <a class="btn-aair-primary rounded-full px-6 py-2.5 font-label-md text-label-md font-semibold text-white tracking-wide"
+                        href="signIn.html">Get Started</a> 
                 </div>
             </div> 
-            <button class="md:hidden text-on-surface"> <span class="material-symbols-outlined">menu</span> </button>
+            
+            <button class="md:hidden text-on-surface" aria-label="Open navigation menu">
+                <span class="material-symbols-outlined">menu</span> 
+            </button>
         </div>
     </nav>
 
-    <main class="w-full pt-16 bg-background">
-        <div class="flex flex-col w-full">
-            <!-- Top Academic Context Header / Sub-Hero -->
-            <section class="w-full max-w-7xl mx-auto px-6 lg:px-12 pt-8 pb-12">
-
-            </section>
-            <!-- Two-Column Interaction Grid -->
-            <section class="w-full max-w-7xl mx-auto px-6 lg:px-12 pb-16">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    <!-- Left Column: Academic Inquiries & Channels -->
-                    <div class="lg:col-span-5 flex flex-col gap-6">
-                        <div>
-                            <h2 class="font-headline-md text-headline-md tracking-[-0.015em] text-on-surface tracking-tight">
-                                Let's Connect
-                            </h2>
-                            <p class="font-body-md font-body-sm text-body-sm text-on-surface-variant mt-2 leading-relaxed">
-                                Whether you are interested in our research papers, looking for collaboration
-                                opportunities, or simply want to learn more about AAIR, we'd be glad to hear from you.
-                            </p>
-                        </div>
-                        <!-- Channel Cards -->
-                        <div class="flex flex-col gap-4">
-                            <!-- Item 1: Email Address -->
-                            <div
-                                class="p-5 rounded-lg bg-surface-container-low shadow-sm hover:shadow-md transition-shadow">
-                                <div class="flex items-start gap-4">
-                                    <div
-                                        class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center shrink-0 text-primary">
-                                        <span class="material-symbols-outlined text-[20px]">mail</span>
-                                    </div>
-                                    <div class="flex flex-col min-w-0">
-                                        <div class="flex items-center gap-2">
-                                            <span
-                                                class="font-body-md text-body-md text-on-surface font-semibold">Direct
-                                                Inquiries</span>
-                                            <span
-                                                class="font-code text-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant">Demo</span>
-                                        </div>
-                                        <a class="font-code font-body-sm text-body-sm text-primary hover:text-primary-container transition-colors truncate mt-1"
-                                            href="mailto:contact@aair-lab.example">
-                                            contact@aair-lab.example
-                                        </a>
-                                        <span class="font-code text-code-sm text-outline mt-0.5">Response
-                                            timeframe: 1-2 academic days</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Item 2: Research & Collaboration -->
-                            <div
-                                class="p-5 rounded-lg bg-surface-container-low shadow-sm hover:shadow-md transition-shadow">
-                                <div class="flex items-start gap-4">
-                                    <div
-                                        class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center shrink-0 text-primary">
-                                        <span class="material-symbols-outlined text-[20px]">science</span>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <span
-                                            class="font-body-md text-body-md text-on-surface font-semibold">Research
-                                            &amp; Collaboration</span>
-                                        <p class="font-body-md font-body-sm text-body-sm text-on-surface-variant mt-1">
-                                            Interested in joint labs, co-authored peer reviews, or model validation
-                                            partnerships?
-                                        </p>
-                                        <a class="inline-flex items-center gap-1 font-body-md font-body-sm text-body-sm font-semibold text-primary hover:text-primary-container mt-2 transition-colors"
-                                            data-path="research" href="#">
-                                            Discuss Research
-                                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Item 3: General Inquiries & Public Assets -->
-                            <div
-                                class="p-5 rounded-lg bg-surface-container-low shadow-sm hover:shadow-md transition-shadow">
-                                <div class="flex items-start gap-4">
-                                    <div
-                                        class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center shrink-0 text-primary">
-                                        <span class="material-symbols-outlined text-[20px]">help_outline</span>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <span
-                                            class="font-body-md text-body-md text-on-surface font-semibold">General
-                                            Questions &amp; Datasets</span>
-                                        <p class="font-body-md font-body-sm text-body-sm text-on-surface-variant mt-1">
-                                            Have questions about benchmark access, our published weights, or lab
-                                            symposiums?
-                                        </p>
-                                        <a class="inline-flex items-center gap-1 font-body-md font-body-sm text-body-sm font-semibold text-primary hover:text-primary-container mt-2 transition-colors"
-                                            data-path="faq" href="#">
-                                            FAQ &amp; Inquiries
-                                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
+    <!-- Main Content: Clean & Streamlined Two-Column Interaction Grid -->
+    <main class="w-full pt-28 pb-16 flex-grow flex items-center bg-surface">
+        <div class="max-w-container-max mx-auto px-gutter w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                
+                <!-- Left Column: Streamlined Inquiries & Channels -->
+                <div class="lg:col-span-5 flex flex-col gap-5">
+                    <div>
+                        <h1 class="font-headline-lg text-headline-lg md:text-[34px] text-on-surface tracking-tight font-bold leading-tight">
+                            Let's Connect
+                        </h1>
+                        <p class="font-body-md text-body-sm md:text-body-md text-on-surface-variant mt-2 leading-relaxed">
+                            Have questions about our research or looking for collaboration opportunities? We'd be glad to hear from you.
+                        </p>
                     </div>
-                    <!-- Right Column: Interactive Form & Success Slate -->
-                    <div class="lg:col-span-7">
-                        <div
-                            class="bg-white rounded-lg shadow-md p-6 sm:p-8 lg:p-10 relative overflow-hidden transition-all duration-300">
-                            <!-- FORM CONTAINER -->
-                            <div class="flex flex-col transition-opacity duration-300">
-                                <div class="flex flex-col gap-1 pb-6">
-                                    <h3 class="font-headline-md text-headline-md tracking-[-0.015em] text-on-surface font-semibold">
-                                        Send Us a Message
-                                    </h3>
-                                    <p class="font-body-md font-body-sm text-body-sm text-on-surface-variant">
-                                        Fill out the form below and let us know how we can assist with your research or
-                                        inquiry.
-                                    </p>
+
+                    <!-- Clean Channel Cards Stack -->
+                    <div class="flex flex-col gap-3">
+                        <!-- Channel 1: Direct Inquiries -->
+                        <div class="channel-card">
+                            <div class="flex items-start gap-3.5">
+                                <div class="w-9 h-9 rounded-full bg-primary-fixed/40 text-primary flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-[19px]">mail</span>
                                 </div>
-                                <form class="flex flex-col gap-5" >
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <!-- Full Name -->
-                                        <div class="flex flex-col gap-1.5">
-                                            <label class="font-body-md font-body-sm text-body-sm font-medium text-on-surface"
-                                                for="fullName">
-                                                Full Name <span class="text-error">*</span>
-                                            </label>
-                                            <input
-                                                class="w-full px-4 py-2.5 rounded bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-high focus:text-on-surface transition-all"
-                                                id="fullName" name="name" placeholder="Enter your name" required=""
-                                                type="text" />
-                                        </div>
-                                        <!-- Email Address -->
-                                        <div class="flex flex-col gap-1.5">
-                                            <label class="font-body-md font-body-sm text-body-sm font-medium text-on-surface"
-                                                for="emailAddress">
-                                                Email Address <span class="text-error">*</span>
-                                            </label>
-                                            <input
-                                                class="w-full px-4 py-2.5 rounded bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-high focus:text-on-surface transition-all"
-                                                id="emailAddress" name="email" placeholder="you@example.com" required=""
-                                                type="email" />
-                                        </div>
-                                    </div>
-                                    <!-- Subject -->
-                                    <div class="flex flex-col gap-1.5">
-                                        <label class="font-body-md font-body-sm text-body-sm font-medium text-on-surface"
-                                            for="subject">
-                                            Subject <span class="text-error">*</span>
-                                        </label>
-                                        <input
-                                            class="w-full px-4 py-2.5 rounded bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-high focus:text-on-surface transition-all"
-                                            id="subject" name="subject" placeholder="What is your inquiry about?"
-                                            required="" type="text" />
-                                    </div>
-                                    <!-- Message -->
-                                    <div class="flex flex-col gap-1.5">
-                                        <label class="font-body-md font-body-sm text-body-sm font-medium text-on-surface"
-                                            for="messageBody">
-                                            Message <span class="text-error">*</span>
-                                        </label>
-                                        <textarea
-                                            class="w-full px-4 py-3 rounded bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-high focus:text-on-surface transition-all resize-y"
-                                            id="messageBody" name="message"
-                                            placeholder="Write your message or project abstract..." required=""
-                                            rows="5"></textarea>
-                                    </div>
-                                    
-                                    <!-- Action Controls -->
-                                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
-                                        <button
-                                            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 rounded-lg text-white font-body-md font-semibold transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.99] bg-gradient-to-r from-primary to-secondary"
-                                            type="submit">
-                                            <span>Send Message</span>
-                                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-                                        </button>
-                                        <span class="font-code text-code-sm text-outline hidden sm:inline">
-                                            Direct laboratory dispatch
-                                        </span>
-                                    </div>
-                                </form>
+                                <div class="flex flex-col min-w-0 flex-1">
+                                    <span class="font-body-md text-body-md text-on-surface font-semibold leading-snug">Direct Inquiries</span>
+                                    <a class="font-code font-body-sm text-body-sm text-primary hover:text-primary-container transition-colors truncate mt-0.5 block"
+                                        href="mailto:contact@aair-lab.example">
+                                        contact@aair-lab.example
+                                    </a>
+                                    <span class="font-code-sm text-code-sm text-outline mt-1">
+                                        Response timeframe: 1-2 academic days
+                                    </span>
+                                </div>
                             </div>
-                            
+                        </div>
+
+                        <!-- Channel 2: Research & Collaboration -->
+                        <div class="channel-card">
+                            <div class="flex items-start gap-3.5">
+                                <div class="w-9 h-9 rounded-full bg-secondary-fixed/40 text-secondary flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-[19px]">science</span>
+                                </div>
+                                <div class="flex flex-col min-w-0 flex-1">
+                                    <span class="font-body-md text-body-md text-on-surface font-semibold leading-snug">Research &amp; Collaboration</span>
+                                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-normal">
+                                        Joint labs, model validation, and co-authored reviews.
+                                    </p>
+                                    <a href="#contactForm" onclick="setSubject('Research & Collaboration')"
+                                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-primary bg-primary-fixed/30 hover:bg-primary-fixed/60 border border-primary-fixed-dim/40 transition-all w-fit mt-2 group/link cursor-pointer">
+                                        <span>Discuss Research</span>
+                                        <span class="material-symbols-outlined text-[14px] group-hover/link:translate-x-0.5 transition-transform">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Channel 3: Datasets & Benchmarks -->
+                        <div class="channel-card">
+                            <div class="flex items-start gap-3.5">
+                                <div class="w-9 h-9 rounded-full bg-surface-container-high text-primary flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-[19px]">dataset</span>
+                                </div>
+                                <div class="flex flex-col min-w-0 flex-1">
+                                    <span class="font-body-md text-body-md text-on-surface font-semibold leading-snug">Datasets &amp; Benchmarks</span>
+                                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-normal">
+                                        Access to benchmark datasets, published weights, and symposiums.
+                                    </p>
+                                    <a href="#contactForm" onclick="setSubject('Dataset & Benchmark Access')"
+                                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-primary bg-primary-fixed/30 hover:bg-primary-fixed/60 border border-primary-fixed-dim/40 transition-all w-fit mt-2 group/link cursor-pointer">
+                                        <span>FAQ &amp; Inquiries</span>
+                                        <span class="material-symbols-outlined text-[14px] group-hover/link:translate-x-0.5 transition-transform">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </section>
 
+                <!-- Right Column: Clean, Compact Form -->
+                <div class="lg:col-span-7">
+                    <div class="contact-form-card p-6 sm:p-7 relative overflow-hidden">
+                        
+                        <!-- FORM CONTAINER -->
+                        <div id="contactFormContainer" class="flex flex-col">
+                            <div class="flex flex-col gap-0.5 pb-4 border-b border-outline-variant/20">
+                                <h2 class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">
+                                    Send Us a Message
+                                </h2>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                    Fill out the form below and let us know how we can assist you.
+                                </p>
+                            </div>
+
+                            <form id="contactForm" class="flex flex-col gap-3.5 pt-4" onsubmit="handleContactSubmit(event)">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                                    <!-- Full Name -->
+                                    <div class="flex flex-col gap-1">
+                                        <label class="font-label-md text-label-md font-medium text-on-surface"
+                                            for="fullName">
+                                            Full Name <span class="text-error">*</span>
+                                        </label>
+                                        <input
+                                            class="w-full h-10 px-3.5 rounded-lg bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm text-body-sm border border-outline-variant/40 focus:outline-none focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                                            id="fullName" name="name" placeholder="Enter your name" required=""
+                                            type="text" />
+                                    </div>
+                                    <!-- Email Address -->
+                                    <div class="flex flex-col gap-1">
+                                        <label class="font-label-md text-label-md font-medium text-on-surface"
+                                            for="emailAddress">
+                                            Email Address <span class="text-error">*</span>
+                                        </label>
+                                        <input
+                                            class="w-full h-10 px-3.5 rounded-lg bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm text-body-sm border border-outline-variant/40 focus:outline-none focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                                            id="emailAddress" name="email" placeholder="you@example.com" required=""
+                                            type="email" />
+                                    </div>
+                                </div>
+
+                                <!-- Subject -->
+                                <div class="flex flex-col gap-1">
+                                    <label class="font-label-md text-label-md font-medium text-on-surface"
+                                        for="subject">
+                                        Subject <span class="text-error">*</span>
+                                    </label>
+                                    <input
+                                        class="w-full h-10 px-3.5 rounded-lg bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm text-body-sm border border-outline-variant/40 focus:outline-none focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                                        id="subject" name="subject" placeholder="What is your inquiry about?"
+                                        required="" type="text" />
+                                </div>
+
+                                <!-- Message -->
+                                <div class="flex flex-col gap-1">
+                                    <label class="font-label-md text-label-md font-medium text-on-surface"
+                                        for="messageBody">
+                                        Message <span class="text-error">*</span>
+                                    </label>
+                                    <textarea
+                                        class="w-full p-3.5 rounded-lg bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm text-body-sm border border-outline-variant/40 focus:outline-none focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-y min-h-[120px]"
+                                        id="messageBody" name="message"
+                                        placeholder="Write your message or project abstract..." required=""
+                                        rows="4"></textarea>
+                                </div>
+                                
+                                <!-- Action Controls -->
+                                <div class="flex items-center justify-between gap-4 pt-2">
+                                    <button
+                                        id="submitContactBtn"
+                                        class="contact-submit-btn rounded-full px-8 py-2.5 text-white font-label-md text-label-md font-semibold transition-all group"
+                                        type="submit">
+                                        <span id="btnText">Send Message</span>
+                                        <span class="material-symbols-outlined text-[17px] transition-transform group-hover:translate-x-0.5" id="btnIcon">arrow_forward</span>
+                                    </button>
+                                    <span class="font-code text-code-sm text-outline hidden sm:inline-flex items-center gap-1.5">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                                        Direct laboratory dispatch
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- SUCCESS STATE SLATE -->
+                        <div id="contactSuccessSlate" class="hidden flex-col items-center justify-center text-center py-8 px-4">
+                            <div class="w-12 h-12 rounded-full bg-tertiary-fixed/40 text-tertiary flex items-center justify-center mb-3">
+                                <span class="material-symbols-outlined text-[28px]">check_circle</span>
+                            </div>
+                            <h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-1">Message Sent</h3>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm leading-relaxed mb-4">
+                                Thank you for contacting AAIR Lab. We will get back to you within 1-2 academic days.
+                            </p>
+                            <button type="button" onclick="resetContactForm()" class="px-6 py-2 rounded-full border border-outline-variant text-on-surface font-label-md text-label-md font-medium hover:border-primary hover:text-primary transition-colors cursor-pointer">
+                                Send Another Message
+                            </button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
-    <footer class="bg-surface-dim pt-3xl pb-xl border-t border-outline-variant">
+    <!-- Standardized Project Footer -->
+    <footer class="bg-surface-dim pt-3xl pb-xl border-t border-outline-variant mt-auto">
         <div class="max-w-container-max mx-auto px-gutter">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-2xl mb-2xl">
                 <div class="md:col-span-2">
                     <div class="flex items-center gap-sm mb-lg"> 
-                        <img alt="AAIR Lab" class="h-8"
-                            src="../../../resource/icon/brand/aair-logo.svg"><span
-                            class="font-headline-md text-headline-md font-bold text-on-surface">AAIR Lab</span> </div>
+                        <img alt="AAIR Lab" class="h-8 w-auto object-contain"
+                            src="../../../resource/icon/brand/aair-logo.svg">
+                        <span class="font-headline-md text-headline-md font-bold text-on-surface">AAIR Lab</span> 
+                    </div>
                     
-                            <p class="font-body-md text-body-md text-on-surface-variant max-w-sm mb-lg">Defining the future of
-                            specialized intelligent systems through expert-in-the-loop innovation. Scaling domain expertise
-                            with AI.</p>
+                    <p class="font-body-md text-body-md text-on-surface-variant max-w-sm mb-lg leading-relaxed">
+                        Defining the future of specialized intelligent systems through expert-in-the-loop innovation. Scaling domain expertise with AI.
+                    </p>
 
                     <div class="flex gap-md"> 
                         <a class="w-10 h-10 rounded-full bg-white border border-outline-variant flex items-center justify-center text-on-surface hover:text-primary transition-all hover:shadow-sm"
-                            href="#"><span class="material-symbols-outlined">share</span></a> 
+                            aria-label="Share" href="#"><span class="material-symbols-outlined">share</span></a> 
                         <a class="w-10 h-10 rounded-full bg-white border border-outline-variant flex items-center justify-center text-on-surface hover:text-primary transition-all hover:shadow-sm"
-                            href="#"><span class="material-symbols-outlined">alternate_email</span></a> 
+                            aria-label="Email" href="mailto:contact@aair-lab.example"><span class="material-symbols-outlined">alternate_email</span></a> 
                         <a class="w-10 h-10 rounded-full bg-white border border-outline-variant flex items-center justify-center text-on-surface hover:text-primary transition-all hover:shadow-sm"
-                            href="#"><span class="material-symbols-outlined">language</span></a> 
+                            aria-label="Website" href="home.html"><span class="material-symbols-outlined">language</span></a> 
                     </div>
                 </div>
 
                 <div class="ml-auto">
                     <h4 class="font-label-md text-label-md font-bold mb-lg text-on-surface">Company</h4>
                     <ul class="space-y-sm">
-                        <li class=""><a class="text-on-surface-variant hover:text-primary transition-colors"
-                                href="../Home/researchpaper.html">Research Papers</a></li>
-                        <li class=""><a class="text-on-surface-variant hover:text-primary transition-colors"
-                                href="../Home/privacy.html">Privacy Policy</a></li>
-                        <li class=""><a class="text-on-surface-variant hover:text-primary transition-colors"
-                                href="../Home/service.html">Terms of Service</a></li>
-                        <li class=""><a class="text-on-surface-variant hover:text-primary transition-colors"
-                                href="../Home/contactus.html">Contact Us</a></li>
+                        <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm"
+                                href="researchpaper.html">Research Papers</a></li>
+                        <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm"
+                                href="privacy.html">Privacy Policy</a></li>
+                        <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm"
+                                href="service.html">Terms of Service</a></li>
+                        <li><a class="text-primary font-semibold transition-colors font-body-sm text-body-sm"
+                                href="contactus.html">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
-            <div
-                class="pt-xl border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-md">
-                <p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 Applied AI Research Laboratory (AAIR
-                    Lab). All rights reserved.</p>
+            
+            <div class="pt-xl border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-md">
+                <p class="font-body-sm text-body-sm text-on-surface-variant">© 2026 Applied AI Research Laboratory (AAIR Lab). All rights reserved.</p>
                 <div class="flex gap-md text-on-surface-variant items-center"> 
                     <span class="material-symbols-outlined text-sm">language</span> 
                     <span class="font-body-sm text-body-sm">English (Global)</span> 
@@ -279,9 +397,47 @@
         </div>
     </footer>
 
-</body>
+    <script src="../../JavaScript/home.js"></script>
+    <script>
+        function setSubject(subjectText) {
+            const subjectInput = document.getElementById('subject');
+            if (subjectInput) {
+                subjectInput.value = subjectText;
+                const messageInput = document.getElementById('messageBody');
+                if (messageInput) messageInput.focus();
+            }
+        }
 
-<script src="../../JavaScript/home.js"></script>
-<script src="../../JavaScript/tailwind.js"></script>
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            const btn = document.getElementById('submitContactBtn');
+            const btnText = document.getElementById('btnText');
+            const btnIcon = document.getElementById('btnIcon');
+
+            btn.disabled = true;
+            btnText.textContent = 'Sending...';
+            btnIcon.textContent = 'sync';
+            btnIcon.classList.add('animate-spin');
+
+            setTimeout(() => {
+                document.getElementById('contactFormContainer').classList.add('hidden');
+                document.getElementById('contactSuccessSlate').classList.remove('hidden');
+                document.getElementById('contactSuccessSlate').classList.add('flex');
+
+                btn.disabled = false;
+                btnText.textContent = 'Send Message';
+                btnIcon.textContent = 'arrow_forward';
+                btnIcon.classList.remove('animate-spin');
+            }, 600);
+        }
+
+        function resetContactForm() {
+            document.getElementById('contactForm').reset();
+            document.getElementById('contactSuccessSlate').classList.add('hidden');
+            document.getElementById('contactSuccessSlate').classList.remove('flex');
+            document.getElementById('contactFormContainer').classList.remove('hidden');
+        }
+    </script>
+</body>
 
 </html>

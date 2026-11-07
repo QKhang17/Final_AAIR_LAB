@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="bsBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="bsFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fdf2e9"/>
+      <stop offset="100%" stop-color="#fcd8c1"/>
+    </linearGradient>
+  </defs>
+  <circle cx="80" cy="80" r="78" fill="url(#bsBg)"/>
+  <circle cx="80" cy="80" r="74" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <!-- Body / Oxford Shirt -->
+  <path d="M30 152 C30 120 54 112 80 112 C106 112 130 120 130 152 Z" fill="#b45309"/>
+  <!-- Collar -->
+  <polygon points="68,112 92,112 80,126" fill="#fef3c7"/>
+  <rect x="73" y="93" width="14" height="20" rx="3" fill="#fcd8c1"/>
+  <!-- Head -->
+  <ellipse cx="80" cy="69" rx="25" ry="30" fill="url(#bsFace)"/>
+  <!-- Hair (Short styled) -->
+  <path d="M54 58 C54 36 67 30 82 30 C97 30 106 36 106 54 C106 54 98 42 80 42 C64 42 54 58 54 58 Z" fill="#3f3f46"/>
+  <!-- Eyebrows -->
+  <path d="M64 57 Q70 54 75 56" fill="none" stroke="#27272a" stroke-width="2" stroke-linecap="round"/>
+  <path d="M85 56 Q90 54 96 57" fill="none" stroke="#27272a" stroke-width="2" stroke-linecap="round"/>
+  <!-- Eyes -->
+  <circle cx="70" cy="65" r="2.4" fill="#18181b"/>
+  <circle cx="90" cy="65" r="2.4" fill="#18181b"/>
+  <!-- Friendly Smile -->
+  <path d="M74 84 Q80 89 86 84" fill="none" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"/>
+</svg>
