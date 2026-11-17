@@ -10,6 +10,7 @@
 .session-title{font-size:20px!important;font-weight:600!important}
 .status-pill{font-size:12px!important;letter-spacing:0!important;font-style:normal!important;background:#dbeafe!important;color:#175cd3!important}
 .status-pill[data-status="APPROVED"],.status-pill[data-status="COMPLETED"]{background:#dff4e9!important;color:#147f5e!important}
+.eyebrow-dot{display:none!important}
 .review-files{font-size:13px!important}
 .files-heading{font-size:12px!important;letter-spacing:.04em!important}
 .file-button{font-size:13px!important;font-weight:500!important;min-width:0!important}

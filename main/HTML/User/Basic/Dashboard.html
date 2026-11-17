@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard | AAIR Lab</title>
+  <link rel="icon" type="image/png" href="../../../resource/icon/logo_remove_BG.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0">
+  <link rel="stylesheet" href="../../../Style/basic.css">
+  <style>
+    .basic-user-dashboard{min-height:100vh;background:#f5f8fb;color:#172031;font-family:Inter,Arial,sans-serif}
+    .basic-user-dashboard header{display:flex;align-items:center;gap:20px;min-height:58px;padding:0 24px;color:#fff;background:#0a3d91}
+    .basic-user-dashboard header strong{font-size:15px}.basic-user-dashboard header nav{display:flex;gap:4px;margin-left:14px}.basic-user-dashboard header nav a{padding:9px 12px;border-radius:7px;color:#e6f3ff;text-decoration:none;font-size:13px}.basic-user-dashboard header nav a[aria-current="page"]{color:#fff;background:rgba(255,255,255,.16);font-weight:700}.basic-user-dashboard .user-account{display:flex;align-items:center;gap:9px;margin-left:auto}.basic-user-dashboard .user-avatar{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#1687a8;font-size:11px;font-weight:700}.basic-user-dashboard .user-account small{display:block;color:#d9e9f3;font-size:10px}.basic-user-dashboard main{max-width:1280px;margin:0 auto;padding:32px 24px}.basic-user-dashboard h1{margin:0;font-size:26px}.basic-user-dashboard .intro{margin:6px 0 24px;color:#526174;font-size:14px}.basic-user-dashboard .metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:20px}.basic-user-dashboard .metric,.basic-user-dashboard .panel{border:1px solid #d8e1ea;border-radius:12px;background:#fff;box-shadow:0 3px 12px rgba(26,55,83,.06)}.basic-user-dashboard .metric{padding:18px}.basic-user-dashboard .metric span{color:#617287;font-size:12px}.basic-user-dashboard .metric strong{display:block;margin-top:6px;font-size:30px}.basic-user-dashboard .panel{overflow:hidden}.basic-user-dashboard .panel h2{margin:0;padding:18px 20px;border-bottom:1px solid #e4eaf0;font-size:17px}.basic-user-dashboard table{width:100%;border-collapse:collapse}.basic-user-dashboard th,.basic-user-dashboard td{padding:13px 20px;border-bottom:1px solid #edf1f5;text-align:left;font-size:13px}.basic-user-dashboard th{color:#617287;background:#f8fafc;font-size:11px;text-transform:uppercase;letter-spacing:.05em}.basic-user-status{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:700}.basic-user-status--pending,.basic-user-status--in_progress{color:#1764a8;background:#e8f1ff}.basic-user-status--submitted{color:#7047a8;background:#f0eaff}.basic-user-status--approved{color:#147a58;background:#e4f5ec}.basic-user-status--rejected{color:#b23842;background:#fdebee}@media(max-width:760px){.basic-user-dashboard .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.basic-user-dashboard header nav{display:none}}@media(max-width:480px){.basic-user-dashboard .metrics{grid-template-columns:1fr}.basic-user-dashboard main{padding:24px 14px}.basic-user-dashboard th,.basic-user-dashboard td{padding:11px 10px}}
+  </style>
+</head>
+<body class="basic-user-dashboard">
+  <header>
+    <strong>AAIR Lab</strong>
+    <nav aria-label="Primary navigation"><a href="Dashboard.html" aria-current="page">Dashboard</a></nav>
+    <div class="user-account"><span class="user-avatar" data-basic-avatar>US</span><div><b data-basic-username>User</b><small data-basic-role>User</small></div><button id="basicLogout" type="button" aria-label="Log out">Log out</button></div>
+  </header>
+  <main>
+    <h1>My workspace</h1>
+    <p class="intro">Read-only overview of the tasks and sessions assigned to your account.</p>
+    <section class="metrics" aria-label="Task summary">
+      <article class="metric"><span>Total Tasks</span><strong id="userTotalTasks">—</strong></article>
+      <article class="metric"><span>Needs Attention</span><strong id="userPendingTasks">—</strong></article>
+      <article class="metric"><span>Submitted</span><strong id="userSubmittedTasks">—</strong></article>
+      <article class="metric"><span>Approved</span><strong id="userApprovedTasks">—</strong></article>
+    </section>
+    <section class="panel" aria-labelledby="assignedTasksTitle"><h2 id="assignedTasksTitle">Assigned Tasks</h2><div style="overflow:auto"><table><thead><tr><th>Document</th><th>Session</th><th>Status</th><th>Due date</th></tr></thead><tbody id="userTasksBody"><tr><td colspan="4">Loading tasks…</td></tr></tbody></table></div></section>
+  </main>
+  <script src="../../../JavaScript/api.js"></script>
+  <script src="../../../JavaScript/workspace.js"></script>
+  <script>
+    window.addEventListener('load', async () => {
+      const user = await window.AAIR?.guard();
+      if (!user) return;
+      document.querySelector('[data-basic-username]').textContent = user.username || 'User';
+      document.querySelector('[data-basic-role]').textContent = 'User';
+      document.querySelector('[data-basic-avatar]').textContent = (user.username || 'User').slice(0, 2).toUpperCase();
+      document.querySelector('#basicLogout').onclick = () => window.AAIR.logout();
+    });
+  </script>
+</body>
+</html>

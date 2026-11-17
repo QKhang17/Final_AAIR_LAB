@@ -7,7 +7,7 @@ import { JSDOM } from 'jsdom'
 const root = resolve(import.meta.dirname, '../..')
 const source = readFileSync(resolve(root, 'main/JavaScript/workspace.js'), 'utf8')
 const completionSource = readFileSync(resolve(root, 'main/JavaScript/sessionCompletion.js'), 'utf8')
-const roleDirs = { ADMIN: 'Admin', MANAGER: 'Manager', AI_LABELER: 'User/AILabeling', MANUAL_LABELER: 'User/ManualLabeling', REVIEWER: 'User/ManualReview', RESULT_ANALYST: 'User/ResultAnalysis', TERMINOLOGY: 'User/Terminology' }
+const roleDirs = { ADMIN: 'Admin', MANAGER: 'Manager', USER: 'User/Basic', AI_LABELER: 'User/AILabeling', MANUAL_LABELER: 'User/ManualLabeling', REVIEWER: 'User/ManualReview', RESULT_ANALYST: 'User/ResultAnalysis', TERMINOLOGY: 'User/Terminology' }
 const task = { id: 31, document_id: 11, session_id: 21, document_title: 'API Document', session_name: 'API Session', task_type: 'MANUAL', assigned_to: 4, assignee: 'manual_labeler01', status: 'PENDING', labels: [{ label_name: 'Revenue', label_value: '<b>100</b>', source_page: 5, confidence: 0.8 }], reviews: [] }
 const fixtures = {
   '/dashboard': { 'Tác vụ': 1, 'Chờ duyệt': 0, 'Đã duyệt': 0 },
@@ -49,7 +49,7 @@ const fixtures = {
       { key: 'STATISTICS', label: 'Statistics', actions: { READ: true, WRITE: false, EXECUTE: false, DELETE: false } },
     ],
   },
-  '/assignees': [{id: 4, username: 'manual_labeler01', role: 'MANUAL_LABELER'}, {id: 3, username: 'ai_labeler01', role: 'AI_LABELER'}, {id: 5, username: 'reviewer01', role: 'REVIEWER'}],
+  '/assignees': [{id: 4, username: 'manual_labeler01', role: 'MANUAL_LABELER'}, {id: 6, username: 'manual_labeler02', role: 'MANUAL_LABELER'}, {id: 3, username: 'ai_labeler01', role: 'AI_LABELER'}, {id: 5, username: 'reviewer01', role: 'REVIEWER'}],
   '/documents': [{ id: 11, title: 'API Document', original_name: 'sample.pdf', document_type: 'PDF', status: 'UPLOADED' }],
   '/sessions': [{ id: 21, name: 'API Session', description: '', session_type: 'MANUAL', status: 'DRAFT', members: [{id:4,username:'manual_labeler01'}] }],
   '/tasks': [task], '/tasks/31': task, '/tasks/31/ai-results': [],
@@ -139,6 +139,17 @@ test('manual label edits save before submit and preserve confidence',async()=>{
     assert.ok(!definition.isConnected || definition.disabled)
   } finally {c.dom.window.close()}
 })
+test('submitted tasks expose a read-only submit state', async()=>{
+  const terminalTask={...task,status:'SUBMITTED'}
+  const c=await setup('MANUAL_LABELER','Task.html',{'/tasks':[terminalTask],'/tasks/31':terminalTask})
+  try {
+    const submit=c.button('Submitted')
+    assert.ok(submit,'Terminal tasks should show Submitted')
+    assert.equal(submit.disabled,true)
+    assert.equal(submit.getAttribute('aria-disabled'),'true')
+    assert.match(submit.title,/read-only/i)
+  } finally {c.dom.window.close()}
+})
 test('term editor sends API field names and keeps content as text',async()=>{
   const c=await setup('TERMINOLOGY','BaseManagement.html')
   try {
@@ -164,7 +175,7 @@ test('manager session form creates manual session via single atomic POST /sessio
     // Verify role filtering
     const m1Values=[...m1Select.options].map(o=>o.value).filter(Boolean)
     const revValues=[...revSelect.options].map(o=>o.value).filter(Boolean)
-    assert.deepEqual(m1Values,['4'],'Manual Labeler must only include MANUAL_LABELER')
+    assert.deepEqual(m1Values,['4','6'],'Manual Labeler must only include MANUAL_LABELER')
     assert.deepEqual(revValues,['5'],'Reviewer must only include REVIEWER')
     assert.ok(!m1Values.includes('3'),'AI_LABELER must not appear in manual labelers')
     assert.ok(!revValues.includes('3'),'AI_LABELER must not appear in reviewers')
@@ -175,6 +186,8 @@ test('manager session form creates manual session via single atomic POST /sessio
 
     m1Select.value='4'
     m1Select.dispatchEvent(new c.w.Event('change'))
+    m2Select.value='6'
+    m2Select.dispatchEvent(new c.w.Event('change'))
 
     // Verify duplicate user prevention: user 4 is disabled in m2Select
     const m2Option4=[...m2Select.options].find(o=>o.value==='4')
@@ -194,12 +207,23 @@ test('manager session form creates manual session via single atomic POST /sessio
       sessionType:'MANUAL',
       dueAt:'2099-12-31T23:59:00',
       documents:[11],
-      manualLabelerIds:[4],
+      manualLabelerIds:[4,6],
       aiLabelerId:null,
       reviewerId:5,
       assistanceMode:'NONE'
     })
     assert.equal(c.w.document.querySelector('#apiNotice'),null,'non-Save/Submit actions must not show a popup')
+  } finally {c.dom.window.close()}
+})
+test('manager dashboard renders the assignee role returned by the API', async()=>{
+  const c=await setup('MANAGER','Dashboard.html',{
+    '/tasks': [{ id:3, document_title:'AI task', assignee:'user04', assignee_role:'AI_LABELER', status:'IN_PROGRESS', created_at:'2026-10-26T10:30:00Z' }]
+  })
+  try {
+    const row=[...c.w.document.querySelectorAll('.manager-table tbody tr')].find(item=>item.textContent.includes('user04'))
+    assert.ok(row)
+    assert.match(row.textContent,/AI Labeler/)
+    assert.doesNotMatch(row.textContent,/Manual Labeler/)
   } finally {c.dom.window.close()}
 })
 test('manager session due date uses a calendar and only allows future dates',async()=>{
@@ -237,6 +261,8 @@ test('manager session form creates manual session with 2 manual labelers and val
     // Block when reviewer missing
     m1Select.value='4'
     m1Select.dispatchEvent(new c.w.Event('change'))
+    m2Select.value='6'
+    m2Select.dispatchEvent(new c.w.Event('change'))
     c.button('Create Session').click();await c.settle()
     assert.deepEqual(c.errors(),['Please select a Reviewer.'])
     assert.equal(c.calls.filter(x=>x.method).length,0,'No API call when validation fails')
@@ -244,9 +270,7 @@ test('manager session form creates manual session with 2 manual labelers and val
     // Clear previous error notification before valid submission
     c.w.document.querySelectorAll('#apiNotice').forEach(e=>e.remove())
 
-    // Add optional Manual Labeler 2 and Reviewer
-    m2Select.value='6'
-    m2Select.dispatchEvent(new c.w.Event('change'))
+    // Add the required second Manual Labeler and Reviewer
     revSelect.value='5'
     revSelect.dispatchEvent(new c.w.Event('change'))
 
@@ -324,6 +348,7 @@ test('manager session type switching isolates assignment selections between MANU
     const aiRadio=[...c.w.document.querySelectorAll('input[name="sessionType"]')].find(r=>r.value==='AI')
     const manualRadio=[...c.w.document.querySelectorAll('input[name="sessionType"]')].find(r=>r.value==='MANUAL')
     const m1Select=c.w.document.querySelector('#manualLabeler1')
+    const m2Select=c.w.document.querySelector('#manualLabeler2')
     const revSelect=c.w.document.querySelector('#manualReviewer')
     const aiLabelerSelect=c.w.document.querySelector('#aiLabeler')
     const aiReviewerSelect=c.w.document.querySelector('#aiReviewer')
@@ -331,6 +356,8 @@ test('manager session type switching isolates assignment selections between MANU
     // In MANUAL mode, select user 4 and user 5
     m1Select.value='4'
     m1Select.dispatchEvent(new c.w.Event('change'))
+    m2Select.value='6'
+    m2Select.dispatchEvent(new c.w.Event('change'))
     revSelect.value='5'
     revSelect.dispatchEvent(new c.w.Event('change'))
 
@@ -371,6 +398,7 @@ test('manager create session API error keeps modal open, preserves data, and per
     const nameInput=c.w.document.querySelector('input[placeholder^="e.g."]')
     const dueInput=c.w.document.querySelector('[aria-label="Session due date"]')
     const m1Select=c.w.document.querySelector('#manualLabeler1')
+    const m2Select=c.w.document.querySelector('#manualLabeler2')
     const revSelect=c.w.document.querySelector('#manualReviewer')
 
     nameInput.value='Audit Error Session'
@@ -378,6 +406,8 @@ test('manager create session API error keeps modal open, preserves data, and per
     c.w.document.querySelector('input[name="documents"]').checked=true
     m1Select.value='4'
     m1Select.dispatchEvent(new c.w.Event('change'))
+    m2Select.value='6'
+    m2Select.dispatchEvent(new c.w.Event('change'))
     revSelect.value='5'
     revSelect.dispatchEvent(new c.w.Event('change'))
 
@@ -393,6 +423,7 @@ test('manager create session API error keeps modal open, preserves data, and per
     assert.equal(nameInput.value,'Audit Error Session')
     assert.equal(dueInput.value,'2099-12-31')
     assert.equal(m1Select.value,'4')
+    assert.equal(m2Select.value,'6')
     assert.equal(revSelect.value,'5')
 
     // No secondary /members or /tasks calls
@@ -634,6 +665,8 @@ test('manager session workflow populates assignees from /api/assignees and refre
     c.w.document.querySelector('[aria-label="Session due date"]').value='2099-12-31'
     m1Select.value='101'
     m1Select.dispatchEvent(new c.w.Event('change'))
+    c.w.document.querySelector('#manualLabeler2').value='102'
+    c.w.document.querySelector('#manualLabeler2').dispatchEvent(new c.w.Event('change'))
     revSelect.value='201'
     revSelect.dispatchEvent(new c.w.Event('change'))
 
@@ -762,6 +795,8 @@ test('create session dropdowns display user status correctly (CASES 1-5)', async
     c.w.document.querySelector('[aria-label="Session due date"]').value = '2099-12-31'
     m1Select.value = '1'
     m1Select.dispatchEvent(new c.w.Event('change'))
+    m2Select.value = '4'
+    m2Select.dispatchEvent(new c.w.Event('change'))
     revSelect.value = '7'
     revSelect.dispatchEvent(new c.w.Event('change'))
 
@@ -774,7 +809,7 @@ test('create session dropdowns display user status correctly (CASES 1-5)', async
     assert.deepEqual(c.errors(), [])
     const postCall = c.calls.find(x => x.path === '/sessions' && x.method === 'POST')
     assert.ok(postCall)
-    assert.deepEqual(JSON.parse(JSON.stringify(postCall.json.manualLabelerIds)), [1])
+    assert.deepEqual(JSON.parse(JSON.stringify(postCall.json.manualLabelerIds)), [1,4])
     assert.equal(postCall.json.reviewerId, 7)
   } finally {
     c.dom.window.close()

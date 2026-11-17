@@ -37,7 +37,42 @@
     async function run(button, fn) {
         if (button?.disabled || (button && busy.has(button))) return;
         if (button) { busy.add(button); button.setAttribute('aria-busy','true'); button.style.pointerEvents='none'; }
-        try { await fn(); } catch (error) { notice(error.message, true); }
+        try { await fn(); } catch (error) {
+            const modal = button?.closest?.('#modalOverlay');
+            if (modal) {
+                const message = String(error?.message || 'Request failed.');
+                const summary = modal.querySelector('[data-modal-error]');
+                if (summary) {
+                    summary.textContent = message;
+                    summary.hidden = false;
+                }
+                const reviewerSelector = modal.querySelector('#aiAssignContainer:not([hidden])') ? '#aiReviewer' : '#manualReviewer';
+                const fieldMap = [
+                    [/name|session name/i, 'input[placeholder^="e.g."]'],
+                    [/due date|deadline|future/i, '[aria-label="Session due date"]'],
+                    [/document/i, 'input[name="documents"]'],
+                    [/manual labeler 1/i, '#manualLabeler1'],
+                    [/manual labeler 2/i, '#manualLabeler2'],
+                    [/reviewer/i, reviewerSelector],
+                    [/ai labeler/i, '#aiLabeler'],
+                ];
+                const target = fieldMap.find(([pattern]) => pattern.test(message))?.[1];
+                const field = target ? modal.querySelector(target) : null;
+                if (field) {
+                    field.setAttribute('aria-invalid', 'true');
+                    let fieldError = field.parentElement?.querySelector('[data-field-error]');
+                    if (!fieldError) {
+                        fieldError = document.createElement('p');
+                        fieldError.dataset.fieldError = 'true';
+                        fieldError.className = 'session-field-error';
+                        field.parentElement?.append(fieldError);
+                    }
+                    fieldError.textContent = message;
+                    field.focus?.();
+                }
+            }
+            notice(error.message, true);
+        }
         finally { if (button) { busy.delete(button); button.removeAttribute('aria-busy'); button.style.pointerEvents=''; } }
     }
     function bind(button, fn) {
@@ -52,8 +87,8 @@
         el.removeAttribute('onclick'); el.disabled = true; el.title = message;
         el.setAttribute('aria-label', `${text(el)} — ${message}`); el.style.opacity = '0.5';
     }
-    const date = value => value ? new Date(value).toLocaleString('vi-VN') : '—';
-    const userRoleLabels = { ADMIN: 'Admin', MANAGER: 'Manager', AI_LABELER: 'AI Labeler', MANUAL_LABELER: 'Manual Labeler', REVIEWER: 'Reviewer', RESULT_ANALYST: 'Analyst', TERMINOLOGY: 'Terminology', LABELER: 'Labeler', ANALYST: 'Analyst' };
+    const date = value => value ? new Intl.DateTimeFormat('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }).format(new Date(value)) : '—';
+    const userRoleLabels = { ADMIN: 'Administrator', MANAGER: 'Manager', USER: 'User', AI_LABELER: 'AI Labeler', MANUAL_LABELER: 'Manual Labeler', REVIEWER: 'Reviewer', RESULT_ANALYST: 'Result Analyst', TERMINOLOGY: 'Terminology', LABELER: 'Labeler', ANALYST: 'Result Analyst' };
     const userRoleLabel = value => userRoleLabels[String(value || '').toUpperCase()] || String(value || 'User');
     const userDate = value => { const parsed = new Date(value); if (Number.isNaN(parsed.getTime())) return '—'; const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return `${parsed.getDate()} ${months[parsed.getMonth()]} ${parsed.getFullYear()}, ${String(parsed.getHours()).padStart(2,'0')}:${String(parsed.getMinutes()).padStart(2,'0')}`; };
     function userBadge(label, tone) { const badge = document.createElement('span'); badge.className = `users-badge users-badge--${tone}`; badge.textContent = label; return badge; }
@@ -93,11 +128,11 @@
     }
     function dueDateToIso(value) {
         const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim());
-        if (!match) throw new Error('Vui lòng chọn ngày hết hạn hợp lệ.');
+        if (!match) throw new Error('Please select a valid due date.');
         const [, year, month, day] = match;
         const parsed = new Date(Number(year), Number(month) - 1, Number(day), 23, 59, 0);
         if (parsed.getFullYear() !== Number(year) || parsed.getMonth() !== Number(month) - 1 || parsed.getDate() !== Number(day))
-            throw new Error('Ngày hết hạn không hợp lệ.');
+            throw new Error('The due date is invalid.');
         return { parsed, iso: `${year}-${month}-${day}T23:59:00` };
     }
     const status = row => (row.is_active === false ? 'INACTIVE' : (row.status ?? (row.is_active ? 'ACTIVE' : '—')));
@@ -481,7 +516,7 @@
         field.setAttribute('aria-label', label);
     }
     function required(field, label) {
-        if (!field.value.trim()) throw new Error(`Vui lòng nhập ${label}.`);
+        if (!field.value.trim()) throw new Error(`${label} is required.`);
         return field.value.trim();
     }
     async function termsPage() {
@@ -648,7 +683,7 @@
         $('p',modelSection).textContent='Session Type';
         $$('p',modelSection)[1].textContent='Chọn gán nhãn AI, thủ công hoặc cả hai.';
         const modelSearch=$('input[placeholder="Search AI models..."]',modal);modelSearch.parentElement.hidden=true;
-        const assignmentRoleLabel=u=>u.role==='RESULT_ANALYST'?'RESULT ANALYST':u.role==='REVIEWER'?'REVIEWER':u.role;
+        const assignmentRoleLabel=u=>userRoleLabel(u?.role);
         checkList(memberList,assignees.map(u=>({id:u.id,name:`${u.username} — ${assignmentRoleLabel(u)}`})),'members');
         const userSection=memberList.parentElement;
         const userSearchRow=memberList.previousElementSibling;
@@ -708,6 +743,12 @@
             </div>
         `;
         userSection.appendChild(aiAssignContainer);
+        const sessionFormNotice=document.createElement('p');
+        sessionFormNotice.dataset.modalError='true';
+        sessionFormNotice.className='session-form-error';
+        sessionFormNotice.setAttribute('role','alert');
+        sessionFormNotice.hidden=true;
+        userSection.insertBefore(sessionFormNotice,manualAssignContainer);
 
         const m1Select=$('#manualLabeler1',manualAssignContainer);
         const m2Select=$('#manualLabeler2',manualAssignContainer);
@@ -715,6 +756,13 @@
 
         const aiLabelerSelect=$('#aiLabeler',aiAssignContainer);
         const aiReviewerSelect=$('#aiReviewer',aiAssignContainer);
+        const clearSessionFieldError=field=>{
+            field?.removeAttribute('aria-invalid');
+            field?.parentElement?.querySelector('[data-field-error]')?.remove();
+            sessionFormNotice.hidden=true;sessionFormNotice.textContent='';
+        };
+        [name,m1Select,m2Select,reviewerSelect,aiLabelerSelect,aiReviewerSelect].forEach(field=>field?.addEventListener('input',()=>clearSessionFieldError(field)));
+        [m1Select,m2Select,reviewerSelect,aiLabelerSelect,aiReviewerSelect].forEach(field=>field?.addEventListener('change',()=>clearSessionFieldError(field)));
 
         let currentAssignees=assignees;
         const roleOf=user=>String(user?.role||'').toUpperCase();
@@ -920,6 +968,7 @@
         const startDate=$('#sessionStartDate',modal), dueDate=$('#sessionDueDate',modal);
         startDate.closest('[class~="space-y-1.5"]').hidden=true;
         dueDate.setAttribute('aria-label','Session due date');dueDate.required=true;
+        dueDate.addEventListener('change',()=>clearSessionFieldError(dueDate));
         const setDueDateMinimum=()=>{
             const tomorrow=new Date();
             tomorrow.setHours(0,0,0,0);
@@ -938,6 +987,9 @@
             const typeInputs=$$('input',typeList);if(typeInputs[0])typeInputs[0].checked=true;
             previousType='MANUAL';
             syncSessionType();
+            sessionFormNotice.hidden=true;sessionFormNotice.textContent='';
+            $$('[data-field-error]',modal).forEach(error=>error.remove());
+            $$('[aria-invalid="true"]',modal).forEach(field=>field.removeAttribute('aria-invalid'));
             save.textContent='Create Session';$('h3',modal).textContent='Create Session';
         };
         const edit=row=>{
@@ -970,36 +1022,36 @@
         bindText(/New Session|Create First Session/,async()=>{reset();modalOpen();await reloadAssignees();});
         bind(save,async()=>{
             const userIds=selected(memberList).map(Number);
-            if(editing){await request(`/sessions/${editing.id}/members`,{method:'PUT',json:{userIds}});modalClose();await refresh();notice('Đã cập nhật thành viên.');return;}
+            if(editing){await request(`/sessions/${editing.id}/members`,{method:'PUT',json:{userIds}});modalClose();await refresh();notice('Session members updated.');return;}
             const type=selected(typeList)[0]||'MANUAL', docIds=selected(documentList).map(Number);
 
             if(type==='MANUAL'){
-                required(name,'tên phiên');
-                required(dueDate,'ngày hết hạn');
-                if(dueDate.value<dueDate.min)throw new Error('Ngày hết hạn phải ở tương lai.');
+                required(name,'Session name');
+                required(dueDate,'Due date');
+                if(dueDate.value<dueDate.min)throw new Error('The due date must be in the future.');
                 const sessionDue=dueDateToIso(dueDate.value);
-                if(sessionDue.parsed<=new Date())throw new Error('Ngày hết hạn phải ở tương lai.');
-                if(!docIds.length)throw new Error('Vui lòng chọn ít nhất một tài liệu PDF.');
+                if(sessionDue.parsed<=new Date())throw new Error('The due date must be in the future.');
+                if(!docIds.length)throw new Error('Please select at least one PDF document.');
 
-                if(!m1Select.value)throw new Error('Vui lòng chọn Manual Labeler 1.');
-                if(!m2Select.value)throw new Error('Vui lòng chọn Manual Labeler 2.');
-                if(!reviewerSelect.value)throw new Error('Vui lòng chọn Reviewer.');
+                if(!m1Select.value)throw new Error('Please select Manual Labeler 1.');
+                if(!m2Select.value)throw new Error('Please select Manual Labeler 2.');
+                if(!reviewerSelect.value)throw new Error('Please select a Reviewer.');
 
                 const m1Id=Number(m1Select.value);
                 const m2Id=Number(m2Select.value);
                 const revId=Number(reviewerSelect.value);
 
                 const chosenIds=[m1Id,m2Id,revId].filter(Boolean);
-                if(new Set(chosenIds).size!==chosenIds.length)throw new Error('Không được chọn trùng người dùng giữa các vai trò.');
+                if(new Set(chosenIds).size!==chosenIds.length)throw new Error('A user cannot be assigned to multiple roles in the same session.');
 
                 const m1User=currentAssignees.find(u=>u.id===m1Id);
                 const m2User=currentAssignees.find(u=>u.id===m2Id);
                 const revUser=currentAssignees.find(u=>u.id===revId);
 
                 const hasRole=(candidate,...roles)=>candidate&&roles.includes(String(candidate.role||'').toUpperCase());
-                if(!hasRole(m1User,'USER','MANUAL_LABELER'))throw new Error('Manual Labeler 1 phải là tài khoản USER hoặc MANUAL_LABELER.');
-                if(!hasRole(m2User,'USER','MANUAL_LABELER'))throw new Error('Manual Labeler 2 phải là tài khoản USER hoặc MANUAL_LABELER.');
-                if(!hasRole(revUser,'USER','REVIEWER'))throw new Error('Reviewer phải là tài khoản USER hoặc REVIEWER.');
+                if(!hasRole(m1User,'USER','MANUAL_LABELER'))throw new Error('Manual Labeler 1 must have the Manual Labeler role.');
+                if(!hasRole(m2User,'USER','MANUAL_LABELER'))throw new Error('Manual Labeler 2 must have the Manual Labeler role.');
+                if(!hasRole(revUser,'USER','REVIEWER'))throw new Error('The selected user must have the Reviewer role.');
 
                 const manualLabelerIds=[m1Id,m2Id];
 
@@ -1016,17 +1068,17 @@
                 };
 
                 await request('/sessions',{method:'POST',json:payload});
-                modalClose();reset();await refresh();notice('Đã tạo session thành công');
+                modalClose();reset();await refresh();notice('Session created successfully.');
                 return;
             }
 
             if(type==='AI'){
-                required(name,'tên phiên');
-                required(dueDate,'ngày hết hạn');
-                if(dueDate.value<dueDate.min)throw new Error('Ngày hết hạn phải ở tương lai.');
+                required(name,'Session name');
+                required(dueDate,'Due date');
+                if(dueDate.value<dueDate.min)throw new Error('The due date must be in the future.');
                 const sessionDue=dueDateToIso(dueDate.value);
-                if(sessionDue.parsed<=new Date())throw new Error('Ngày hết hạn phải ở tương lai.');
-                if(!docIds.length)throw new Error('Vui lòng chọn ít nhất một tài liệu PDF.');
+                if(sessionDue.parsed<=new Date())throw new Error('The due date must be in the future.');
+                if(!docIds.length)throw new Error('Please select at least one PDF document.');
 
                 if(!aiLabelerSelect.value)throw new Error('Please select an AI Labeler.');
                 if(!aiReviewerSelect.value)throw new Error('Please select a Reviewer.');
@@ -1034,14 +1086,14 @@
                 const aiId=Number(aiLabelerSelect.value);
                 const revId=Number(aiReviewerSelect.value);
 
-                if(aiId===revId)throw new Error('Không được chọn trùng người dùng giữa các vai trò.');
+                if(aiId===revId)throw new Error('A user cannot be assigned to multiple roles in the same session.');
 
                 const aiUser=currentAssignees.find(u=>u.id===aiId);
                 const revUser=currentAssignees.find(u=>u.id===revId);
 
                 const hasRole=(candidate,...roles)=>candidate&&roles.includes(String(candidate.role||'').toUpperCase());
-                if(!hasRole(aiUser,'USER','AI_LABELER'))throw new Error('AI Labeler phải là tài khoản USER hoặc AI_LABELER.');
-                if(!hasRole(revUser,'USER','REVIEWER'))throw new Error('Reviewer phải là tài khoản USER hoặc REVIEWER.');
+                if(!hasRole(aiUser,'USER','AI_LABELER'))throw new Error('AI Labeler must have the AI Labeler role.');
+                if(!hasRole(revUser,'USER','REVIEWER'))throw new Error('The selected user must have the Reviewer role.');
 
                 const payload={
                     name:name.value.trim(),
@@ -1056,7 +1108,7 @@
                 };
 
                 await request('/sessions',{method:'POST',json:payload});
-                modalClose();reset();await refresh();notice('Đã tạo session thành công');
+                modalClose();reset();await refresh();notice('Session created successfully.');
                 return;
             }
         });
@@ -1097,11 +1149,13 @@
                         const reviewTask=ordered.find(task=>String(task.status||'').toUpperCase()==='SUBMITTED')||ordered.find(task=>String(task.status||'').toUpperCase()==='IN_PROGRESS')||ordered[0];
                         const taskId=taskIdOf(reviewTask),status=String(reviewTask.status||'PENDING').toUpperCase(),reviewCase=caseByTask.get(String(taskId));
                         const documentTitle=reviewTask.document_title||'Untitled document';
-                        const targetId=reviewCase?.id??taskId;
+                        const targetHref=reviewCase&&Number(reviewCase.id)>0
+                            ?`Task.html?caseId=${encodeURIComponent(reviewCase.id)}`
+                            :`Task.html?taskId=${encodeURIComponent(taskId)}`;
                         const actionText=status==='SUBMITTED'?'Review':status==='APPROVED'?'View':status==='PENDING'?'Start':'Continue';
                         const conflict=reviewCase?conflictCounts.get(`case:${reviewCase.id}`)??0:Math.max(...group.map(task=>Number(task.conflict_count)||0));
                         const row=body.insertRow();
-                        const doc=row.insertCell();const docLink=document.createElement('a');docLink.className='cell-primary';docLink.href=`Task.html?id=${encodeURIComponent(targetId)}`;docLink.textContent=documentTitle;docLink.title=documentTitle;doc.append(docLink);
+                        const doc=row.insertCell();const docLink=document.createElement('a');docLink.className='cell-primary';docLink.href=targetHref;docLink.textContent=documentTitle;docLink.title=documentTitle;doc.append(docLink);
                         row.insertCell().textContent=reviewTask.session_name||'—';
                         row.insertCell().textContent=ordered.map(task=>task.assignee||task.assignee_username).filter(Boolean).join(' / ')||'—';
                         row.insertCell().textContent='Manual';
@@ -1180,6 +1234,13 @@
     }
     async function legacyResultAnalysisPage() {
         window.AAIRSharedHeader?.mount(user);
+        const analystUsername=user?.username||'User';
+        const analystAvatar=$('#raAvatar');
+        const analystName=$('#raUsername');
+        const analystRole=$('#raRole')||document.querySelector('.ra-account small');
+        if(analystAvatar)analystAvatar.textContent=analystUsername.slice(0,2).toUpperCase();
+        if(analystName)analystName.textContent=analystUsername;
+        if(analystRole)analystRole.textContent=userRoleLabel(user?.role);
         const logoutButton=$('#raLogout');
         logoutButton?.addEventListener('click',()=>{
             if(window.confirm('Are you sure you want to log out?')) AAIR.logout();
@@ -1237,6 +1298,8 @@
         const correctionResult=$('#raCorrectionResult');
         const pdf=$('#raPdf');
         const pdfEmpty=$('#raPdfEmpty');
+        const pdfState=$('#raPdfState');
+        pdf?.addEventListener('load',()=>{if(pdfState){pdfState.hidden=true;pdfState.textContent='';}});
         const state={tasks,task:null,rows:[],models:[],modelA:'',modelB:'',analyzed:false,page:1,pdfUrl:null,noteRow:null,noteCompare:null,redoRunId:null,completionGuard:null};
         const fieldLabels={company_name:'Company Name',ticker:'Ticker',industry:'Industry',report_period:'Report Period',report_year:'Report Year',revenue:'Revenue'};
         const value=row=>row?.indicator_value??row?.label_value??row?.value??'No value';
@@ -1358,7 +1421,17 @@
             state.rows = [...validAiRows, ...manualRows];
             state.models=[...new Map(state.rows.map(row=>[modelKey(row),{key:modelKey(row),provider:row.provider||'AI',model:row.model||row.provider||'Model',runId:row.run_id||null}])).values()];
             state.modelA='';state.modelB='';renderModels();syncModelOptions();renderResults();setMessage('');
-            try{await loadPdf();}catch(error){setMessage(error.message); }
+            try{await loadPdf();}catch(error){
+                if(pdfState){
+                    pdfState.hidden=false;
+                    pdfState.replaceChildren(document.createTextNode('PDF unavailable. '));
+                    const retry=document.createElement('button');
+                    retry.type='button';retry.textContent='Retry';retry.className='pdf-retry-button';
+                    retry.onclick=()=>loadTaskResults().catch(failure=>setMessage(failure.message));
+                    pdfState.append(retry);
+                }
+                setMessage(error.message);
+            }
             await state.completionGuard?.refresh();
         };
         const openNote=(row,compare)=>{
@@ -1391,6 +1464,7 @@
         window.addEventListener('pagehide',()=>{if(state.pdfUrl)URL.revokeObjectURL(state.pdfUrl);if(sessionTimerInterval)clearInterval(sessionTimerInterval);});
         state.completionGuard=AAIR.SessionCompletion?.create({button:$('#raCompleteAnalysis'),loadStatus:()=>request(`/session-completion${state.task?.session_id?`?sessionId=${state.task.session_id}`:''}`),findItem:item=>$(`[data-task-id="${item.id}"]`,documents),blockedTitle:'Resolve all differences in all documents before completing the analysis'});
         $('#raCompleteAnalysis').onclick=async()=>{if(state.completionGuard&&!await state.completionGuard.ensure('Analysis cannot be completed yet'))return;await request('/analysis/complete',{method:'POST',json:{sessionId:state.task?.session_id||null}});await state.completionGuard?.refresh();setMessage('The session analysis is complete.');};
+        if(pdfState){pdfState.hidden=false;pdfState.textContent='Loading PDF…';}
         syncModelOptions();selectTask(initial.id);
     }
     async function taskPage() {
@@ -1404,7 +1478,7 @@
             setupTaskWorkspace();
         }
         if(user?.role==='RESULT_ANALYST'&&document.body.classList.contains('result-analysis-page')){await legacyResultAnalysisPage();return;}
-        // The old processing strip contained static demo values, not live API progress.
+        // The legacy processing strip had no live API source, so it is removed.
         $('#processingPanel')?.remove();
         const [tasks,prompts,systemPrompt]=await Promise.all([
             request('/tasks'),
@@ -1539,7 +1613,7 @@
         };
         editor.value='[]';
         reviewBodies.slice(1).forEach(body=>body.replaceChildren());
-        // Other extraction/status panels contain mock results and are unavailable until an inference API exists.
+        // Other extraction/status panels stay unavailable until an inference API exists.
         $$('main h2,main h3').filter(h=>['Extraction Status','Processing Details'].includes(text(h))).forEach(h=>{
             const section=h.parentElement;[...section.children].filter(c=>c!==h).forEach(c=>c.remove());const p=document.createElement('p');p.textContent='No AI processing data yet.';section.append(p);
         });
@@ -1583,7 +1657,7 @@
             buttons(/Save|Submit|Nộp bài|Approve|Analyze/).forEach(b=>unavailable(b,'No task assigned.'));
             notice(id?'Task not found or access denied.':'No task assigned.',Boolean(id));return;
         }
-        let task, fileUrl, workTimer, completionGuard, loadSequence=0;
+        let task, fileUrl, workTimer, completionGuard, loadSequence=0, submitTaskButton=null;
         const title=$('#sessionTitle');
         const type=null;
         const docHeading=$$('main h3').find(h=>['Document Information','Document Info','Thông tin tài liệu'].includes(text(h)));
@@ -1596,6 +1670,16 @@
             // assigned fields. Other roles keep the submitted/approved lock.
             editor.readOnly=!labeler||(!isManualLabeler&&['SUBMITTED','APPROVED'].includes(task.status));
             document.title=`${task.document_title} — ${task.status}`;
+            if(submitTaskButton){
+                const terminal=['SUBMITTED','APPROVED'].includes(String(task.status||'').toUpperCase());
+                const label=String(task.status||'').toUpperCase()==='APPROVED'?'Approved':terminal?'Submitted':'Submit Task';
+                submitTaskButton.disabled=terminal;
+                submitTaskButton.dataset.terminalState=String(terminal);
+                submitTaskButton.setAttribute('aria-disabled',String(terminal));
+                submitTaskButton.title=terminal?'This task is read-only and waiting for review.':'Save all fields before submitting the task.';
+                const buttonLabel=submitTaskButton.querySelector('.task-button-label');
+                if(buttonLabel)buttonLabel.textContent=label;else submitTaskButton.textContent=label;
+            }
         };
         const refresh=async()=>{task=await request(`/tasks/${task.id}`);renderTask();};
         async function loadTask(row){
@@ -1626,7 +1710,17 @@
                 button.setAttribute('aria-current',selected?'true':'false');
             });
             const iframe=$('#pdfViewer');
-            if(iframe){iframe.removeAttribute('src');iframe.srcdoc='<p style="font-family:sans-serif;padding:24px">Đang tải tài liệu PDF…</p>';}
+            let pdfState=iframe?.parentElement?.querySelector('[data-pdf-state]');
+            if(iframe&&!pdfState){
+                pdfState=document.createElement('div');
+                pdfState.dataset.pdfState='true';
+                pdfState.className='pdf-loading-state';
+                iframe.parentElement?.append(pdfState);
+            }
+            if(iframe){
+                if(pdfState){pdfState.hidden=false;pdfState.textContent='Loading PDF…';}
+                iframe.removeAttribute('src');iframe.srcdoc='<p style="font-family:sans-serif;padding:24px">Loading PDF…</p>';
+            }
             try {
                 const blob=await request(`/documents/${task.document_id}/file`,{blob:true});
                 if(sequence!==loadSequence)return;
@@ -1637,6 +1731,7 @@
                     const openedTaskId=task.id;
                     iframe.onload=()=>{
                         if(sequence!==loadSequence||task.id!==openedTaskId)return;
+                        if(pdfState){pdfState.hidden=true;pdfState.textContent='';}
                         const addPdfControls=()=>{
                             const documentInFrame=iframe.contentDocument;
                             const toolbar=documentInFrame?.querySelector('#toolbarViewerRight');
@@ -1663,12 +1758,22 @@
                 notice(`Đã mở tài liệu ${task.document_title}.`);
                 if(completionGuard)await completionGuard.refresh();
             } catch(error) {
-                if(iframe)iframe.srcdoc=`<p style="font-family:sans-serif;padding:24px;color:#b91c1c">Không tải được tài liệu PDF.</p>`;
+                if(pdfState){
+                    pdfState.hidden=false;
+                    pdfState.replaceChildren(document.createTextNode('PDF unavailable. '));
+                    const retry=document.createElement('button');
+                    retry.type='button';
+                    retry.textContent='Retry';
+                    retry.className='pdf-retry-button';
+                    retry.onclick=()=>loadTask(task).catch(failure=>notice(failure.message,true));
+                    pdfState.append(retry);
+                }
+                if(iframe)iframe.srcdoc=`<p style="font-family:sans-serif;padding:24px;color:#b91c1c">PDF unavailable.</p>`;
                 throw error;
             }
         }
         await loadTask(initial);
-        const submitTaskButton=buttons(/^(Submit Task|Nộp bài)$/)[0]; if(submitTaskButton)submitTaskButton.setAttribute('aria-label','Submit Task');
+        submitTaskButton=buttons(/^(Submit Task|Nộp bài)$/)[0]; if(submitTaskButton){submitTaskButton.setAttribute('aria-label','Submit Task');renderTask();}
         if(window.AAIR.SessionCompletion&&submitTaskButton){
             completionGuard=AAIR.SessionCompletion.create({
                 button:submitTaskButton,
@@ -1677,8 +1782,8 @@
                 blockedTitle:status=>{const documents=Array.isArray(status.documents)?status.documents:[],total=documents.length||tasks.filter(item=>String(item.session_id)===String(task?.session_id)).length,done=documents.filter(item=>item.status==='done'||['SUBMITTED','APPROVED','COMPLETED'].includes(String(item.status||'').toUpperCase())).length;return total?`Cần lưu cả ${total} tài liệu (đã lưu ${done}/${total})`:`Còn ${(status.missingItems||[]).length} tài liệu chưa hoàn tất`;},
                 onStatus:status=>{
                     const reported=Array.isArray(status.documents)?status.documents:[];
-                    const fallbackTasks=tasks.filter(item=>String(item.session_id)===String(task?.session_id));
-                    const sessionTasks=reported.length?reported:fallbackTasks;
+                    const taskApiDocuments=tasks.filter(item=>String(item.session_id)===String(task?.session_id));
+                    const sessionTasks=reported.length?reported:taskApiDocuments;
                     const total=sessionTasks.length,done=sessionTasks.filter(item=>item.status==='done'||['SUBMITTED','APPROVED','COMPLETED'].includes(item.status)).length;
                     const percent=total?Math.round(done/total*100):0;
                     const progress=$('#sessionProgressTrack'),bar=$('#sessionProgressBar'),label=$('#sessionProgressText');
@@ -1824,7 +1929,15 @@
     async function permissionsPage() {
         if (window.AAIRPermissionsPage) return window.AAIRPermissionsPage({request,notice,user});
         const [roles,users]=await Promise.all([request('/roles'),request('/users')]);
-        const roleNames={ADMIN:'Administrator',MANAGER:'Manager'};
+        const roleNames={ADMIN:'Administrator',MANAGER:'Manager',USER:'User',EXPERT:'Expert',REVIEWER:'Reviewer',RESULT_ANALYST:'Result Analyst',AI_LABELER:'AI Labeler',MANUAL_LABELER:'Manual Labeler'};
+        if(!$('main h4')){
+            const root=$('main');
+            root.innerHTML=`<section class="permission-page mx-auto max-w-[1540px] px-6 py-6"><div class="grid grid-cols-12 gap-5"><aside class="col-span-12 lg:col-span-4"><h2 class="mb-3 text-sm font-semibold text-on-surface-variant">Available roles</h2><div id="fallbackRoleList" class="space-y-2"></div></aside><section class="col-span-12 rounded-xl border border-outline-variant bg-white lg:col-span-8"><div class="border-b border-outline-variant px-5 py-4"><h3>Access Matrix</h3></div><table class="w-full"><thead><tr><th>Feature</th><th>Read</th><th>Write</th><th>Execute</th><th>Delete</th></tr></thead><tbody></tbody></table></section></div></section>`;
+            const list=$('#fallbackRoleList');
+            roles.forEach(role=>{const card=document.createElement('button');card.type='button';card.className='group w-full rounded-lg border border-outline-variant bg-white p-4 text-left';card.innerHTML=`<h4 class="font-semibold">${roleNames[role]||role}</h4><p class="mt-1 text-xs text-on-surface-variant">${users.filter(item=>String(item.role).toUpperCase()===role).length} Members</p>`;list.append(card);});
+        }
+        const fallbackRoleList=$('#fallbackRoleList');
+        if(!roles.length){if(fallbackRoleList)fallbackRoleList.innerHTML='<p class="rounded-lg border border-dashed border-outline-variant p-4 text-center text-sm text-on-surface-variant">No roles available.</p>';const empty=$('main tbody');if(empty)empty.innerHTML='<tr><td colspan="5" class="p-8 text-center text-sm text-on-surface-variant">No permission data available.</td></tr>';return;}
         const roleFeatures={
             ADMIN:new Set(['DASHBOARD','USER_MANAGEMENT','PERMISSION_MANAGEMENT','AUDIT_LOGS']),
             MANAGER:new Set(['DASHBOARD','USER_MANAGEMENT','PERMISSION_MANAGEMENT','DOCUMENTS','SESSIONS','TASKS','STATISTICS'])
@@ -1860,7 +1973,7 @@
         const coverageNode=$$('main span').find(s=>text(s).includes('%'));
         const saveButton=buttons(/Save Changes/)[0];
         const tbody=$('table tbody');
-        let selectedRole='ADMIN', snapshot=null, changes=new Map();
+        let selectedRole=roles[0]||null, snapshot=null, changes=new Map();
 
         function setCardState() {
             for(const [role,card] of roleCards) {
@@ -1879,7 +1992,8 @@
             const progress=$$('main div').find(d=>d.classList.contains('bg-primary')&&d.classList.contains('h-full')&&d.classList.contains('w-full'));
             if(progress){progress.classList.remove('w-full');progress.style.width=`${data.coverage}%`;}
             if(!tbody)return;
-            tbody.replaceChildren(...data.features.map(feature=>{
+            const featureRows=Array.isArray(data?.features)?data.features:[];
+            tbody.replaceChildren(...(featureRows.length?featureRows.map(feature=>{
                 const tr=document.createElement('tr');tr.className='hover:bg-surface-container-low/30 transition-colors group';
                 const td=document.createElement('td');td.className='px-6 py-4 sticky left-0 bg-white/95 backdrop-blur-sm z-10';
                 td.textContent=feature.label;tr.append(td);
@@ -1888,13 +2002,13 @@
                     const input=document.createElement('input');input.type='checkbox';input.checked=Boolean(feature.actions[actionName]);
                     input.className='w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary/20';
                     input.setAttribute('aria-label',`${actionName} ${feature.key}`);
-                    const editable=user.role==='ADMIN' && roleFeatures[selectedRole].has(feature.key);
+                    const editable=user.role==='ADMIN' && (roleFeatures[selectedRole]||new Set()).has(feature.key);
                     input.disabled=!editable;
                     input.onchange=()=>changes.set(`${feature.key}:${actionName}`,{feature:feature.key,action:actionName,enabled:input.checked});
                     cell.append(input);tr.append(cell);
                 }
                 return tr;
-            }));
+            }):[(()=>{const tr=document.createElement('tr');const td=document.createElement('td');td.colSpan=5;td.className='p-8 text-center text-sm text-on-surface-variant';td.textContent='No permission data available.';tr.append(td);return tr;})()]));
         }
         async function selectRole(role) {
             selectedRole=role; setCardState();
@@ -1909,7 +2023,7 @@
             const data=await request(`/permissions/${selectedRole}`,{method:'PUT',json:{permissions}});
             renderSnapshot(data); notice('Đã lưu thay đổi permission.');
         });
-        await selectRole(selectedRole);
+        if(selectedRole) await selectRole(selectedRole);
     }
     async function dashboardPage() {
         if (user.role === 'TERMINOLOGY' && window.AAIRTerminologyDashboardPage) {
@@ -1919,6 +2033,28 @@
         const role=user.role;
         const greeting=$$('header h2').find(h=>/^Good (Morning|Afternoon|Evening)/.test(text(h)));if(greeting){const currentGreeting=window.AAIRGreeting?.getGreeting?.(new Date())||'Good Morning,';greeting.textContent=`${currentGreeting} ${user.username}`;}
         let rows=await request(role==='ADMIN'?'/audit-logs':role==='TERMINOLOGY'?'/terms':'/tasks');
+        if(document.body.classList.contains('review-dashboard-page')){
+            const statuses=rows.map(row=>String(row.status||'PENDING').toUpperCase());
+            const count=(...values)=>statuses.filter(value=>values.includes(value)).length;
+            const values=[count('PENDING','IN_PROGRESS','SUBMITTED'),count('APPROVED'),count('REJECTED'),'—','—'];
+            const labels=['Pending Reviews','Approved','Revision Requests','Review Accuracy','Avg. Review Time'];
+            const icons=['pending_actions','task_alt','assignment_return','insights','timer'];
+            $$('.review-dashboard-kpi').forEach((card,index)=>{
+                card.replaceChildren();
+                const icon=document.createElement('span');icon.className='material-symbols-outlined';icon.textContent=icons[index]||'insights';
+                const label=document.createElement('p');label.className='font-label-md text-on-surface-variant mb-1';label.textContent=labels[index]||'Metric';
+                const value=document.createElement('h3');value.className='font-headline-lg text-headline-lg font-bold text-on-surface';value.textContent=String(values[index]??'—');
+                const note=document.createElement('small');note.className='text-[12px] text-on-surface-variant';note.textContent=index>=3?'No API data available':'From API data';
+                card.append(icon,label,value,note);
+            });
+            const progress=$$('main h3').find(node=>text(node)==='Review Progress');
+            if(progress){const card=progress.closest('.bg-white');if(card){card.replaceChildren(progress);const message=document.createElement('p');message.className='p-6 text-sm text-on-surface-variant';message.textContent=rows.length?'Progress details are available in the review queue.':'No review progress data available.';card.append(message);}}
+            for(const title of ['Top Reviewers','Recent Activity']){
+                const heading=$$('main h3').find(node=>text(node)===title);const card=heading?.closest('.bg-white');
+                if(card){card.replaceChildren(heading);const message=document.createElement('p');message.className='p-6 text-sm text-on-surface-variant';message.textContent=title==='Recent Activity'&&rows.length?'Recent activity is available in the review queue.':'No data available.';card.append(message);}
+            }
+            return;
+        }
         if(document.body.classList.contains('manual-labeling-dashboard')){
             const taskPriority={PENDING:0,IN_PROGRESS:1,REJECTED:2,SUBMITTED:3,APPROVED:4};
             rows=[...rows].sort((left,right)=>{const a=String(left.status||'PENDING').toUpperCase(),b=String(right.status||'PENDING').toUpperCase();const priority=(taskPriority[a]??5)-(taskPriority[b]??5);if(priority)return priority;const leftDate=new Date(left.updated_at||left.created_at||left.updatedAt||0).getTime(),rightDate=new Date(right.updated_at||right.created_at||right.updatedAt||0).getTime();return rightDate-leftDate;});
@@ -1962,6 +2098,16 @@
             bind($('#refreshDashboard'),()=>location.reload());
             return;
         }
+        if(role==='USER'&&document.body.classList.contains('basic-user-dashboard')){
+            const statuses=rows.map(row=>String(row.status||'PENDING').toUpperCase());
+            const counts={total:rows.length,pending:statuses.filter(value=>['PENDING','IN_PROGRESS','REJECTED'].includes(value)).length,submitted:statuses.filter(value=>value==='SUBMITTED').length,approved:statuses.filter(value=>value==='APPROVED').length};
+            const set=(selector,value)=>{const node=$(selector);if(node)node.textContent=String(value);};
+            set('#userTotalTasks',counts.total);set('#userPendingTasks',counts.pending);set('#userSubmittedTasks',counts.submitted);set('#userApprovedTasks',counts.approved);
+            const label={PENDING:'Pending',IN_PROGRESS:'In progress',SUBMITTED:'Submitted',APPROVED:'Approved',REJECTED:'Returned'};
+            const body=$('#userTasksBody');
+            if(body)body.innerHTML=rows.slice(0,20).map(row=>{const state=String(row.status||'PENDING').toUpperCase();const due=row.due_at||row.dueAt;const date=due?new Date(due):null;const formatted=date&&!Number.isNaN(date.getTime())?new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short',year:'numeric'}).format(date):'—';return `<tr><td>${row.document_title||'Untitled document'}</td><td>${row.session_name||'Unassigned session'}</td><td><span class="basic-user-status basic-user-status--${state.toLowerCase()}">${label[state]||state}</span></td><td>${formatted}</td></tr>`;}).join('')||'<tr><td colspan="4">No tasks are assigned to you.</td></tr>';
+            return;
+        }
         // All dashboard designs have their KPI cards in the first grid.
         const grid=$('main .grid');
         if(grid){
@@ -1998,7 +2144,7 @@
                 id:row.id??index,
                 time:row.created_at||row.timestamp||row.logged_at||row.updated_at,
                 user:row.username||row.user||'Unknown',
-                role:({ADMIN:'Admin',MANAGER:'Manager',REVIEWER:'Reviewer',LABELER:'Labeler',MANUAL_LABELER:'Labeler',ANALYST:'Analyst',RESULT_ANALYST:'Analyst'}[row.role||row.user_role]||row.role||'User'),
+                role:({ADMIN:'Administrator',MANAGER:'Manager',USER:'User',AI_LABELER:'AI Labeler',MANUAL_LABELER:'Manual Labeler',REVIEWER:'Reviewer',LABELER:'Labeler',ANALYST:'Result Analyst',RESULT_ANALYST:'Result Analyst'}[row.role||row.user_role]||row.role||'User'),
                 resource:row.resource_type||row.resource||'SYSTEM',
                 resourceId:row.resource_id??row.id??'—',
                 action:String(row.action||'UNKNOWN').toUpperCase(),
@@ -2059,7 +2205,7 @@
                 const approvedSub=document.querySelector('.manager-kpi-card:nth-child(3) .manager-kpi-sub strong');if(approvedSub)approvedSub.textContent=(counts.total?Math.round(counts.approved/counts.total*100):0)+'% of total tasks';
                 if(managerTable){
                     const body=managerTable.querySelector('tbody');
-                    if(body)body.innerHTML=visible.slice(0,10).map(row=>{const status=String(row.status||'PENDING');const assignee=row.assignee||row.assigned_to||'Unassigned';const role=String(assignee).toLowerCase().includes('ai')?'AI Labeler':'Manual Labeler';const id=row.id??'';return '<tr tabindex="0" data-task-id="'+id+'"><td><span class="manager-document" title="'+(row.document_title||'Untitled document')+'">'+(row.document_title||'Untitled document')+'</span></td><td><span class="manager-assignee"><i class="manager-avatar">'+managerInitials(assignee)+'</i><span><span class="manager-user-name">'+assignee+'</span><span class="manager-role">'+role+'</span></span></span></td><td><span class="manager-status manager-status--'+(statusClasses[status]||'pending')+'">'+(statusLabels[status]||'Pending')+'</span></td><td><time class="manager-created" title="'+managerFullDate(row.created_at||row.createdAt||row.updated_at)+'">'+managerRelative(row.created_at||row.createdAt||row.updated_at)+'</time></td></tr>';}).join('')||'<tr><td colspan="4" style="text-align:center;color:#64748b">No tasks in this period.</td></tr>';
+                    if(body)body.innerHTML=visible.slice(0,10).map(row=>{const status=String(row.status||'PENDING').toUpperCase();const assignee=row.assignee||row.assigned_to||'Unassigned';const role=userRoleLabel(row.assignee_role||row.assigneeRole||'USER');const id=row.id??row.task_id??'';return '<tr tabindex="0" data-task-id="'+id+'"><td><span class="manager-document" title="'+(row.document_title||'Untitled document')+'">'+(row.document_title||'Untitled document')+'</span></td><td><span class="manager-assignee"><i class="manager-avatar">'+managerInitials(assignee)+'</i><span><span class="manager-user-name">'+assignee+'</span><span class="manager-role">'+role+'</span></span></span></td><td><span class="manager-status manager-status--'+(statusClasses[status]||'pending')+'">'+(statusLabels[status]||'Pending')+'</span></td><td><time class="manager-created" title="'+managerFullDate(row.created_at||row.createdAt||row.updated_at)+'">'+managerRelative(row.created_at||row.createdAt||row.updated_at)+'</time></td></tr>';}).join('')||'<tr><td colspan="4" style="text-align:center;color:#64748b">No tasks in this period.</td></tr>';
                     body.querySelectorAll('tr[data-task-id]').forEach(row=>{row.addEventListener('click',()=>go('Task.html?id='+encodeURIComponent(row.dataset.taskId)));row.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();row.click();}});});
                 }
                 const distribution=[visible.filter(row=>String(row.status||'').toUpperCase()==='PENDING').length,counts.progress,visible.filter(row=>String(row.status||'').toUpperCase()==='SUBMITTED').length,counts.approved];document.querySelectorAll('.manager-role-line').forEach((line,index)=>{const value=distribution[index]||0;const label=line.querySelector('b');const bar=line.querySelector('i');if(label)label.textContent=String(value);if(bar)bar.style.width=(counts.total?Math.round(value/counts.total*100):0)+'%';});
@@ -2119,10 +2265,6 @@
         const statisticsRoot=$('main');
         if(statisticsRoot){
             statisticsRoot.replaceChildren();
-            const loading=document.createElement('p');
-            loading.className='workspace-api-loading';
-            loading.textContent='Loading statistics…';
-            statisticsRoot.append(loading);
         }
         const [data,tasks,assignees,sessions]=await Promise.all([request('/statistics'),request('/tasks'),request('/assignees'),request('/sessions')]);
         const main=$('main');
@@ -2165,15 +2307,10 @@
     }
     async function monitoringPage() {
         const logs=await request('/audit-logs');
-        table($('table'),[['Timestamp',r=>date(r.created_at)],['User','username'],['Resource','resource_type'],['Action','action']],logs.slice(0,10));
-        $$('main h3,main h4').filter(h=>['CPU & Memory Usage (24h)','API Latency vs GPU Load'].includes(text(h))).forEach(h=>replacePanel(h,['Chưa có API cung cấp số liệu giám sát.']));
-        buttons(/^Restart$|^Logs$|filter_list/).forEach(b=>unavailable(b,'Chưa có API quản lý dịch vụ.'));
-        bindText(/View All Full Logs/,()=>go('LogView.html'));
-        $$('main h3').filter(h=>['RTMPose','Model Server','REST API','Database','Storage Service'].includes(text(h))).forEach(h=>{
-            const card=h.closest('.bg-white')||h.parentElement.parentElement;
-            $$('p,span',card).filter(e=>!e.classList.contains('material-symbols-outlined')).forEach(e=>{if(e.children.length===0)e.textContent='—';});
-        });
-        notice('API đang phản hồi. Chưa có API giám sát CPU/GPU, mô hình và dịch vụ.');
+        const root=$('main');
+        root.className='w-full min-h-[calc(100vh-106px)] bg-surface pt-6';
+        root.innerHTML='<section class="mx-auto max-w-[1540px] px-6 py-6"><div class="mb-5"><h2 class="text-xl font-bold">System activity</h2><p class="mt-1 text-sm text-on-surface-variant">Live audit events returned by the API.</p></div><div class="overflow-hidden rounded-xl border border-outline-variant bg-white"><table class="w-full"><thead><tr><th>Timestamp</th><th>User</th><th>Resource</th><th>Action</th></tr></thead><tbody></tbody></table></div></section>';
+        table($('table'),[['Timestamp',r=>date(r.created_at)],['User','username'],['Resource','resource_type'],['Action','action']],Array.isArray(logs)?logs.slice(0,10):[]);
     }
     let main;
     let loadingOverlay;
@@ -2185,11 +2322,14 @@
             if (separator?.classList.contains('w-[1px]')) separator.remove();
             link.remove();
         });
-        main=$('main');if(main)main.style.visibility='hidden';
+        main=$('main');if(main){main.style.visibility='hidden';main.setAttribute('aria-busy','true');}
         loadingOverlay=document.createElement('div');
         loadingOverlay.className='workspace-api-loading';
-        loadingOverlay.textContent='Loading data…';
+        loadingOverlay.setAttribute('role','status');
+        loadingOverlay.setAttribute('aria-live','polite');
+        loadingOverlay.innerHTML='<span class="workspace-loading-spinner" aria-hidden="true"></span><span class="workspace-loading-message">Đang tải dữ liệu...</span>';
         document.body.append(loadingOverlay);
+        const dismissLoadingOverlay=()=>{if(!loadingOverlay)return;loadingOverlay.classList.add('is-hiding');window.setTimeout(()=>loadingOverlay?.remove(),200);};
         function renderTableSkeleton(tbody, colCount = 4, rowCount = 4) {
             tbody.replaceChildren();
             for (let r = 0; r < rowCount; r++) {
@@ -2209,12 +2349,12 @@
                 tbody.appendChild(tr);
             }
         }
-        // Clear sample rows immediately and render elegant Jelly Key skeleton placeholders.
-        $$('tbody').forEach(body=>{const el=body.closest('table');tableStyles.set(el,$$('tr:first-child td',body).map(c=>c.className));const columns=$$('thead th',el).length||4;renderTableSkeleton(body,columns,4);});if(main)main.style.visibility='visible';
-        user=await AAIR.guard();if(!user){loadingOverlay.remove();if(main)main.style.visibility='visible';return;}window.AAIRGuidelineModal?.init();
+        // Clear initial rows immediately and render the loading placeholders.
+        $$('tbody').forEach(body=>{const el=body.closest('table');tableStyles.set(el,$$('tr:first-child td',body).map(c=>c.className));const columns=$$('thead th',el).length||4;renderTableSkeleton(body,columns,4);});
+        user=await AAIR.guard();if(!user){dismissLoadingOverlay();if(main){main.style.visibility='visible';main.removeAttribute('aria-busy');}return;}window.AAIRGuidelineModal?.init();
         $$('button.manual-navbar__logout, #logoutButton').forEach(button=>bind(button,()=>{if(confirm('Are you sure you want to log out?'))AAIR.logout();}));
         const profile=$('header .hidden.md\\:block');
-        if(profile){const ps=$$('p',profile);const roleNames={ADMIN:'Administrator',MANAGER:'Manager',ANALYST:'Analyst',RESULT_ANALYST:'Analyst',AI_LABELER:'AI Labeler',MANUAL_LABELER:'Manual Labeler',REVIEWER:'Reviewer'};if(ps[0])ps[0].textContent=user.username;if(ps[1])ps[1].textContent=roleNames[user.role]||user.role;
+        if(profile){const ps=$$('p',profile);const roleNames={ADMIN:'Administrator',MANAGER:'Manager',USER:'User',ANALYST:'Result Analyst',RESULT_ANALYST:'Result Analyst',AI_LABELER:'AI Labeler',MANUAL_LABELER:'Manual Labeler',REVIEWER:'Reviewer'};if(ps[0])ps[0].textContent=user.username;if(ps[1])ps[1].textContent=roleNames[user.role]||user.role;
             const avatar=profile.previousElementSibling;if(avatar){avatar.replaceChildren();const node=avatarNode(user,'w-full h-full');avatar.append(node);}
             Array.from(profile.parentElement.childNodes).forEach(node => {
                 if (node !== avatar && node !== profile) node.remove();
@@ -2240,17 +2380,18 @@
         else if(page==='Dashboard.html')await dashboardPage();
         else if(page==='Statistics.html')await statisticsPage();
         else if(page==='SystemMonitoring.html')await monitoringPage();
-        if(main)main.style.visibility='visible';
-        loadingOverlay?.remove();
+        if(main){main.style.visibility='visible';main.removeAttribute('aria-busy');}
+        dismissLoadingOverlay();
     }catch(error){
-        loadingOverlay?.remove();
+        loadingOverlay?.classList.add('is-hiding');
         if(main){
             main.replaceChildren();
             const state=document.createElement('section');state.className='workspace-api-error';
             const message=document.createElement('p');message.textContent=error.message||'Unable to load data.';
             const retry=document.createElement('button');retry.type='button';retry.textContent='Retry';retry.onclick=()=>location.reload();
-            state.append(message,retry);main.append(state);main.style.visibility='visible';
+            state.append(message,retry);main.append(state);main.style.visibility='visible';main.removeAttribute('aria-busy');
         }
+        window.setTimeout(()=>loadingOverlay?.remove(),200);
         notice(error.message,true);
     }
 })();

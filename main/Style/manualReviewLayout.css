@@ -17,3 +17,4 @@
 .review-sidebar-resize-handle:focus-visible{outline:2px solid #0369a1;outline-offset:-2px}
 .review-sidebar-resize-handle .material-symbols-outlined{position:absolute;top:50%;left:50%;display:grid;place-items:center;width:22px;height:44px;color:#fff;font-size:17px;background:#4b6573;border:2px solid #fff;border-radius:4px;box-shadow:0 1px 4px rgb(15 23 42 / 28%);transform:translate(-50%,-50%);pointer-events:none}
 .review-sidebar-resize-handle:hover .material-symbols-outlined,.review-sidebar-resize-handle:focus-visible .material-symbols-outlined{background:#007da9}
+.review-sidebar-collapsed .file-button .material-symbols-outlined::after{content:none!important;display:none!important}

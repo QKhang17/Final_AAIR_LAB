@@ -18,7 +18,7 @@
 .aair-navbar__nav { display:flex; align-self:stretch; }
 .aair-navbar__nav a { display:flex; align-items:center; gap:var(--aair-nav-gap); padding:0 var(--aair-nav-padding-x); border-right:1px solid var(--aair-nav-border); color:#eaf9fd; text-decoration:none; font-size:var(--aair-nav-font-size); font-weight:600; white-space:nowrap; transition:background-color .15s,color .15s; }
 .aair-navbar__nav a:hover, .aair-navbar__nav a:focus-visible { color:#fff; background:rgba(0,73,105,.28); text-decoration:none; }
-.aair-navbar__nav a.is-active { color:#fff; background:var(--aair-nav-active); box-shadow:inset 0 -3px 0 #fff; }
+.aair-navbar__nav a.is-active { color:#fff; background:var(--aair-nav-active); box-shadow:none; font-weight:700; }
 .aair-navbar .aair-navbar__account,
 .aair-navbar__account { display:flex !important; align-items:center !important; gap:var(--aair-nav-gap) !important; margin-left:auto !important; padding:0 12px !important; min-width:0 !important; }
 .aair-navbar .aair-navbar__avatar,

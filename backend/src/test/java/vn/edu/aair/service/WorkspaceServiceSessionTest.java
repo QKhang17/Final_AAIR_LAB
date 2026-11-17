@@ -280,7 +280,7 @@ class WorkspaceServiceSessionTest {
     @DisplayName("7. created_by lấy từ authenticated user, không tin tưởng client")
     void createdByFromAuthenticatedUser() {
         Session request = new Session("Session Auth", null, "MANUAL", LocalDateTime.now().plusDays(5),
-                null, List.of(31L), null, 40L, "NONE");
+                null, List.of(31L, 32L), null, 40L, "NONE");
 
         when(db.queryForList(startsWith("INSERT INTO annotation_sessions"), any(Object[].class)))
                 .thenReturn(List.of(new HashMap<>(Map.of("id", 101L, "status", "DRAFT"))));
@@ -491,10 +491,10 @@ class WorkspaceServiceSessionTest {
     // =========================================================================
 
     @Test
-    @DisplayName("TEST 1: MANUAL, manualLabelerIds = [manualUser1], reviewerId = reviewer1 => SUCCESS")
+    @DisplayName("TEST 1: MANUAL, manualLabelerIds = [manualUser1, manualUser2], reviewerId = reviewer1 => SUCCESS")
     void test1_manualSingleLabelerSuccess() {
         Session req = new Session("Manual S1", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(31L), null, 40L, "NONE");
+                List.of(1L), List.of(31L, 32L), null, 40L, "NONE");
 
         when(db.queryForList(startsWith("INSERT INTO annotation_sessions"), any(Object[].class)))
                 .thenReturn(List.of(new HashMap<>(Map.of("id", 301L, "name", "Manual S1", "session_type", "MANUAL", "status", "DRAFT"))));
@@ -528,15 +528,15 @@ class WorkspaceServiceSessionTest {
 
         AuthException ex = assertThrows(AuthException.class, () -> service.createSession(req));
         assertEquals(HttpStatus.BAD_REQUEST, ex.getStatus());
-        assertTrue(ex.getMessage().contains("Manual session requires 1 to 2 manual labelers."));
+        assertTrue(ex.getMessage().contains("Manual session requires exactly 2 manual labelers."));
         verify(db, never()).queryForList(startsWith("INSERT INTO annotation_sessions"), any(Object[].class));
     }
 
     @Test
-    @DisplayName("TEST 4: MANUAL, manualLabelerIds = [manualUser1], reviewerId = manualUser1 => REJECT (duplicate function)")
+    @DisplayName("TEST 4: MANUAL, manualLabelerIds = [manualUser1, manualUser2], reviewerId = manualUser1 => REJECT (duplicate function)")
     void test4_manualLabelerSameAsReviewerReject() {
         Session req = new Session("Manual S4", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(31L), null, 31L, "NONE");
+                List.of(1L), List.of(31L, 32L), null, 31L, "NONE");
 
         AuthException ex = assertThrows(AuthException.class, () -> service.createSession(req));
         assertEquals(HttpStatus.BAD_REQUEST, ex.getStatus());
@@ -563,10 +563,10 @@ class WorkspaceServiceSessionTest {
     }
 
     @Test
-    @DisplayName("TEST 6: MANUAL, manualLabelerIds = [manualUser1], aiLabelerId = aiUser1, reviewerId = reviewer1 => REJECT (AI labeler in MANUAL)")
+    @DisplayName("TEST 6: MANUAL, manualLabelerIds = [manualUser1, manualUser2], aiLabelerId = aiUser1, reviewerId = reviewer1 => REJECT (AI labeler in MANUAL)")
     void test6_manualWithAiLabelerReject() {
         Session req = new Session("Manual S6", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(31L), 30L, 40L, "NONE");
+                List.of(1L), List.of(31L, 32L), 30L, 40L, "NONE");
 
         AuthException ex = assertThrows(AuthException.class, () -> service.createSession(req));
         assertEquals(HttpStatus.BAD_REQUEST, ex.getStatus());
@@ -617,14 +617,14 @@ class WorkspaceServiceSessionTest {
     }
 
     @Test
-    @DisplayName("TEST 10: MANUAL, manualLabelerIds = [aiUser1], reviewerId = reviewer1 => REJECT (wrong role AI_LABELER)")
+    @DisplayName("TEST 10: MANUAL, manualLabelerIds = [aiUser1, manualUser2], reviewerId = reviewer1 => REJECT (wrong role AI_LABELER)")
     void test10_manualWithWrongRoleReject() {
         Session req = new Session("Manual S10", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(30L), null, 40L, "NONE");
+                List.of(1L), List.of(30L, 32L), null, 40L, "NONE");
 
         AuthException ex = assertThrows(AuthException.class, () -> service.createSession(req));
         assertEquals(HttpStatus.BAD_REQUEST, ex.getStatus());
-        assertTrue(ex.getMessage().contains("must have role MANUAL_LABELER."));
+        assertTrue(ex.getMessage().contains("must have role USER or MANUAL_LABELER."));
         verify(db, never()).queryForList(startsWith("INSERT INTO annotation_sessions"), any(Object[].class));
     }
 
@@ -636,15 +636,15 @@ class WorkspaceServiceSessionTest {
 
         AuthException ex = assertThrows(AuthException.class, () -> service.createSession(req));
         assertEquals(HttpStatus.BAD_REQUEST, ex.getStatus());
-        assertTrue(ex.getMessage().contains("must have role AI_LABELER."));
+        assertTrue(ex.getMessage().contains("must have role USER or AI_LABELER."));
         verify(db, never()).queryForList(startsWith("INSERT INTO annotation_sessions"), any(Object[].class));
     }
 
     @Test
-    @DisplayName("TEST 12: MANUAL, manualLabelerIds = [manualUser1], reviewerId = null => REJECT (reviewer is required)")
+    @DisplayName("TEST 12: MANUAL, manualLabelerIds = [manualUser1, manualUser2], reviewerId = null => REJECT (reviewer is required)")
     void test12_manualWithoutReviewerReject() {
         Session req = new Session("Manual S12", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(31L), null, null, "NONE");
+                List.of(1L), List.of(31L, 32L), null, null, "NONE");
 
         AuthException ex = assertThrows(AuthException.class, () -> service.createSession(req));
         assertEquals(HttpStatus.BAD_REQUEST, ex.getStatus());
@@ -665,10 +665,10 @@ class WorkspaceServiceSessionTest {
     }
 
     @Test
-    @DisplayName("TEST 14: MANUAL, manualLabelerIds = [inactiveManualUser], reviewerId = reviewer1 => REJECT (inactive manual labeler)")
+    @DisplayName("TEST 14: MANUAL, manualLabelerIds = [inactiveManualUser, manualUser2], reviewerId = reviewer1 => REJECT (inactive manual labeler)")
     void test14_manualWithInactiveLabelerReject() {
         Session req = new Session("Manual S14", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(35L), null, 40L, "NONE");
+                List.of(1L), List.of(35L, 32L), null, 40L, "NONE");
 
         AuthException ex = assertThrows(AuthException.class, () -> service.createSession(req));
         assertEquals(HttpStatus.BAD_REQUEST, ex.getStatus());
@@ -677,10 +677,10 @@ class WorkspaceServiceSessionTest {
     }
 
     @Test
-    @DisplayName("TEST 15: MANUAL, manualLabelerIds = [manualUser1], reviewerId = inactiveReviewer => REJECT (inactive reviewer)")
+    @DisplayName("TEST 15: MANUAL, manualLabelerIds = [manualUser1, manualUser2], reviewerId = inactiveReviewer => REJECT (inactive reviewer)")
     void test15_manualWithInactiveReviewerReject() {
         Session req = new Session("Manual S15", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(31L), null, 45L, "NONE");
+                List.of(1L), List.of(31L, 32L), null, 45L, "NONE");
 
         AuthException ex = assertThrows(AuthException.class, () -> service.createSession(req));
         assertEquals(HttpStatus.BAD_REQUEST, ex.getStatus());
@@ -715,11 +715,11 @@ class WorkspaceServiceSessionTest {
     }
 
     @Test
-    @DisplayName("TEST 19: MANUAL có 1 labeler unavailable => REJECT toàn bộ Create Session")
+    @DisplayName("TEST 19: MANUAL có labeler unavailable => REJECT toàn bộ Create Session")
     void test19_manualSingleUnavailableLabelerReject() {
         unavailableUserIds.add(31L); // manual_labeler01 is unavailable
         Session req = new Session("Manual S19", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(31L), null, 40L, "NONE");
+                List.of(1L), List.of(31L, 32L), null, 40L, "NONE");
 
         AuthException ex = assertThrows(AuthException.class, () -> service.createSession(req));
         assertEquals(HttpStatus.BAD_REQUEST, ex.getStatus());
@@ -768,11 +768,11 @@ class WorkspaceServiceSessionTest {
     }
 
     @Test
-    @DisplayName("TEST 23: Direct API request gửi unavailable user ID => Backend REJECT, không tạo session")
+    @DisplayName("TEST 23: Direct API request gửi unavailable labeler ID => Backend REJECT, không tạo session")
     void test23_directApiUnavailableUserReject() {
         unavailableUserIds.add(31L);
         Session req = new Session("Direct S23", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(31L), null, 40L, "NONE");
+                List.of(1L), List.of(31L, 32L), null, 40L, "NONE");
 
         AuthException ex = assertThrows(AuthException.class, () -> service.createSession(req));
         assertEquals(HttpStatus.BAD_REQUEST, ex.getStatus());
@@ -785,11 +785,11 @@ class WorkspaceServiceSessionTest {
     void test24_availableUserWrongRoleReject() {
         // user 30L is available (AI_LABELER) but passed in manualLabelerIds
         Session req = new Session("Manual S24", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(30L), null, 40L, "NONE");
+                List.of(1L), List.of(30L, 32L), null, 40L, "NONE");
 
         AuthException ex = assertThrows(AuthException.class, () -> service.createSession(req));
         assertEquals(HttpStatus.BAD_REQUEST, ex.getStatus());
-        assertTrue(ex.getMessage().contains("must have role MANUAL_LABELER."));
+        assertTrue(ex.getMessage().contains("must have role USER or MANUAL_LABELER."));
         verify(db, never()).queryForList(startsWith("INSERT INTO annotation_sessions"), any(Object[].class));
     }
 
@@ -801,7 +801,7 @@ class WorkspaceServiceSessionTest {
                 .thenReturn(List.of(new HashMap<>(Map.of("id", 501L, "name", "Manual S25", "session_type", "MANUAL", "status", "DRAFT"))));
 
         Session req = new Session("Manual S25", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(31L), null, 40L, "NONE");
+                List.of(1L), List.of(31L, 32L), null, 40L, "NONE");
 
         Map<String, Object> result = service.createSession(req);
         assertNotNull(result);
@@ -812,20 +812,26 @@ class WorkspaceServiceSessionTest {
     @Test
     @DisplayName("TEST 26: assignees() truy vấn database và lọc ra users có status = 'AVAILABLE'")
     void test26_assigneesFiltersOutUnavailableUsers() {
-        when(db.queryForList(argThat((String sql) -> sql != null && sql.contains("status = 'AVAILABLE'"))))
-                .thenReturn(List.of(Map.of("id", 31L, "username", "manual_labeler01", "role", "MANUAL_LABELER")));
+        when(db.queryForList(argThat((String sql) -> sql != null
+                && sql.contains("CASE WHEN EXISTS")
+                && sql.contains("FROM users u"))))
+                .thenReturn(List.of(Map.of(
+                        "id", 31L,
+                        "username", "manual_labeler01",
+                        "role", "MANUAL_LABELER",
+                        "status", "AVAILABLE",
+                        "is_active", true)));
 
         List<Map<String, Object>> assignees = service.assignees();
         assertNotNull(assignees);
         assertEquals(1, assignees.size());
         assertEquals("manual_labeler01", assignees.getFirst().get("username"));
 
-        // Verify status = 'AVAILABLE' is present and session_members, annotation_sessions, due_at are not used
+        // Verify the availability is derived from active sessions/tasks.
         verify(db).queryForList(argThat((String sql) -> sql != null
-                && sql.contains("status = 'AVAILABLE'")
-                && !sql.contains("session_members")
-                && !sql.contains("annotation_sessions")
-                && !sql.contains("due_at")));
+                && sql.contains("CASE WHEN EXISTS")
+                && sql.contains("FROM users u")
+                && sql.contains("ORDER BY username")));
     }
 
     @Test
@@ -835,7 +841,7 @@ class WorkspaceServiceSessionTest {
                 .thenThrow(new DataIntegrityViolationException("Database error during Session INSERT"));
 
         Session req = new Session("Fail Session", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(31L), null, 40L, "NONE");
+                List.of(1L), List.of(31L, 32L), null, 40L, "NONE");
 
         assertThrows(DataIntegrityViolationException.class, () -> service.createSession(req));
 
@@ -854,7 +860,7 @@ class WorkspaceServiceSessionTest {
                 .when(db).update(startsWith("INSERT INTO session_members"), any(Object[].class));
 
         Session req = new Session("S28", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(31L), null, 40L, "NONE");
+                List.of(1L), List.of(31L, 32L), null, 40L, "NONE");
 
         assertThrows(DataIntegrityViolationException.class, () -> service.createSession(req));
 
@@ -872,7 +878,7 @@ class WorkspaceServiceSessionTest {
                 .thenThrow(new DataIntegrityViolationException("Database constraint error during Task INSERT"));
 
         Session req = new Session("S29", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(31L), null, 40L, "NONE");
+                List.of(1L), List.of(31L, 32L), null, 40L, "NONE");
 
         assertThrows(DataIntegrityViolationException.class, () -> service.createSession(req));
     }
@@ -911,7 +917,7 @@ class WorkspaceServiceSessionTest {
                 });
 
         Session req = new Session("Section 16 Session", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(31L), null, 40L, "NONE");
+                List.of(1L), List.of(31L, 32L), null, 40L, "NONE");
 
         // Khi có exception xảy ra trong @Transactional, toàn bộ thay đổi được rollback
         assertThrows(DataIntegrityViolationException.class, () -> {
@@ -933,13 +939,13 @@ class WorkspaceServiceSessionTest {
     }
 
     @Test
-    @DisplayName("TEST 31 (SECTION 17): MANUAL 1 Labeler + Reviewer + documents => Session, Members, Tasks được tạo trong cùng transaction")
+    @DisplayName("TEST 31 (SECTION 17): MANUAL 2 Labelers + Reviewer + documents => Session, Members, Tasks được tạo trong cùng transaction")
     void test31_manualOneLabelerSuccess_allInSameTransaction() {
         when(db.queryForList(startsWith("INSERT INTO annotation_sessions"), any(Object[].class)))
                 .thenReturn(List.of(new HashMap<>(Map.of("id", 301L, "name", "Manual 1", "session_type", "MANUAL", "status", "DRAFT"))));
 
         Session req = new Session("Manual 1", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(1L), List.of(31L), null, 40L, "NONE");
+                List.of(1L), List.of(31L, 32L), null, 40L, "NONE");
 
         Map<String, Object> result = service.createSession(req);
         assertNotNull(result);
@@ -1018,7 +1024,7 @@ class WorkspaceServiceSessionTest {
                 .thenReturn(List.of(Map.of("id", 99L, "title", "Other Doc", "uploaded_by", 99L)));
 
         Session req = new Session("Unowned Doc Session", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
-                List.of(99L), List.of(31L), null, 40L, "NONE");
+                List.of(99L), List.of(31L, 32L), null, 40L, "NONE");
 
         AuthException ex = assertThrows(AuthException.class, () -> service.createSession(req));
         assertEquals(HttpStatus.FORBIDDEN, ex.getStatus());
@@ -1052,14 +1058,14 @@ class WorkspaceServiceSessionTest {
                 List.of(1L), List.of(), null, 40L, "NONE");
         AuthException exEmpty = assertThrows(AuthException.class, () -> service.createSession(emptyReq));
         assertEquals(HttpStatus.BAD_REQUEST, exEmpty.getStatus());
-        assertTrue(exEmpty.getMessage().contains("Manual session requires 1 to 2 manual labelers."));
+        assertTrue(exEmpty.getMessage().contains("Manual session requires exactly 2 manual labelers."));
 
         // Case 2: manualLabelerIds is null
         Session nullListReq = new Session("Manual Null", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
                 List.of(1L), null, null, 40L, "NONE");
         AuthException exNullList = assertThrows(AuthException.class, () -> service.createSession(nullListReq));
         assertEquals(HttpStatus.BAD_REQUEST, exNullList.getStatus());
-        assertTrue(exNullList.getMessage().contains("Manual session requires 1 to 2 manual labelers."));
+        assertTrue(exNullList.getMessage().contains("Manual session requires exactly 2 manual labelers."));
 
         // Case 3: manualLabelerIds contains null element
         Session containsNullReq = new Session("Manual Contains Null", "Desc", "MANUAL", LocalDateTime.now().plusDays(2),
@@ -1262,15 +1268,11 @@ class WorkspaceServiceSessionTest {
 
         service.createSession(req);
 
-        ArgumentCaptor<String> sqlCaptor = ArgumentCaptor.forClass(String.class);
-        verify(db, atLeastOnce()).update(sqlCaptor.capture(), eq(30L));
-
-        String updateSql = sqlCaptor.getValue();
-        assertNotNull(updateSql);
-        assertTrue(updateSql.contains("UPDATE users"), "Must target users table");
-        assertTrue(updateSql.contains("status = 'BUSY'"), "Must set status to BUSY");
-        assertTrue(updateSql.contains("WHERE id = ?"), "Must filter by user ID");
-        assertTrue(updateSql.contains("status = 'AVAILABLE'"), "Must enforce conditional update: status = 'AVAILABLE'");
+        verify(db).update(argThat((String sql) -> sql != null
+                && sql.contains("UPDATE users")
+                && sql.contains("SET status = 'BUSY'")
+                && sql.contains("WHERE id = ?")
+                && sql.contains("status = 'AVAILABLE'")), eq(30L));
     }
 
     @Test

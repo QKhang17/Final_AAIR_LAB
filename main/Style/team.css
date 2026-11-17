@@ -1,0 +1,120 @@
+.team-page {
+  background: #f7f9fc;
+}
+
+.team-main {
+  min-height: calc(100vh - 82px);
+}
+
+.team-hero {
+  padding: 76px 0 68px;
+  border-bottom: 1px solid var(--aair-line);
+  background:
+    radial-gradient(circle at 88% 18%, rgba(191, 226, 255, .55), transparent 42%),
+    linear-gradient(135deg, #f4f9ff 0%, #ffffff 64%);
+}
+
+.team-hero h1 {
+  margin: 14px 0 16px;
+  color: var(--aair-navy);
+  font-size: clamp(38px, 5vw, 64px);
+  font-weight: 700;
+  letter-spacing: -.05em;
+  line-height: 1.1;
+}
+
+.team-hero p:not(.home-eyebrow) {
+  max-width: 690px;
+  color: var(--aair-muted);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.team-directory {
+  padding-block: 76px;
+  background: #f8fbfe;
+}
+
+.team-research {
+  padding: 76px 0 92px;
+  border-top: 1px solid var(--aair-line);
+  background: #ffffff;
+}
+
+.team-research__heading {
+  max-width: 680px;
+  margin-bottom: 26px;
+}
+
+.team-research__heading h2 {
+  margin: 12px 0 14px;
+  color: var(--aair-navy);
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 700;
+  letter-spacing: -.04em;
+}
+
+.team-research__heading p:not(.home-eyebrow) {
+  color: var(--aair-muted);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.team-empty-state {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 24px;
+  border: 1px dashed #b8cbe6;
+  border-radius: 14px;
+  color: #1e3a8a;
+  background: #f8fbff;
+}
+
+.team-empty-state > span {
+  display: grid;
+  place-items: center;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #0b5ed7;
+  background: #e7f0ff;
+  font-size: 18px;
+}
+
+.team-empty-state strong {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.team-empty-state p {
+  margin: 0 0 0 auto;
+  color: #64748b;
+  font-size: 13px;
+}
+
+@media (max-width: 650px) {
+  .team-hero {
+    padding: 52px 0 48px;
+  }
+
+  .team-hero p:not(.home-eyebrow) {
+    font-size: 14px;
+  }
+
+  .team-directory,
+  .team-research {
+    padding-block: 52px;
+  }
+
+  .team-empty-state {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .team-empty-state p {
+    flex-basis: 100%;
+    margin-left: 48px;
+  }
+}

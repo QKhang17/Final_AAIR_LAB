@@ -8,7 +8,7 @@
   const dueState = (value, status) => { const due = value ? new Date(value) : null, hours = due ? (due.getTime() - Date.now()) / 36e5 : Infinity; if (!due || !['PENDING', 'IN_PROGRESS'].includes(status)) return ''; return hours < 0 ? 'aa-due--late' : hours < 24 ? 'aa-due--soon' : ''; };
   const dueLabel = (value, status) => { if (!value) return 'Unknown'; const state = dueState(value, status); return { text: formatDate(value), overdue: state === 'aa-due--late' }; };
   async function init() {
-    const initialBody = $('#taskRows'); if (initialBody) initialBody.innerHTML = '<tr><td colspan="7" class="aa-empty">Loading tasks…</td></tr>';
+    const initialBody = $('#taskRows'); if (initialBody) initialBody.innerHTML = '<tr><td colspan="7" class="aa-empty">Đang tải dữ liệu...</td></tr>';
     $('#staticPagination')?.remove();
     const user = await AAIR.guard(); if (!user) return;
     window.AAIRNavbar?.mount(user);

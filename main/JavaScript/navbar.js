@@ -21,19 +21,19 @@ window.AAIRNavbar = (() => {
       { label: 'Dashboard', href: 'Dashboard.html' },
       { label: 'Users', href: 'UserManagement.html' },
       { label: 'Documents', href: 'DocumentManagement.html' },
-      { label: 'Session', href: 'Session.html' },
+      { label: 'Sessions', href: 'Session.html' },
       { label: 'Statistics', href: 'Statistics.html' },
     ],
     AI_LABELER: [
       { label: 'Dashboard', href: 'Dashboard.html' },
       { label: 'Prompts', href: 'Prompt.html' },
-      { label: 'Tasks', href: 'Task.html' },
-      { label: 'View All', href: 'ViewAll.html' },
+      { label: 'My Tasks', href: 'Task.html' },
+      { label: 'Task List', href: 'ViewAll.html' },
     ],
     MANUAL_LABELER: [
       { label: 'Dashboard', href: 'Dashboard.html' },
-      { label: 'Tasks', href: 'Task.html' },
-      { label: 'View All', href: 'ViewAll.html' },
+      { label: 'My Tasks', href: 'Task.html' },
+      { label: 'Task List', href: 'ViewAll.html' },
     ],
   };
 
@@ -44,8 +44,8 @@ window.AAIRNavbar = (() => {
 
   const roleLabel = role => {
     if (role === 'ADMIN') return 'Administrator';
-    if (role === 'RESULT_ANALYST') return 'ANALYST';
-    if (role === 'TERMINOLOGY') return 'TERMINOLOGY';
+    if (role === 'RESULT_ANALYST') return 'Result Analyst';
+    if (role === 'TERMINOLOGY') return 'Terminology';
     return String(role || '')
       .toLowerCase()
       .split(/[_\s-]+/)

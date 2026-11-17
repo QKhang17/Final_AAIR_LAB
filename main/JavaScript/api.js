@@ -2,7 +2,7 @@
 window.AAIR = (() => {
     const base = (window.AAIR_API_BASE_URL || 'http://localhost:8080/api').replace(/\/$/, '');
     const homes = {
-        ADMIN: 'Admin', MANAGER: 'Manager', AI_LABELER: 'User/AILabeling',
+        ADMIN: 'Admin', MANAGER: 'Manager', USER: 'User/Basic', AI_LABELER: 'User/AILabeling',
         MANUAL_LABELER: 'User/ManualLabeling', REVIEWER: 'User/ManualReview',
         RESULT_ANALYST: 'User/ResultAnalysis', TERMINOLOGY: 'User/Terminology',
     };

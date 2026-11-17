@@ -1,0 +1,24 @@
+.session-form-error {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 1px solid #f0b4b4;
+  border-radius: 8px;
+  color: #9b1c1c;
+  background: #fff5f5;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.session-field-error {
+  margin: 4px 0 0;
+  color: #b42318;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+#modalOverlay [aria-invalid="true"] {
+  border-color: #d92d20 !important;
+  box-shadow: 0 0 0 2px rgba(217, 45, 32, .12);
+}
+
+[data-modal-error][hidden] { display: none; }

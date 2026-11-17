@@ -1,0 +1,30 @@
+.result-analysis-page .ra-pdf-panel,
+.result-analysis-page .ra-pdf-container {
+  position: relative;
+}
+
+.result-analysis-page .ra-pdf-state {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  padding: 8px 12px;
+  border: 1px solid #cbd7e3;
+  border-radius: 7px;
+  color: #526174;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(25, 56, 83, .12);
+  font-size: 12px;
+}
+
+.pdf-retry-button {
+  margin-left: 8px;
+  padding: 3px 8px;
+  border: 1px solid currentColor;
+  border-radius: 5px;
+  color: inherit;
+  background: #fff;
+  cursor: pointer;
+  font: inherit;
+}

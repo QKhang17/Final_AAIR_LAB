@@ -26,19 +26,27 @@
       status = next || status;
       for (const documentStatus of status.documents || []) {
         const item = findItem?.(documentStatus);
-        if (!item) continue;
-        let dot = item.querySelector('.session-completion-dot');
-        if (!dot) { dot = document.createElement('span'); dot.className = 'session-completion-dot'; item.append(dot); }
-        dot.className = `session-completion-dot is-${documentStatus.status || 'pending'}`;
-        dot.title = documentStatus.status === 'done' ? 'Complete' : documentStatus.status === 'processing' ? 'Processing' : 'Pending';
+        item?.querySelector('.session-completion-dot')?.remove();
       }
       if (button) {
         const blocked = !status.allDone;
         const blockedMessage = typeof blockedTitle === 'function' ? blockedTitle(status) : blockedTitle;
         button.classList.toggle('session-submit-blocked', blocked);
-        button.setAttribute('aria-disabled', String(blocked));
-        button.title = blocked ? blockedMessage : '';
-        button.disabled = false;
+        const terminal = button.dataset.terminalState === 'true';
+        button.setAttribute('aria-disabled', String(blocked || terminal));
+        button.title = terminal ? 'This task is read-only and waiting for review.' : blocked ? blockedMessage : '';
+        button.disabled = terminal;
+        let helper = button.parentElement?.querySelector('[data-session-completion-help]');
+        if (!helper) {
+          helper = document.createElement('span');
+          helper.dataset.sessionCompletionHelp = 'true';
+          helper.className = 'session-completion-help';
+          button.parentElement?.append(helper);
+        }
+        helper.textContent = terminal ? button.title : blocked ? blockedMessage : '';
+        helper.hidden = !(blocked || terminal);
+        helper.id ||= `${button.id || 'session'}CompletionHelp`;
+        button.setAttribute('aria-describedby', helper.id);
       }
       onStatus?.(status);
       return status;

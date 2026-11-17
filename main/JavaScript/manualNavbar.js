@@ -1,7 +1,11 @@
 window.AAIRManualNavbar = (() => {
   function roleLabel(role) {
-    return String(role || 'MANUAL_LABELER').toLowerCase().split(/[_\s-]+/).filter(Boolean)
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ').toUpperCase();
+    const labels = {
+      ADMIN: 'Administrator', MANAGER: 'Manager', USER: 'User',
+      AI_LABELER: 'AI Labeler', MANUAL_LABELER: 'Manual Labeler',
+      REVIEWER: 'Reviewer', RESULT_ANALYST: 'Result Analyst', TERMINOLOGY: 'Terminology'
+    };
+    return labels[String(role || 'MANUAL_LABELER').toUpperCase()] || 'User';
   }
   async function init() {
     const mount = document.querySelector('[data-manual-navbar-mount]');

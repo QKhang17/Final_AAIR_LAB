@@ -30,7 +30,7 @@
     <link href="../../../Style/jellykeyDesignSystem.css" rel="stylesheet">
 </head>
 
-<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<body class="review-dashboard-page bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
 
     <header class="manual-navbar review-topbar">
         <a class="manual-navbar__brand review-brand" href="Dashboard.html" aria-label="AAIR Lab - Dashboard">
@@ -42,8 +42,8 @@
             <a href="ViewAll.html"><span class="material-symbols-outlined">list_alt</span><span>Review Queue</span></a>
         </nav>
         <div class="manual-navbar__account review-account">
-            <span class="manual-navbar__avatar review-avatar">RE</span>
-            <span class="manual-navbar__identity review-identity"><b>reviewer01</b><small>REVIEWER</small></span>
+            <span class="manual-navbar__avatar review-avatar">—</span>
+            <span class="manual-navbar__identity review-identity"><b>—</b><small>—</small></span>
             <button class="manual-navbar__logout outline-button" type="button" title="Log out of the system">Log out</button>
         </div>
     </header>
@@ -116,7 +116,7 @@
                     </div>
                     <p class="font-label-md text-on-surface-variant mb-1">Pending Reviews</p>
                     <div class="flex items-baseline gap-2">
-                        <h3 class="font-headline-lg text-headline-lg font-bold text-on-surface">128</h3>
+                        <h3 class="font-headline-lg text-headline-lg font-bold text-on-surface">—</h3>
                         <span class="text-[12px] font-semibold text-error flex items-center">
                             <span class="material-symbols-outlined text-sm">trending_up</span> —
                         </span>
@@ -132,7 +132,7 @@
                     </div>
                     <p class="font-label-md text-on-surface-variant mb-1">Approved Today</p>
                     <div class="flex items-baseline gap-2">
-                        <h3 class="font-headline-lg text-headline-lg font-bold text-on-surface">42</h3>
+                        <h3 class="font-headline-lg text-headline-lg font-bold text-on-surface">—</h3>
                         <span class="text-[12px] font-semibold text-tertiary flex items-center">
                             <span class="material-symbols-outlined text-sm">check_circle</span> Target
                         </span>
@@ -148,7 +148,7 @@
                     </div>
                     <p class="font-label-md text-on-surface-variant mb-1">Revision Requests</p>
                     <div class="flex items-baseline gap-2">
-                        <h3 class="font-headline-lg text-headline-lg font-bold text-on-surface">17</h3>
+                        <h3 class="font-headline-lg text-headline-lg font-bold text-on-surface">—</h3>
                         <span class="text-[12px] font-semibold text-on-surface-variant/60">Active now</span>
                     </div>
                 </div>
@@ -162,7 +162,7 @@
                     </div>
                     <p class="font-label-md text-on-surface-variant mb-1">Review Accuracy</p>
                     <div class="flex items-baseline gap-2">
-                        <h3 class="font-headline-lg text-headline-lg font-bold text-on-surface">98.2%</h3>
+                        <h3 class="font-headline-lg text-headline-lg font-bold text-on-surface">—</h3>
                         <div class="w-12 h-1 bg-outline-variant/30 rounded-full overflow-hidden mt-1 self-center">
                             <div class="h-full bg-primary" style="width: 98%"></div>
                         </div>
@@ -178,7 +178,7 @@
                     </div>
                     <p class="font-label-md text-on-surface-variant mb-1">Avg. Review Time</p>
                     <div class="flex items-baseline gap-2">
-                        <h3 class="font-headline-lg text-headline-lg font-bold text-on-surface">4.5m</h3>
+                        <h3 class="font-headline-lg text-headline-lg font-bold text-on-surface">—</h3>
                         <span class="text-[12px] font-semibold text-tertiary flex items-center">
                             <span class="material-symbols-outlined text-sm">trending_down</span> 0.8m
                         </span>
@@ -227,134 +227,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Review Queue Table -->
-                    <!-- <div class="bg-white rounded-[16px] border border-outline-variant/30 shadow-sm overflow-hidden">
-                        <div
-                            class="flex justify-between items-center p-6 bg-surface-container-low/30 border-b border-outline-variant/20">
-                            <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Review Queue</h3>
-                            <div class="flex gap-2">
-                                <div class="relative">
-                                    <input
-                                        class="h-9 w-64 bg-white border border-outline-variant rounded-lg font-body-md text-on-surface px-8 focus:ring-2 focus:ring-primary/20 transition-all"
-                                        placeholder="Search tasks..." type="text">
-                                    <span
-                                        class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left">
-                                <thead>
-                                    <tr
-                                        class="bg-surface-container-low font-label-md text-on-surface-variant uppercase tracking-wider text-[11px] border-b border-outline-variant/20">
-                                        <th class="px-6 py-4 font-semibold">Task ID</th>
-                                        <th class="px-6 py-4 font-semibold">Document Name</th>
-                                        <th class="px-6 py-4 font-semibold">Type</th>
-                                        <th class="px-6 py-4 font-semibold">Annotator</th>
-                                        <th class="px-6 py-4 font-semibold">Priority</th>
-                                        <th class="px-6 py-4 font-semibold">Status</th>
-                                        <th class="px-6 py-4 font-semibold text-right">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-outline-variant/10">
-                                    <tr class="hover:bg-surface-container-low transition-colors group">
-                                        <td class="px-6 py-4 font-code-sm text-primary font-semibold">FIN-2034</td>
-                                        <td class="px-6 py-4 font-body-md text-on-surface font-medium">
-                                            Q3_Revenue_Report.pdf
-                                        </td>
-                                        <td class="px-6 py-4 font-label-md text-on-surface-variant">Financial</td>
-                                        <td class="px-6 py-4 flex items-center gap-2">
-                                            <div
-                                                class="w-6 h-6 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[10px] flex items-center justify-center font-bold">
-                                                JD</div>
-                                            <span class="font-body-md text-on-surface">John Doe</span>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <span
-                                                class="px-2.5 py-0.5 bg-error/10 text-error rounded-full font-label-md font-semibold text-[10px] uppercase">High</span>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <span
-                                                class="flex items-center gap-1.5 font-label-md text-secondary font-semibold">
-                                                <span
-                                                    class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
-                                                In Review
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 text-right">
-                                            <button
-                                                class="px-4 py-1.5 bg-surface-container-high hover:bg-primary hover:text-white rounded-lg font-label-md text-primary font-bold transition-all transform active:scale-95">Open</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-surface-container-low transition-colors group">
-                                        <td class="px-6 py-4 font-code-sm text-primary font-semibold">INV-1102</td>
-                                        <td class="px-6 py-4 font-body-md text-on-surface font-medium">
-                                            Internal_Ops_Audit.docx</td>
-                                        <td class="px-6 py-4 font-label-md text-on-surface-variant">Inventory</td>
-                                        <td class="px-6 py-4 flex items-center gap-2">
-                                            <div
-                                                class="w-6 h-6 rounded-full bg-tertiary-fixed text-on-tertiary-fixed text-[10px] flex items-center justify-center font-bold">
-                                                AS</div>
-                                            <span class="font-body-md text-on-surface">Alice Smith</span>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <span
-                                                class="px-2.5 py-0.5 bg-surface-container-high text-on-surface-variant rounded-full font-label-md font-semibold text-[10px] uppercase">Med</span>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <span
-                                                class="flex items-center gap-1.5 font-label-md text-on-surface-variant font-semibold">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
-                                                Pending Review
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 text-right">
-                                            <button
-                                                class="px-4 py-1.5 bg-surface-container-high hover:bg-primary hover:text-white rounded-lg font-label-md text-primary font-bold transition-all">Open</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-surface-container-low transition-colors group">
-                                        <td class="px-6 py-4 font-code-sm text-primary font-semibold">TAX-5508</td>
-                                        <td class="px-6 py-4 font-body-md text-on-surface font-medium">
-                                            FY23_Tax_Exemption_Form.pdf</td>
-                                        <td class="px-6 py-4 font-label-md text-on-surface-variant">Regulatory</td>
-                                        <td class="px-6 py-4 flex items-center gap-2">
-                                            <div
-                                                class="w-6 h-6 rounded-full bg-primary-fixed text-on-primary-fixed text-[10px] flex items-center justify-center font-bold">
-                                                RK</div>
-                                            <span class="font-body-md text-on-surface">Robert King</span>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <span
-                                                class="px-2.5 py-0.5 bg-error/10 text-error rounded-full font-label-md font-semibold text-[10px] uppercase">High</span>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <span
-                                                class="flex items-center gap-1.5 font-label-md text-error font-semibold">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-error"></span>
-                                                Revision Requested
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 text-right">
-                                            <button
-                                                class="px-4 py-1.5 bg-surface-container-high hover:bg-primary hover:text-white rounded-lg font-label-md text-primary font-bold transition-all">Open</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div
-                            class="p-4 bg-surface border-t border-outline-variant/10 flex justify-between items-center">
-                            <span class="font-label-md text-on-surface-variant">Showing 3 of 128 tasks</span>
-                            <div class="flex gap-2">
-                                <button class="p-1.5 hover:bg-surface-variant rounded-md transition-colors"><span
-                                        class="material-symbols-outlined text-sm">chevron_left</span></button>
-                                <button class="p-1.5 hover:bg-surface-variant rounded-md transition-colors"><span
-                                        class="material-symbols-outlined text-sm">chevron_right</span></button>
-                            </div>
-                        </div>
-                    </div> -->
-                </div>
+                    <!-- Review queue content is rendered only after the tasks API responds. -->
                 <!-- Right Column (30%) -->
                 <div class="col-span-12 lg:col-span-4 space-y-gutter">
                     <!-- Quick Actions -->
@@ -365,75 +238,11 @@
                             <h3 class="font-title-lg text-title-lg font-bold text-on-surface">Top Reviewers</h3>
                             <span class="font-label-md text-primary cursor-pointer hover:underline">View All</span>
                         </div>
-                        <div class="space-y-5">
-                            <div>
-                                <div class="flex justify-between mb-2">
-                                    <span class="font-body-md font-semibold text-on-surface">John Doe</span>
-                                    <span class="font-label-md text-on-surface-variant">24 completed</span>
-                                </div>
-                                <div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
-                                    <div class="h-full primary-gradient" style="width: 85%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-2">
-                                    <span class="font-body-md font-semibold text-on-surface">Alice Smith</span>
-                                    <span class="font-label-md text-on-surface-variant">18 completed</span>
-                                </div>
-                                <div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
-                                    <div class="h-full primary-gradient" style="width: 0%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-2">
-                                    <span class="font-body-md font-semibold text-on-surface">Robert King</span>
-                                    <span class="font-label-md text-on-surface-variant">12 completed</span>
-                                </div>
-                                <div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
-                                    <div class="h-full primary-gradient" style="width: 0%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <div class="space-y-5" data-api-placeholder></div>
                     <!-- Recent Activity Timeline -->
                     <div class="bg-white rounded-[16px] p-6 border border-outline-variant/30 shadow-sm">
                         <h3 class="font-title-lg text-title-lg font-bold text-on-surface mb-6">Recent Activity</h3>
-                        <div
-                            class="space-y-6 relative before:content-[''] before:absolute before:left-[11px] before:top-2 before:bottom-0 before:w-0.5 before:bg-outline-variant/20">
-                            <div class="relative pl-8">
-                                <div
-                                    class="absolute left-0 top-1 w-6 h-6 bg-tertiary-container/20 text-tertiary rounded-full flex items-center justify-center z-10">
-                                    <span class="material-symbols-outlined text-[14px]"
-                                        style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
-                                </div>
-                                <p class="font-body-md text-on-surface"><span class="font-bold">Annotation
-                                        Approved</span>
-                                    by John Doe</p>
-                                <span class="font-label-md text-on-surface-variant/60 text-[11px]">12 mins ago •
-                                    FIN-2034</span>
-                            </div>
-                            <div class="relative pl-8">
-                                <div
-                                    class="absolute left-0 top-1 w-6 h-6 bg-primary/10 text-primary rounded-full flex items-center justify-center z-10">
-                                    <span class="material-symbols-outlined text-[14px]">assignment_add</span>
-                                </div>
-                                <p class="font-body-md text-on-surface"><span class="font-bold">New Review
-                                        Assigned</span>
-                                    to Sarah Chen</p>
-                                <span class="font-label-md text-on-surface-variant/60 text-[11px]">45 mins ago •
-                                    TAX-0021</span>
-                            </div>
-                            <div class="relative pl-8">
-                                <div
-                                    class="absolute left-0 top-1 w-6 h-6 bg-error/10 text-error rounded-full flex items-center justify-center z-10">
-                                    <span class="material-symbols-outlined text-[14px]">feedback</span>
-                                </div>
-                                <p class="font-body-md text-on-surface"><span class="font-bold">Revision
-                                        Requested</span>
-                                    for INV-1102</p>
-                                <span class="font-label-md text-on-surface-variant/60 text-[11px]">2 hours ago • Alice
-                                    Smith</span>
-                            </div>
+                        <div class="space-y-6" data-api-placeholder></div>
                         </div>
                     </div>
                 </div>

@@ -43,7 +43,7 @@
            shadow-sm sticky top-[58px] z-30 mb-12">
 
         <div class="flex items-center gap-3"> <!-- Title -->
-            <h2 id="sessionTitle" class="text-lg font-bold text-on-surface whitespace-nowrap"> Economic Report Q2 </h2> <!-- Separator -->
+            <h2 id="sessionTitle" class="text-lg font-bold text-on-surface whitespace-nowrap">Loading session...</h2> <!-- Separator -->
             <!-- <span class="text-on-surface-variant"> : </span>  -->
             <!-- Progress Bar -->
             <div id="sessionProgressTrack" class="w-48 bg-surface-container-highest h-2 rounded-full overflow-hidden"
@@ -77,25 +77,9 @@
            bg-surface border-r border-outline-variant
            flex flex-col z-40 items-center">
 
-        <div class="py-3">
-
-            <!-- Company Report -->
-            <button type="button" data-pdf="/resource/document/CT_CoPhan281/2021/AG1_2021_CN.pdf"
-                data-title="Company Report" class="document-item items-center gap-2 px-3 py-1.5
-                                            text-sm text-on-surface-variant
-                                            rounded-md
-                                            hover:bg-surface-container
-                                            hover:text-primary
-                                            transition-colors">
-
-                <span class="material-symbols-outlined text-[18px]">
-                    description
-                </span>
-
-                <span class="truncate">
-                    CT_CoPhan281_2021
-                </span>
-            </button>
+        <div class="py-3" id="documentList">
+            <button type="button" class="document-item hidden" aria-hidden="true"></button>
+        </div>
 
         </div>
 
@@ -167,153 +151,8 @@
                 <!-- ============================= -->
 
                 <div>
-
-                    <h3 class="text-sm font-semibold text-on-surface mb-3">
-                            Document Info
-                    </h3>
-
-                    <div class="space-y-3">
-
-                        <!-- Title -->
-                        <div>
-                            <label class="block text-xs font-medium
-                                  text-on-surface-variant mb-1">
-                                Document Title
-                                <span>(page 21)</span>
-                            </label>
-
-                            <div class="flex items-center gap-2">
-                                <div class="px-3 py-2
-                                w-[75%]
-                                bg-surface-container
-                                border border-outline-variant
-                                rounded-md
-                                text-sm text-on-surface">
-
-                                    CT_CoPhan281_2021
-
-                                </div>
-
-                                <button type="button" class="p-1
-                                        text-on-surface-variant
-                                        hover:text-primary
-                                        hover:bg-surface-container-high
-                                        rounded-md
-                                        transition-colors" title="Edit Company">
-
-                                    <span class="material-symbols-outlined text-[18px]">
-                                        edit
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-
-
-                        <!-- Company -->
-                        <div class="w-[75%]">
-                            <label class="block text-xs font-medium text-on-surface-variant mb-1">
-                                Company
-                                <span>(page 15)</span>
-                            </label>
-
-                            <div class="flex items-center gap-2">
-                                <!-- Information -->
-                                <div class="px-3 py-2
-                                    w-[75%]
-                                    bg-surface-container
-                                    border border-outline-variant
-                                    rounded-md
-                                    text-sm text-on-surface">
-
-                                    CT Co Phan 281
-
-                                </div>
-
-                                <!-- Edit Button -->
-                                <button type="button" class="p-1
-                                        text-on-surface-variant
-                                        hover:text-primary
-                                        hover:bg-surface-container-high
-                                        rounded-md
-                                        transition-colors" title="Edit Company">
-
-                                    <span class="material-symbols-outlined text-[18px]">
-                                        edit
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-
-
-                        <!-- Report Type -->
-                        <div class="w-[75%]">
-                            <label class="block text-xs font-medium text-on-surface-variant mb-1">
-                                Report Type
-                                <span>(page 13)</span>
-                            </label>
-
-                            <div class="flex items-center gap-2">
-                                <div class="px-3 py-2
-                                w-[75%]
-                                bg-surface-container
-                                border border-outline-variant
-                                rounded-md
-                                text-sm text-on-surface">
-
-                                    Annual Report
-
-                                </div>
-
-                                <button type="button" class="p-1
-                                        text-on-surface-variant
-                                        hover:text-primary
-                                        hover:bg-surface-container-high
-                                        rounded-md
-                                        transition-colors" title="Edit Company">
-
-                                    <span class="material-symbols-outlined text-[18px]">
-                                        edit
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-
-
-                        <!-- Reporting Period -->
-                        <div class="w-[75%]">
-                            <label class="block text-xs font-medium text-on-surface-variant mb-1">
-                                Reporting Period
-                                <span>(page 21)</span>
-                            </label>
-
-                            <div class="flex items-center gap-2">
-                                <div class="px-3 py-2
-                                w-[75%]
-                                bg-surface-container
-                                border border-outline-variant
-                                rounded-md
-                                text-sm text-on-surface">
-
-                                    2021
-
-                                </div>
-
-                                <button type="button" class="p-1
-                                        text-on-surface-variant
-                                        hover:text-primary
-                                        hover:bg-surface-container-high
-                                        rounded-md
-                                        transition-colors" title="Edit Company">
-
-                                    <span class="material-symbols-outlined text-[18px]">
-                                        edit
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-
+                    <h3 class="text-sm font-semibold text-on-surface mb-3">Document Info</h3>
+                    <div data-document-info></div>
                 </div>
 
 

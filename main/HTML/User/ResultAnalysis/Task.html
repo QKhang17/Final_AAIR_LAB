@@ -14,6 +14,7 @@
     <link href="../../../Style/resultAnalysis.css" rel="stylesheet">
     <link href="../../../Style/navbar.css" rel="stylesheet">
     <link href="../../../Style/resultAnalysisTask.css" rel="stylesheet">
+    <link href="../../../Style/resultAnalysisLoading.css" rel="stylesheet">
     <link href="../../../Style/jellykeyDesignSystem.css" rel="stylesheet">
 </head>
 <body class="result-analysis-page">
@@ -32,8 +33,8 @@
         <div class="aair-navbar__account ra-account">
             <span class="aair-navbar__avatar" id="raAvatar">AN</span>
             <div class="aair-navbar__identity">
-                <b id="raUsername">analyst</b>
-                <small>ANALYST</small>
+                <b id="raUsername">—</b>
+                <small>Result Analyst</small>
             </div>
             <button class="aair-navbar__logout" id="raLogout" aria-label="Log out" type="button">Log out</button>
         </div>
@@ -83,6 +84,7 @@
                 <span id="raPageLabel">Page 1 / —</span>
             </div>
             <iframe id="raPdf" title="PDF document"></iframe>
+            <span id="raPdfState" class="ra-pdf-state" role="status" hidden>Loading PDF…</span>
             <div id="raPdfEmpty" class="ra-empty">
                 <span class="material-symbols-outlined">picture_as_pdf</span>
                 <b>Select a task to view the PDF</b>

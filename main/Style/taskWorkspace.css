@@ -403,6 +403,7 @@ body.task-workspace-resizing iframe#pdfViewer {
 .manual-task-page .document-status-legend__item--pending i,.ai-task-page .document-status-legend__item--pending i { border-color:#d28b00; background:#f5a900; }
 .ai-task-page > .manual-session-toolbar #sessionProgressTrack { width:220px!important; height:8px!important; background:#dce7ed!important; }
 .ai-task-page > .manual-session-toolbar #sessionProgressBar { background:#078bb8!important; }
+.manual-task-page .document-status-dot,.ai-task-page .document-status-dot,.manual-task-page .document-status-legend__item i,.ai-task-page .document-status-legend__item i { display:none!important; }
 .ai-task-page > .manual-session-toolbar #sessionProgressText { color:#075985!important; font-size:13px!important; }
 .manual-task-page .workspace-data-pane > div:first-child { display:none!important; }
 .manual-task-page .workspace-data-pane > div:last-child { flex:1 1 auto; }
@@ -507,6 +508,7 @@ body.task-workspace-resizing iframe#pdfViewer {
 .manual-task-page .manual-submit-button.session-ready,.manual-task-page .task-toolbar-button--submit.session-ready { box-shadow:0 0 0 3px rgba(8,127,168,.18); }
 .manual-task-page .document-status-legend { color:#344054!important; font-size:12px!important; }
 .manual-task-page .document-status-legend__item i { width:10px!important; height:10px!important; box-shadow:0 0 0 1px currentColor; }
+.manual-task-page .document-status-dot,.ai-task-page .document-status-dot,.manual-task-page .document-status-legend__item i,.ai-task-page .document-status-legend__item i { display:none!important; box-shadow:none!important; }
 
 @media (max-width: 760px) {
     .ai-task-page main,

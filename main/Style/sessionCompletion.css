@@ -1,7 +1,5 @@
-.session-completion-dot{width:9px;height:9px;flex:0 0 9px;margin-left:auto;border:1px solid #fff;border-radius:50%;background:#9aa6af;box-shadow:0 0 0 1px #7d8992}
-.session-completion-dot.is-processing{background:#f5b82e;box-shadow:0 0 0 1px #c38400}
-.session-completion-dot.is-done{background:#22a06b;box-shadow:0 0 0 1px #16744d}
 .session-submit-blocked{opacity:.55;cursor:not-allowed!important}
+.session-completion-help{display:block;margin-top:6px;color:#8a4b08;font-size:11px;line-height:1.35}
 .session-completion-dialog{position:fixed;z-index:1000;inset:0;display:grid;place-items:center;padding:20px;background:rgb(15 23 42 / 42%)}
 .session-completion-dialog>section{width:min(540px,100%);max-height:min(620px,calc(100vh - 40px));display:flex;flex-direction:column;border:1px solid #cbd5df;border-radius:8px;background:#fff;box-shadow:0 24px 70px rgb(15 23 42 / 28%)}
 .session-completion-dialog header{display:flex;gap:12px;align-items:flex-start;padding:18px;border-bottom:1px solid #e1e7ec}
